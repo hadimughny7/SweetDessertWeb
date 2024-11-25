@@ -1,0 +1,33 @@
+.navbar {
+    position: fixed;
+    top: 15px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    width: 80%; 
+    margin: 0 auto;
+    border-radius: 24px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
+}
+
+#nav-avatar {
+    width: 50px; /* Atur lebar gambar */
+    height: 50px; /* Atur tinggi gambar */
+    object-fit: contain; /* Memastikan gambar tetap proporsional */
+    margin-right: 15px;
+    
+  }
+
+#nav-text{
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #acacac;
+}
+
+.logo-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
