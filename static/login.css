@@ -1,3 +1,18 @@
+:root {
+  /* Font */
+  --font-family-main: "Poppins", sans-serif;
+
+
+
+  /* Colors */
+  --color-primary: #ffd1da; 
+  --color-primary-hover: #fbd8df; 
+  --color-secondary: #808080; 
+  --color-background: #ffffff; 
+
+}
+
+
 .navbar {
   position: fixed;
   top: 15px;
@@ -10,19 +25,20 @@
   margin: 0 auto;
   padding: 5px;
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--color-background);
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+
 }
 
 #nav-avatar {
-  width: 71px; /* Atur lebar gambar */
-  height: 70px; /* Atur tinggi gambar */
-  object-fit: contain; /* Memastikan gambar tetap proporsional */
+  width: 71px; 
+  height: 70px; 
+  object-fit: contain; 
   border-radius: 100%;
 }
 
 #nav-text {
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family-main);
   font-size: 14px;
   font-weight: bold;
   color: #808080;
@@ -38,38 +54,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+
 }
 
 body {
-  height: auto;
+  height: 100vh;
   font-family: "Poppins", sans-serif;
-  background-color: #ffffff;
-
+  background-color: var(--color-background);
 }
 
-/* .search-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #cdcdcd;
-
-    border-radius: 62px;
-}
- 
- .search-icon{
-    margin-left: 6px;
-}
-
-.search-box {
-    background-color: #cdcdcd;
-    font-size: 16px;
-    border: none; 
-    outline: none; 
-    border-radius: 4px;
-    margin-left: 6px;
-
-}  */
 
 .container {
  
@@ -105,20 +98,20 @@ body {
   font-size: 36px;
   font-weight: 500;
   color: #000000;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family-main);
 }
 
 .form-container p {
   margin-bottom: 30px;
   font-size: 16px;
   color: #000000;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family-main);
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
 }
 
 .form-container input {
@@ -126,7 +119,7 @@ form {
   border-bottom: 1px solid #888888;
   padding-bottom: 5px;
   font-size: 16px;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family-main);
   outline: none;
   margin-bottom: 15px;
   width: 100%;
@@ -138,21 +131,21 @@ input::placeholder {
 }
 
 .login-btn {
-  background-color: #ffd1da;
+  background-color: var(--color-primary);
   color: #000000;
   border: none;
   height: 56px;
   padding: 10px;
   font-size: 16px;
   font-weight: 500;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family-main);
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 10px;
 }
 
 .login-btn:hover {
-  background-color: #fbd8df;
+  background-color: var(--color-primary-hover);
 }
 
 .form-container a {
@@ -160,7 +153,7 @@ input::placeholder {
   text-decoration: none;
   font-weight: 500;
   font-size: 16px;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-family-main);
 }
 
 .form-container a:hover {
