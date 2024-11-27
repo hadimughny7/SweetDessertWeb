@@ -1,143 +1,164 @@
+:root {
+  /* Font */
+  --font-family-main: "Poppins", sans-serif;
+
+
+
+  /* Colors */
+  --color-primary: #ffd1da; 
+  --color-primary-hover: #fbd8df; 
+  --color-secondary: #808080; 
+  --color-background: #ffffff; 
+
+}
+
+
 .navbar {
-    position: fixed;
-    top: 15px;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    width: 80%; 
-    margin: 0 auto;
-    border-radius: 24px;
-    background-color: #ffffff;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); 
+  position: fixed;
+  top: 15px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 1186px;
+  max-width: 100%;
+  height: 88px;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 24px;
+  background-color: var(--color-background);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+
 }
 
 #nav-avatar {
-    width: 50px; /* Atur lebar gambar */
-    height: 50px; /* Atur tinggi gambar */
-    object-fit: contain; /* Memastikan gambar tetap proporsional */
-    margin-right: 15px;
-    
-  }
-
-#nav-text{
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    color: #acacac;
+  width: 71px; 
+  height: 70px; 
+  object-fit: contain; 
+  border-radius: 100%;
 }
 
-.logo-top{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#nav-text {
+  font-family: var(--font-family-main);
+  font-size: 14px;
+  font-weight: bold;
+  color: #808080;
+}
+
+.logo-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: "Poppins", sans-serif;
-    background-color: #ffffff;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-background);
 }
+
 
 .container {
-    display: flex;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-    align-items: center;
-    gap: 40px;
-    padding: 20px;
-    flex-wrap: wrap; /* Elemen akan berpindah ke bawah jika tidak cukup ruang */
-    justify-content: center; /* Pusatkan elemen */
+ 
+  margin: 0 auto;
+  margin-top: 140px;
+  display: flex;
+  width: 1200px;
+  max-width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+
 }
 
-.image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
+
 
 .dessert-image {
-    width: 100%;
-    max-width: 700px;
-    height: auto;
-    border-radius: 10px;
-    margin-right: 70px;
+  width: 651px;
+  height: 439px;
+  
 }
 
 .form-container {
-    width: 28%;
-    display: flex;
-    max-width: 500px;
-    flex-direction: column;
-    justify-content: center;
-    padding: 10px;
-    margin-left: 70px;
-    
+  max-width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  width:400px;
+  margin-left: 97px;
 }
 
-h2 {
-    margin-bottom: 10px;
-    font-size: 36px;
-    color: #000000;
+.form-container h2 {
+  margin-bottom: 10px;
+  font-size: 36px;
+  font-weight: 500;
+  color: #000000;
+  font-family: var(--font-family-main);
 }
 
-p {
-    margin-bottom: 30px;
-    font-size: 16px;
-    color: #000000;
-
+.form-container p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #000000;
+  font-family: var(--font-family-main);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 15px;
+.form-container input {
+  border: none;
+  border-bottom: 1px solid #888888;
+  padding-bottom: 5px;
+  font-size: 16px;
+  font-family: var(--font-family-main);
+  outline: none;
+  margin-bottom: 15px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+input::placeholder {
+  color: #acacac;
 }
 
 .login-btn {
-    background-color: #FFD1DA;
-    color: #000000;
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-bottom: 10px;
+  background-color: var(--color-primary);
+  color: #000000;
+  border: none;
+  height: 56px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-family-main);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .login-btn:hover {
-    background-color: #fdfdfd;
+  background-color: var(--color-primary-hover);
 }
 
-a {
-    color: #000000;
-    text-decoration: none;
-    font-weight: bold;
+.form-container a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: var(--font-family-main);
 }
 
-a:hover {
-    text-decoration: underline;
+.form-container a:hover {
+  border: none;
+  border-bottom: 1px solid #888888;
+  padding-bottom: 4px;
 }
 
