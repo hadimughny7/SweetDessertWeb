@@ -162,3 +162,43 @@ input::placeholder {
   padding-bottom: 4px;
 }
 
+.custom-card {
+  width: 280px;
+  max-width: 500px; 
+  margin: 0 auto; 
+  text-align: center; 
+  border: none;
+}
+
+.custom-card img {
+  max-width: 250px;
+  margin: 0 auto; 
+  height: auto; 
+  object-fit: cover; 
+  border-radius: 5px; 
+  background-color: #F5F5F5;
+}
+
+.custom-card .card-title {
+  font-size: 16px; 
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: left
+}
+
+.custom-card .card-text {
+  font-size: 14px; 
+  color: #DB4444; 
+  text-align: left
+}
+
+
+#logo-cart {
+  position: absolute;
+  right: 15px;
+  bottom: 23px; 
+  max-width: 40px; 
+  height: auto;
+  transform: none;
+  background-color: transparent;
+}
