@@ -16,7 +16,8 @@
 <style>
 body{
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh; /* Pastikan halaman minimal setinggi viewport */
     margin: 0;
     }
@@ -32,7 +33,7 @@ body{
 }
 
 .about-text {
-    max-width: 58%; /* Batasi lebar teks */
+    max-width: 50%; /* Batasi lebar teks */
 }
 
 .image-container {
@@ -41,7 +42,7 @@ body{
 }
 
 .dessert-image {
-    width: 100%; /* Gambar responsif */
+    width: 120%; /* Gambar responsif */
     max-width: 700px; /* Lebar maksimal gambar */
     height: auto; /* Mempertahankan proporsi gambar */
     border-radius: 10px; /* Opsional: sudut melengkung */
@@ -57,12 +58,12 @@ h2{
     font-size: 1rem; /* Ukuran font yang proporsional */
     text-align: justify; /* Membuat teks rata kanan-kiri */
 }
-footer {
-    background-color: #f8f9fa; /* Opsional: warna latar footer */
-    padding: 20px 0; /* Opsional: padding untuk footer */
-    margin-top: auto; /* Membuat footer selalu berada di bawah */
-    text-align: center; /* Pusatkan teks jika diperlukan */
-}
+.footer {
+      background-color: #ffc0cb;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
 </style>
 </head>
 </head>
@@ -129,37 +130,12 @@ footer {
             <img src="/static/Group 1.png" alt="Desserts" class="dessert-image">
         </div>
     </div>
-    <footer class=" mt-5">
+
+    <!-- <footer class="footer">
         <div class="container">
-            <div class="row">
-                <!-- Informasi Pribadi -->
-                <div class="col-md-4">
-                    <p>Nama saya Raden Hanif Abdul Hakim tinggal di Kota Bandung.</p>
-                    <p>ID Kegiatan MSIB saya adalah 9971657.</p>
-                </div>
-                
-                <!-- Hobi -->
-                <div class="col-md-4">
-                    <p>Hobi saya adalah :</p>
-                    <ul class="list-unstyled">
-                        <li>Futsal</li>
-                        <li>Main Game</li>
-                        <li>Badminton</li>
-                    </ul>
-                </div>
-                
-                <!-- Kontak -->
-                <div class="col-md-4">
-                    <p>Kontak Saya</p>
-                    <ul class="list-unstyled">
-                        <li>HP : 089515222861</li>
-                        <li>IG : @radenhanifff</li>
-                        <li>Email : radenhanifabdulhakim67@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
+          <p>&copy; 2024 Raden Hanif. All rights reserved.</p>
         </div>
-    </footer>
+      </footer> -->
 </body>
 
 </html>
