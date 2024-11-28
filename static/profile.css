@@ -75,13 +75,13 @@ main {
 .breadcrumb {
     color: #FBA1B7;
     margin-bottom: 50px;
-    margin-left: 10px;
+    margin-left: 19px;
 }
 
 .profile-container {
     display: flex;
     gap: 20px;
-    margin-left: 10px;
+    margin-left: 19px;
     
 }
 
@@ -107,10 +107,9 @@ main {
     background: #fff;
     border-radius: 10px;
     padding: 10px;
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
     margin: 10px;
     width:46rem;
-    margin-left: 220px;
+    margin-left: 323px;
 }
 
 .profile-form h2 {
@@ -148,7 +147,7 @@ main {
 button {
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
