@@ -150,20 +150,46 @@ input::placeholder {
   padding-bottom: 4px;
 }
 
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-100%); /* Muncul dari atas */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Ke posisi awal */
+  }
+}
+
+@keyframes slideOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0); /* Dari posisi awal */
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%); /* Keluar ke atas */
+  }
+}
 .custom-alert {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  right: 20px;
+  margin-top: 20px;
   padding: 20px;
   background-color: #ffd1da;
-  color: #721c24;
+  color: var(--color-background);
   border: 1px solid #ffd1da;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none; 
   z-index: 9999;
   text-align: center;
+  animation: slideInUp 0.5s ease-out; /* Tambahkan animasi */
+}
+
+.custom-alert.hide {
+  animation: slideOutUp 0.8s ease-out forwards; /* Animasi keluar */
 }
 
 #alert-close-btn {
@@ -179,3 +205,5 @@ input::placeholder {
 #alert-close-btn:hover {
   background-color: #f5c6cb;
 }
+
+

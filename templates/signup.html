@@ -83,42 +83,55 @@
             </div>
         </div>
     </div>
-    <div id="custom-alert" class="custom-alert" style="display:none;">
+  <div id="custom-alert" class="custom-alert" style="display:none;">
     <span id="alert-message"></span>
-    <button id="alert-close-btn">OK</button>
 </div>
 
 
     <script>
-    const successMessage = {{ success_message|default('')|tojson }};  
-    const errorMessage = {{ error_message|default('')|tojson }};  
+    const successMessage = {{ success_message|default('')|tojson }};
+    const errorMessage = {{ error_message|default('')|tojson }};
 
-    const customAlert = document.getElementById("custom-alert");
-    const alertMessage = document.getElementById("alert-message");
-    const alertCloseBtn = document.getElementById("alert-close-btn");
+    function showAlert(message, type) {
+        const alertBox = document.getElementById("custom-alert");
+        const alertMessage = document.getElementById("alert-message");
+
+        alertMessage.textContent = message;
+
+        if (type === "success") {
+            alertBox.style.backgroundColor = "#28a745"; 
+            alertBox.style.borderColor = "#28a745";
+        } else if (type === "error") {
+            alertBox.style.backgroundColor = "#F95454"; 
+            alertBox.style.borderColor = "#f5c6cb";
+        }
+
+        alertBox.style.display = "block";
+        alertBox.classList.remove("hide");
+
+        setTimeout(() => {
+            alertBox.classList.add("hide");
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+                if (type === "success") {
+                    window.location.href = "{{ url_for('home') }}"; 
+                }
+            }, 570); 
+        }, 1000);
+    }
 
     if (successMessage) {
-        alertMessage.textContent = "Login successful!";  
-        customAlert.style.backgroundColor = "#B6FFA1";  
-        customAlert.style.borderColor = "#c3e6cb";
-        customAlert.style.display = "block";  
+        showAlert(successMessage, "success");
+    } else if (errorMessage) {
+        showAlert(errorMessage, "error");
     }
-
-    if (errorMessage) {
-        alertMessage.textContent = "Email already registered!"; 
-        customAlert.style.backgroundColor = "#F95454";  
-        customAlert.style.borderColor = "#f5c6cb";
-        customAlert.style.display = "block";  
-    }
-
-  
-    alertCloseBtn.addEventListener("click", function() {
-        customAlert.style.display = "none"; 
-        if (successMessage) {
-            window.location.href = "{{ url_for('home') }}";  
-        }
-    });
 </script>
+
+
+    
+</script>
+
 
    
 
