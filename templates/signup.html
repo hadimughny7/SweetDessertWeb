@@ -13,8 +13,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-
-</head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </head>
 
 <body>
@@ -34,7 +34,7 @@
                         <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
+                        <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#Contact" id="nav-text">Contact</a>
@@ -50,7 +50,7 @@
                     <li class="nav-item">
                         <img src="/static/chart.png" alt="">
                     </li>
-               
+
                     <li class="nav-item">
                         <img src="/static/profile.png" alt="">
 
@@ -60,8 +60,7 @@
         </div>
     </nav>
 
-
-     <div class="container ">
+    <div class="container ">
         <div class="row">
             <div class="col">
                 <div class="image-container">
@@ -69,22 +68,22 @@
                 </div>
             </div>
             <div class="col">
-               <div class="form-container">
-            <h2>Create an account</h2>
-            <p>Enter your details below</p>
-            <form action="#">
-                <input type="text" placeholder="Name" required>
-                <input type="text" placeholder="Email or Phone Number" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" class="login-btn">Create Account</button>
-                <p>Already have account? <a href="#">Log in</a></p>
-            </form>
-        </div>
+                <div class="form-container">
+                    <h2>Create an account</h2>
+                    <p>Enter your details below</p>
+                    <form action="/signup" method="POST">
+                        <input type="text" name="username" placeholder="Name" required>
+                        <input type="text" name="email" placeholder="Email or Phone Number" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit" class="login-btn">Create Account</button>
+                        <p>Already have an account? <a href="/">Log in</a></p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-       
-    
+
+
 </body>
 
 </html>
