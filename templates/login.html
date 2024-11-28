@@ -85,15 +85,15 @@
     </div>
 
    <script>
-    const successMessage = {{ success_message|default('')|tojson }};  // Use an empty string as fallback for None
+    const successMessage = {{ success_message|default('')|tojson }};  
     if (successMessage) {
-        alert("Login successful!");  // Show the success alert
-        window.location.href = "{{ url_for('index') }}"; // Redirect to index page
+        alert("Login successful!");  
+        window.location.href = "{{ url_for('index') }}"; 
     }
 
-    const errorMessage = {{ error_message|default('')|tojson }};  // Use an empty string as fallback for None
+    const errorMessage = {{ error_message|default('')|tojson }};  
     if (errorMessage) {
-        alert("Login failed!");  // Show the error alert
+        alert("Login failed!"); 
     }
 </script>
 
