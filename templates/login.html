@@ -84,17 +84,41 @@
         </div>
     </div>
 
-   <script>
+  <div id="custom-alert" class="custom-alert" style="display:none;">
+    <span id="alert-message"></span>
+    <button id="alert-close-btn">OK</button>
+</div>
+
+
+    <script>
     const successMessage = {{ success_message|default('')|tojson }};  
+    const errorMessage = {{ error_message|default('')|tojson }};  
+
+    const customAlert = document.getElementById("custom-alert");
+    const alertMessage = document.getElementById("alert-message");
+    const alertCloseBtn = document.getElementById("alert-close-btn");
+
     if (successMessage) {
-        alert("Login successful!");  
-        window.location.href = "{{ url_for('index') }}"; 
+        alertMessage.textContent = "Login successful!";  // Set success message
+        customAlert.style.backgroundColor = "#d4edda";  // Green background for success
+        customAlert.style.borderColor = "#c3e6cb";
+        customAlert.style.display = "block";  // Show alert
     }
 
-    const errorMessage = {{ error_message|default('')|tojson }};  
     if (errorMessage) {
-        alert("Login failed!"); 
+        alertMessage.textContent = "Password invalid!";  // Set error message
+        customAlert.style.backgroundColor = "#f8d7da";  // Red background for error
+        customAlert.style.borderColor = "#f5c6cb";
+        customAlert.style.display = "block";  // Show alert
     }
+
+    // Close the alert when the button is clicked
+    alertCloseBtn.addEventListener("click", function() {
+        customAlert.style.display = "none";  // Hide the alert
+        if (successMessage) {
+            window.location.href = "{{ url_for('index') }}";  // Redirect after success alert
+        }
+    });
 </script>
 
 

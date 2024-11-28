@@ -7,7 +7,6 @@ app = Flask(__name__)
 def home():
     return render_template("login.html")
 
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -21,8 +20,11 @@ def signup():
 
         result = db.insert_user(username, email, password)
         if result["status"] == "success":
-            return redirect(url_for('home'))  
-        return jsonify(result)
+           success_message = "Account successfully created!"
+           return render_template("signup.html", success_message=success_message)
+        return render_template("signup.html", error_message=result["message"])
+
+
 
     return render_template("signup.html")
 
