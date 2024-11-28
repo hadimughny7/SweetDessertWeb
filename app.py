@@ -7,6 +7,7 @@ app = Flask(__name__)
 def home():
     return render_template("login.html")
 
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -37,7 +38,8 @@ def signin():
 
     result = db.check_user(email, password)
     if result["status"] == "success":
-        return redirect(url_for('index'))  
+        success_message = "Login successful!"
+        return render_template("login.html", success_message=success_message)
 
     return render_template("login.html", error_message=result["message"])
 

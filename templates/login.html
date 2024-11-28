@@ -84,20 +84,19 @@
         </div>
     </div>
 
+   <script>
+    const successMessage = {{ success_message|default('')|tojson }};  // Use an empty string as fallback for None
+    if (successMessage) {
+        alert("Login successful!");  // Show the success alert
+        window.location.href = "{{ url_for('index') }}"; // Redirect to index page
+    }
 
-    {% if error_message %}
-        <p id="error-message" style="color: red;">{{ error_message }}</p>
-    {% endif %}
+    const errorMessage = {{ error_message|default('')|tojson }};  // Use an empty string as fallback for None
+    if (errorMessage) {
+        alert("Login failed!");  // Show the error alert
+    }
+</script>
 
-<script>
-
-        const errorMessage = document.getElementById("error-message");
-        if (errorMessage) {
-            setTimeout(() => {
-                errorMessage.style.display = "none";
-            }, 3000); 
-        }
-    </script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </body>
