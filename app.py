@@ -32,12 +32,14 @@ def signin():
     password = data.get("password")
 
     if not email or not password:
-        return jsonify({'msg': 'Invalid email or password'})
+        message = "Email and password are required."
+        return render_template("login.html", error_message=message)
 
     result = db.check_user(email, password)
     if result["status"] == "success":
         return redirect(url_for('index'))  
-    return jsonify(result)
+
+    return render_template("login.html", error_message=result["message"])
 
 @app.route("/index")
 def index():

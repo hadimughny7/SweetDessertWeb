@@ -12,6 +12,18 @@
 
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  height: 1000vh;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-background);
+}
 
 .navbar {
   position: fixed;
@@ -49,20 +61,6 @@
   justify-content: space-between;
   align-items: center;
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-}
-
-body {
-  height: 100vh;
-  font-family: "Poppins", sans-serif;
-  background-color: var(--color-background);
-}
-
 
 .container {
  

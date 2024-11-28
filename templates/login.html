@@ -60,13 +60,9 @@
         </div>
     </nav>
 
-    <div class="container ">
-        {% if message %}
-        <div class="alert {{ message_type }}">
-            {{ message }}
-        </div>
-        {% endif %}
 
+      
+    <div class="container ">
         <div class="row">
             <div class="col">
                 <div class="image-container">
@@ -89,8 +85,19 @@
     </div>
 
 
+    {% if error_message %}
+        <p id="error-message" style="color: red;">{{ error_message }}</p>
+    {% endif %}
 
+<script>
 
+        const errorMessage = document.getElementById("error-message");
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.style.display = "none";
+            }, 3000); 
+        }
+    </script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </body>
