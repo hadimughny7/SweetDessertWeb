@@ -109,10 +109,8 @@ main {
     padding: 10px;
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
     margin: 10px;
-    width:50rem;
-    justify-content: center;
-    align-items: center;
-    
+    width:46rem;
+    margin-left: 220px;
 }
 
 .profile-form h2 {
@@ -122,26 +120,11 @@ main {
 }
 
 .form{
-    flex-direction: column;
-    justify-content: center;
+    flex-direction:column;
+    margin-left: 90px;
     width:800px;
     display: flex;
-}
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    padding: 20px;
 }
 
 .row{
@@ -156,11 +139,11 @@ main {
     background-color: #F5F5F5;
 }
 
-/* .form-buttons {
+.form-buttons {
     position: relative;
-    margin-left: 35rem;
+    margin-left: 17rem;
     margin-top: 40px;
-} */
+}
 
 button {
     padding: 10px 20px;
