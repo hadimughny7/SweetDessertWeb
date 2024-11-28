@@ -1,0 +1,168 @@
+:root {
+    /* Font */
+    --font-family-main: "Poppins", sans-serif;
+  
+    /* Colors */
+    --color-primary: #ffd1da; 
+    --color-primary-hover: #fbd8df; 
+    --color-secondary: #808080; 
+    --color-background: #ffffff; 
+  
+  }
+  
+  
+  .navbar {
+    position: fixed;
+    top: 15px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    width: 1186px;
+    max-width: 100%;
+    height: 88px;
+    margin: 0 auto;
+    padding: 5px;
+    border-radius: 24px;
+    background-color: var(--color-background);
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+  
+  }
+  
+  #nav-avatar {
+    width: 71px; 
+    height: 70px; 
+    object-fit: contain; 
+    border-radius: 100%;
+  }
+  
+  #nav-text {
+    font-family: var(--font-family-main);
+    font-size: 14px;
+    font-weight: bold;
+    color: #808080;
+  }
+  
+  .logo-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  
+  }
+  
+body {
+    background-color: #fff;
+    color: #333;
+    height: 150vh;
+}
+
+header {
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+main {
+    padding: 160px;
+}
+
+
+.breadcrumb {
+    color: #FBA1B7;
+    margin-bottom: 50px;
+    margin-left: 19px;
+}
+
+.profile-container {
+    display: flex;
+    gap: 20px;
+    margin-left: 19px;
+    
+}
+
+.sidebar h3{
+    width: 200px;
+    font-size: 16px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul a {
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar ul a.active {
+    color: pink;
+}
+
+.profile-form {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    width:46rem;
+    margin-left: 323px;
+}
+
+.profile-form h2 {
+    margin-bottom: 20px;
+    color: #FBA1B7;
+    font-size: 20px;
+}
+
+.form{
+    flex-direction:column;
+    margin-left: 90px;
+    width:800px;
+    display: flex;
+    padding: 20px;
+}
+
+.row{
+    margin-bottom: 14px;
+}
+
+.row h3{
+    font-size: 16px;
+}
+
+.form-control{
+    background-color: #F5F5F5;
+}
+
+.form-buttons {
+    position: relative;
+    margin-left: 17rem;
+    margin-top: 40px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button.cancel {
+    background-color: #eee;
+    color: #333;
+}
+
+button.save {
+    background-color: #FBA1B7;
+    color: #fff;
+}
+
+footer {
+    background-color: pink;
+    color: #fff;
+    padding: 20px 40px;
+}
