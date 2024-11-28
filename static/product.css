@@ -75,6 +75,7 @@ body {
     width: 1200px;
     max-width: 100%;
     height: auto;
+    margin-right: 169px;
 }
 
 .custom-card {
@@ -164,6 +165,10 @@ body {
 
 .btn-dropdown p a {
     color: #000000 !important;
+}
+
+.col{
+    margin-top: 10px;
 }
 
 
