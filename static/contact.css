@@ -61,35 +61,38 @@ body {
 }
 
 main {
-    padding: 160px;
+    padding: 110px;
+  
 }
 
 .contact-container {
     display: flex;
-    gap: 20px;
-    margin-left: 22px;
-    max-width: 20px;
-    margin-bottom: 80px;
+    margin-top: 35px;
+    justify-content: center;
+    align-items: center;
 }
 
 .sidebar {
-    margin-top: 18px;
+    width: 500px;
 }
 
 .sidebar h3 {
     width: 200px;
     font-size: 16px;
     margin-bottom: 25px;
+    font-family: var(--font-family-main);
 }
 
 .sidebar h3 img {
     margin-right: 15px; 
+    font-family: var(--font-family-main);
 }
 
 .sidebar a {
     display: inline-block; 
     margin-top: 10px;
     margin-bottom: 30px; 
+    font-family: var(--font-family-main);
 }
 
 
@@ -97,22 +100,21 @@ main {
 .sidebar p {
     margin-top: 15px;
     font-size: 14px;
+    width: 270px;
+    font-family: var(--font-family-main);
 }
 
 .contact-form {
     background: #fff;
     border-radius: 10px;
-    padding: 10px;
-    max-width: 200px;
     width: 46rem;
-    margin-left: 20px;
 }
 
 .form {
     flex-direction: column;
-    margin-left: 138px;
     width: 700px;
     display: flex;
+    font-family: var(--font-family-main);
 }
 
 .row {
@@ -121,6 +123,7 @@ main {
 
 .row h3 {
     font-size: 16px;
+    font-family: var(--font-family-main);
 }
 
 .form-control {
@@ -147,12 +150,13 @@ button.save {
 
 .location {
     max-width: 1800px;
-    margin-left: 22px;
+    margin-top: 50px;
 }
 
 .location h2 {
     font-size: 24px;
     margin-bottom: 20px;
+    font-family: var(--font-family-main);
 }
 
 .location-content {
@@ -164,53 +168,34 @@ button.save {
 
 .map iframe {
     border-radius: 15px;
-    max-width: 500px;
-    height: 380px; 
+    max-width: 400px;
+    height: 300px; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .info {
-    flex: 1;
     display: block; 
     gap: 10px;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    margin-left: 20px;
+    margin-left: 25px;
 }
 
-.info {
-    flex: 1;
-    display: block;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    margin-left: 40px;
-}
+
 
 .info p {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: wrap; 
+    justify-content: center;
     margin-bottom: 25px;
+    font-family: var(--font-family-main);
 }
 
-.info .icon {
-    margin-right: 10px;
-}
+
 
 .info .text {
     flex: 2;
-    max-width: 100%;  
     white-space: normal; 
-    word-wrap: break-word; 
-    overflow-wrap: break-word; 
-}
-
-
-.info .text {
+    font-family: var(--font-family-main);
     max-width: 400px; 
 }
 
