@@ -36,7 +36,7 @@
 }
 
 #nav-text {
-    font-family: var(--font-family-main);
+    
     font-size: 14px;
     font-weight: bold;
     color: #808080;
@@ -81,19 +81,19 @@ main {
     width: 200px;
     font-size: 16px;
     margin-bottom: 25px;
-    font-family: var(--font-family-main);
+    
 }
 
 .sidebar h3 img {
     margin-right: 15px; 
-    font-family: var(--font-family-main);
+    
 }
 
 .sidebar a {
     display: inline-block; 
     margin-top: 10px;
     margin-bottom: 30px; 
-    font-family: var(--font-family-main);
+    
 }
 
 
@@ -102,7 +102,7 @@ main {
     margin-top: 15px;
     font-size: 14px;
     width: 270px;
-    font-family: var(--font-family-main);
+    
 }
 
 .contact-form {
@@ -115,7 +115,7 @@ main {
     flex-direction: column;
     width: 700px;
     display: flex;
-    font-family: var(--font-family-main);
+    
 }
 
 .row {
@@ -124,7 +124,7 @@ main {
 
 .row h3 {
     font-size: 16px;
-    font-family: var(--font-family-main);
+    
 }
 
 .form-control {
@@ -157,7 +157,7 @@ button.save {
 .location h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    font-family: var(--font-family-main);
+    
 }
 
 .location-content {
@@ -188,7 +188,7 @@ button.save {
     gap: 10px;
     justify-content: center;
     margin-bottom: 25px;
-    font-family: var(--font-family-main);
+    
 }
 
 
@@ -196,7 +196,7 @@ button.save {
 .info .text {
     flex: 2;
     white-space: normal; 
-    font-family: var(--font-family-main);
+    
     max-width: 400px; 
 }
 
