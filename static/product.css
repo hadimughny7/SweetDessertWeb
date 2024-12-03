@@ -70,17 +70,17 @@ body {
 }
 
 .container {
-    margin: 0 auto;
-    margin-top: 140px;
-    width: 1200px;
-    max-width: 100%;
-    height: auto;
-    margin-left: 150px;
+  margin: 0 auto;
+  margin-top: 140px;
+  width: 1200px;
+  max-width: 100%;
+  height: auto;
+
 }
 
 .custom-card {
     width: 280px;
-    max-width: 500px;
+    max-width: 800px;
     margin: 0 auto;
     text-align: center;
     border: none;
@@ -91,8 +91,7 @@ body {
     height: 250px; 
     object-fit: cover; 
     border-radius: 10px;
-    background-color: #F5F5F5;
-    display: block; 
+    background-color: #F5F5F5; 
     margin: 0 auto; 
 }
 
@@ -123,10 +122,10 @@ body {
 
 .section-title {
     text-align: left; 
-    margin-left: 0; 
-    padding-left: 15px; 
     font-size: 20px; 
     color: #FBA1B7;
+    display: flex;
+    gap: 15px;
 }
 
 .btn-dropdown {
@@ -139,6 +138,8 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
+  
+    margin-right: 10px;
 }
 
 .dropdown-custom {
