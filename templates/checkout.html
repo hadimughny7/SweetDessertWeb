@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Dessert</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/checkout.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+</head>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="logo-top">
+                <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#Home" id="nav-text">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#Contact" id="nav-text">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-4">
+                    <li class="nav-item">
+                        <img src="/static/Vector (2).png" alt="">
+                    </li>
+                    <li class="nav-item">
+                        <img src="/static/Vector (1).png" alt="">
+                    </li>
+                    <li class="nav-item"></li>
+                    <img src="/static/Line 1.png" alt="">
+                    </li>
+                    <li class="nav-item">
+                        <img src="/static/Vector.png" alt="">
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <h2 class="mb-4">Billing Details</h2>
+        <div class="row g-5">
+            <!-- Billing Form -->
+            <div class="col-md-6">
+                <form>
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name*</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tableNumber" class="form-label">No Table*</label>
+                        <input type="text" class="form-control" id="tableNumber" placeholder="Enter table number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number*</label>
+                        <input type="text" class="form-control" id="phoneNumber" placeholder="Enter phone number">
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailAddress" class="form-label">Email Address*</label>
+                        <input type="email" class="form-control" id="emailAddress" placeholder="Enter your email">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="saveInfo">
+                        <label class="form-check-label" for="saveInfo">
+                            Save this information for faster check-out next time
+                        </label>
+                    </div>
+                </form>
+            </div>
+    
+            <!-- Order Summary -->
+            <div class="col col-md-4">
+                <div class="border p-4 rounded">
+                    <ul class="list-unstyled mb-4">
+                        <li class="d-flex justify-content-between">
+                            <span>Mac & Cheese</span>
+                            <span>Rp. 20.000</span>
+                        </li>
+                        <li class="d-flex justify-content-between">
+                            <span>Spaghetti Brulee</span>
+                            <span>Rp. 40.000</span>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-3">
+                        <strong>Total:</strong>
+                        <strong>Rp. 60.000</strong>
+                    </div>
+                    <div class="mb-3">
+                        <label class="d-block">Payment Method</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="eWallet">
+                            <label class="form-check-label" for="eWallet">E-wallet</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cash" checked>
+                            <label class="form-check-label" for="cash">Cash</label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-pink w-100">Place Order</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

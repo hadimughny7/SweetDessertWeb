@@ -1,0 +1,96 @@
+:root {
+    /* Font */
+    --font-family-main: "Poppins", sans-serif;
+  
+    /* Colors */
+    --color-primary: #ffd1da; 
+    --color-primary-hover: #fbd8df; 
+    --color-secondary: #808080; 
+    --color-background: #ffffff; 
+  
+  }
+  
+  
+  .navbar {
+    position: fixed;
+    top: 15px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    width: 1186px;
+    max-width: 100%;
+    height: 88px;
+    margin: 0 auto;
+    padding: 5px;
+    border-radius: 24px;
+    background-color: var(--color-background);
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+  
+  }
+  
+  #nav-avatar {
+    width: 71px; 
+    height: 70px; 
+    object-fit: contain; 
+    border-radius: 100%;
+  }
+  
+  #nav-text {
+    font-family: var(--font-family-main);
+    font-size: 14px;
+    font-weight: bold;
+    color: #808080;
+  }
+  
+  .logo-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+body {
+    height: 150vh;
+    font-family: "Poppins", sans-serif;
+    background-color: var(--color-background);
+    padding: 100px;
+  }
+
+  .container {
+    max-width: 1140px; /* Sesuaikan dengan lebar navbar */
+    margin: 0 auto; /* Tengahkan container */
+    padding: 0 120px; /* Beri sedikit padding di kiri dan kanan */
+}
+
+
+/* Button */
+.btn-pink {
+  background-color: #FBA1B7;
+  color: white;
+}
+
+.btn-pink:hover {
+  background-color: #feadc1;
+  color: white;
+  border: none;
+}
+
+.btn-pink:hover:active{
+  background-color: #feadc1;
+  color: white;
+}
+
+.row.g-5 {
+  align-items: flex-start; /* Pastikan elemen sejajar di bagian atas */
+}
+
+.col-md-6,
+.col-md-4 {
+  flex: 1; /* Agar kolom memiliki lebar proporsional */
+  max-width: 2000%; /* Sesuaikan jarak antar kolom */
+}
