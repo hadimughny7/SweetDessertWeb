@@ -22,7 +22,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <nav class="navbar navbar-expand-lg">
+     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
@@ -34,57 +34,53 @@
                         <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
+                    <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#Contact" id="nav-text">Contact</a>
                     </li>
                 </ul>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-4">
-                    <li class="nav-item">
-                        <img src="/static/Vector (2).png" alt="">
-                    </li>
-                    <li class="nav-item">
-                        <img src="/static/Vector (1).png" alt="">
-                    </li>
-                    <li class="nav-item"></li>
-                    <img src="/static/Line 1.png" alt="">
-                    </li>
-                    <li class="nav-item">
-                        <img src="/static/Vector.png" alt="">
 
+            
+           
+            <div class=" justify-content-space-between" id="navbarNav">
+                
+                <ul class="navbar-nav ms-auto gap-5 me-3 ">      
+                
+                    <li class="nav-item ">
+                        <a href="#chart"><img src="/static/chart.png" alt=""></a>
                     </li>
+                    <li class="nav-item ">
+                        <a href="#profile"><img src="/static/profile.png" alt=""></a>                    
+                    </li>
+                   
                 </ul>
             </div>
         </div>
     </nav>
-    
+
     <div class="container mt-5">
         <h2 class="mb-4">Billing Details</h2>
-        <div class="row g-5">
+        <div class="row">
             <!-- Billing Form -->
             <div class="col-md-6">
                 <form>
                     <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name*</label>
+                        <label for="firstName" class="form-label">First Name 
+                            <span>*</span></label>
                         <input type="text" class="form-control" id="firstName" placeholder="Enter your name">
                     </div>
                     <div class="mb-3">
-                        <label for="tableNumber" class="form-label">No Table*</label>
+                        <label for="tableNumber" class="form-label">No Table <span>*</span>  </label>
                         <input type="text" class="form-control" id="tableNumber" placeholder="Enter table number">
                     </div>
                     <div class="mb-3">
-                        <label for="phoneNumber" class="form-label">Phone Number*</label>
+                        <label for="phoneNumber" class="form-label">Phone Number <span>*</span>  </label>
                         <input type="text" class="form-control" id="phoneNumber" placeholder="Enter phone number">
                     </div>
                     <div class="mb-3">
-                        <label for="emailAddress" class="form-label">Email Address*</label>
+                        <label for="emailAddress" class="form-label">Email Address <span>*</span>  </label>
                         <input type="email" class="form-control" id="emailAddress" placeholder="Enter your email">
                     </div>
                     <div class="form-check">
@@ -98,7 +94,7 @@
     
             <!-- Order Summary -->
             <div class="col col-md-4">
-                <div class="border p-4 rounded">
+                <div class="p-2 rounded">
                     <ul class="list-unstyled mb-4">
                         <li class="d-flex justify-content-between">
                             <span>Mac & Cheese</span>

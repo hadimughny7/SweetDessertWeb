@@ -59,12 +59,16 @@ body {
     font-family: "Poppins", sans-serif;
     background-color: var(--color-background);
     padding: 100px;
+    font-size: 16px;
   }
 
   .container {
-    max-width: 1140px; /* Sesuaikan dengan lebar navbar */
-    margin: 0 auto; /* Tengahkan container */
-    padding: 0 120px; /* Beri sedikit padding di kiri dan kanan */
+  margin: 0 auto;
+  margin-top: 140px;
+  width: 1200px;
+  max-width: 100%;
+  height: auto;
+
 }
 
 
@@ -85,12 +89,54 @@ body {
   color: white;
 }
 
-.row.g-5 {
-  align-items: flex-start; /* Pastikan elemen sejajar di bagian atas */
+.form-label{
+  color: var(--color-secondary);
 }
 
-.col-md-6,
-.col-md-4 {
-  flex: 1; /* Agar kolom memiliki lebar proporsional */
-  max-width: 2000%; /* Sesuaikan jarak antar kolom */
+.form-label span{
+  color: red;
+}
+
+.form-control{
+  background-color: #F5F5F5;
+  height: 50px;
+}
+
+.form-check-input{
+  cursor: pointer;
+}
+
+
+.form-check-input:focus{
+  box-shadow: none;
+  outline: none;
+
+}
+
+
+.form-check-input:checked{
+  background-color:var(--color-primary);
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.row{
+  align-items: flex-start; 
+  gap: 130px;
+  max-width: 1200px;
+
+}
+
+.col-md-6{
+  flex: 1;
+  max-width: 500px; /* Sesuaikan jarak antar kolom */
+  width: 500px;
+  height: 424px;
+}
+
+.col-md-4{
+  flex: 1;
+  padding: 0;
+  margin-top: 15px;
 }
