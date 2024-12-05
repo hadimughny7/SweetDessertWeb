@@ -143,7 +143,9 @@ body {
 
 .breadcrumb {
   color: #FBA1B7;
-  padding: 20px; /* Ruang di dalam breadcrumb */
+  padding: 10px; /* Ruang di dalam breadcrumb */
+  gap: 6px;
+  align-items: center;
 }
 
 .breadcrumb-item a {

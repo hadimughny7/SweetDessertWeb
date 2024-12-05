@@ -148,3 +148,21 @@ h5{
 .card-total{
     height: 100px;
 }
+
+.breadcrumb {
+  color: #FBA1B7;
+  padding: 20px; /* Ruang di dalam breadcrumb */
+  gap: 6px;
+  align-items: center;
+}
+
+.breadcrumb-item a {
+  color: #FBA1B7; /* Warna teks link */
+  text-decoration: none; /* Menghilangkan garis bawah */
+}
+
+.breadcrumb-item.active a {
+  color: #FBA1B7; /* Warna teks untuk item aktif */
+  pointer-events: none; /* Nonaktifkan klik pada item aktif */
+  text-decoration: none;
+}
