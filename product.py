@@ -31,7 +31,6 @@ def product_page():
 
 
 @app.route('/admin', methods=['GET', 'POST'])
-@app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == 'POST':
         product_name = request.form['name']
