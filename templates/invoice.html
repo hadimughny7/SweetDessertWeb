@@ -64,17 +64,69 @@
             </div>
         </div>
     </nav>
-    <div class="container my-5" >
-        <div class="row align-items-center">
+    
+    <main>
+        <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <div class="clip"><img src="/static/clip.png" alt=""></div>
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active"><a href="#">Cart</a></li>
+                    <li class="breadcrumb-item active"><a href="#">Invoice</a></li>
                 </ol>
               </nav>   
+            <h2>Invoice Details</h2>
+            <div class="row g-4">
+                <!-- Box Pesanan -->
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <p>Pesanan Akan Segera<br>di Antar ke Meja Anda</p>
+                    </div>
+                </div>
+                <!-- Invoice Details -->
+                <div class="col-md-6">
+                    <div class="invoice-header text-center">
+                        <h1>Sweet Dessert</h1>
+                        <p>Jl. Raya Cidahu, Pd. Kaso Tengah, Kec. Cidahu,<br>Kabupaten Sukabumi, Jawa Barat 43358</p>
+                        <p>Tlp: +6285814415905</p>
+                    </div>
+                    <div class="divider"></div>
+                    <div>
+                        <p><strong>To :</strong></p>
+                        <p><strong>No Table :</strong></p>
+                        <p><strong>Phone Number :</strong></p>
+                        <p><strong>Email :</strong></p>
+                    </div>
+                    <div class="divider"></div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Items</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-end">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mac & Cheese</td>
+                                <td class="text-center">1</td>
+                                <td class="text-end">Rp. 20.000</td>
+                            </tr>
+                            <tr>
+                                <td>Spaghetti Brulee</td>
+                                <td class="text-center">2</td>
+                                <td class="text-end">Rp. 40.000</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="2" class="text-start">Total:</td>
+                                <td class="text-end">Rp. 60.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    </main>
         
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

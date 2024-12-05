@@ -68,7 +68,7 @@ header {
 }
 
 main {
-    padding: 160px;
+    padding: 150px;
 }
 
 .icon-box {
@@ -85,13 +85,92 @@ main {
     align-items: center;
   }
   
-  .breadcrumb-item a {
+.breadcrumb-item a {
     color: #FBA1B7; /* Warna teks link */
     text-decoration: none; /* Menghilangkan garis bawah */
   }
   
-  .breadcrumb-item.active a {
+.breadcrumb-item.active a {
     color: #FBA1B7; /* Warna teks untuk item aktif */
     pointer-events: none; /* Nonaktifkan klik pada item aktif */
     text-decoration: none;
   }
+
+.content-box {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 120px;
+    width: 600px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.9rem;
+}
+
+h2{
+  padding-left: 19px;
+}
+
+.invoice-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.divider {
+  border-top: 1px solid #000;
+  margin: 15px 0;
+}
+
+.content-box {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 35rem;
+  height: 33rem;
+  text-align: center;
+}
+
+.content-box p {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.total-row {
+  font-weight: bold;
+  border-top: 1px solid #000;
+  margin: 15px 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, 
+.table td {
+  padding: 10px 15px;
+  border: none; /* Hapus semua garis */
+  text-align: left; padding-left: 0;
+}
+
+.table thead th {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.table tbody td {
+  font-size: 14px;
+  color: #555;
+}
+
+.total-row td {
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
+}
+
+.row{
+  padding-top: 20px;
+}
