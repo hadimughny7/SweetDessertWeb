@@ -68,14 +68,24 @@ header {
 }
 
 main {
-    padding: 160px;
+    padding: 150px;
 }
 
 
 .breadcrumb {
     color: #FBA1B7;
-    margin-bottom: 50px;
-    margin-left: 19px;
+    padding: 20px; /* Ruang di dalam breadcrumb */
+}
+
+.breadcrumb-item a {
+    color: #FBA1B7; /* Warna teks link */
+    text-decoration: none; /* Menghilangkan garis bawah */
+}
+
+.breadcrumb-item.active a {
+    color: #FBA1B7; /* Warna teks untuk item aktif */
+    pointer-events: none; /* Nonaktifkan klik pada item aktif */
+    text-decoration: none;
 }
 
 .profile-container {
