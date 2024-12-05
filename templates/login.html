@@ -88,7 +88,7 @@
         <span id="alert-message"></span>  
     </div>
 
-    <script>
+       <script>
     const successMessage = {{ success_message|default('')|tojson }};
     const errorMessage = {{ error_message|default('')|tojson }};
 
@@ -115,7 +115,7 @@
             setTimeout(() => {
                 alertBox.style.display = "none";
                 if (type === "success") {
-                    window.location.href = "{{ url_for('index') }}"; 
+                    window.location.href = "{{ url_for('home') }}"; 
                 }
             }, 570); 
         }, 1000);

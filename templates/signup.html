@@ -74,10 +74,10 @@
                     <p>Enter your details below</p>
                     <form action="/signup" method="POST">
                         <input type="text" name="username" placeholder="Name" required>
-                        <input type="text" name="email" placeholder="Email or Phone Number" required>
+                        <input type="email" name="email" placeholder="Email or Phone Number" required>
                         <input type="password" name="password" placeholder="Password" required>
                         <button type="submit" class="login-btn">Create Account</button>
-                        <p>Already have an account? <a href="/">Log in</a></p>
+                        <p>Already have an account? <a href="/signin">Log in</a></p>
                     </form>
                 </div>
             </div>
@@ -115,7 +115,7 @@
             setTimeout(() => {
                 alertBox.style.display = "none";
                 if (type === "success") {
-                    window.location.href = "{{ url_for('home') }}"; 
+                    window.location.href = "{{ url_for('signin') }}"; 
                 }
             }, 570); 
         }, 1000);
@@ -129,8 +129,6 @@
 </script>
 
 
-    
-</script>
 
 
    
