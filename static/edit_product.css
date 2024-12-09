@@ -84,6 +84,7 @@ body {
     background-color: #FBA1B7;
     color: white;
     border: none;
+    
 }
 
 .btn-pink:hover {
@@ -130,3 +131,5 @@ tbody td{
 .btn-pink-tua:hover{
     background-color: #fb6f92;
 }
+
+

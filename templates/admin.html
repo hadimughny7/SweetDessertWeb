@@ -32,7 +32,7 @@
 
 
     <div class="container">
-        <h1 class="mt-5">Admin Panel</h1>
+        <h1 class="mt-5">Input Product</h1>
         <form method="POST" action="/admin" enctype="multipart/form-data" class="mt-3">
             <div class="mb-3">
                 <label for="name" class="form-label">Product Name</label>
@@ -61,7 +61,7 @@
                 <label for="image" class="form-label">Product Image</label>
                 <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
             </div>
-            <button type="submit" class="btn btn-primary">Add Product</button>
+            <button class="btn btn-pink px-4 py-2">Add Product</button>
         </form>            
         <h2 class="mt-5">Existing Products</h2>
         <table class="table">
@@ -80,14 +80,14 @@
                 <tr>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
-                    <td><img src="{{ product.image }}" alt="{{ product.name }}" style="width: 50px;"></td>
-                    <td>{{ product.description }}</td> 
+                    <td><img src="{{ product.image }}" alt="{{ product.name }}" class="product-image"></td>
+                    <td class="description">{{ product.description }}</td> 
                     <td>{{ product.category }}</td> 
                     <td>
                         <form method="POST" action="/admin/delete/{{ product._id }}" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            <button type="submit" class="btn btn-pink btn-sm">Delete</button>
                         </form>
-                        <a href="/admin/update/{{ product._id }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/admin/update/{{ product._id }}" class="btn btn-pink-tua btn-sm">Edit</a>
                     </td>                    
                 </tr>
                 {% endfor %}
