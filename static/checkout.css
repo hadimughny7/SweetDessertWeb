@@ -158,3 +158,25 @@ body {
   pointer-events: none; /* Nonaktifkan klik pada item aktif */
   text-decoration: none;
 }
+
+.list-unstyled li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Menjaga elemen sejajar secara vertikal */
+}
+
+.list-unstyled li span:first-child {
+  flex: 1; /* Memberikan proporsi lebih besar untuk teks pertama */
+  text-align: left; /* Pastikan teks tetap rata kiri */
+  white-space: nowrap; /* Mencegah teks terpotong atau turun ke baris baru */
+}
+
+.list-unstyled li span.text-center {
+  flex: 1; /* Memberikan ruang proporsional */
+  text-align: center; /* Menempatkan teks di tengah */
+}
+
+.list-unstyled li span:last-child {
+  flex: 1; /* Memberikan ruang proporsional */
+  text-align: right; /* Angka berada di sisi kanan */
+}
