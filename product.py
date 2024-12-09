@@ -35,6 +35,8 @@ def admin():
     if request.method == 'POST':
         product_name = request.form['name']
         product_price = request.form['price']
+        product_description = request.form['description'] 
+        product_category = request.form['category']  
 
         if 'image' not in request.files:
             return 'No image file part', 400
@@ -51,6 +53,8 @@ def admin():
             new_product = {
                 "name": product_name,
                 "price": product_price,
+                "description": product_description, 
+                "category": product_category,  
                 "image": image_path
             }
             products_collection.insert_one(new_product)
@@ -82,6 +86,8 @@ def update_product(product_id):
     if request.method == 'POST':
         updated_name = request.form['name']
         updated_price = request.form['price']
+        updated_description = request.form['description']  
+        updated_category = request.form['category']  
         
         if 'image' in request.files:
             image_file = request.files['image']
@@ -101,6 +107,8 @@ def update_product(product_id):
         updated_data = {
             "name": updated_name,
             "price": updated_price,
+            "description": updated_description,  
+            "category": updated_category, 
             "image": product['image']
         }
         products_collection.update_one({"_id": ObjectId(product_id)}, {"$set": updated_data})
@@ -108,6 +116,17 @@ def update_product(product_id):
 
     return render_template('edit_product.html', product=product)
 
+@app.route('/product/<product_id>')
+def product_detail(product_id):
+    try:
+        product = products_collection.find_one({"_id": ObjectId(product_id)})
+        if not product:
+            print(f"Product not found for ID: {product_id}")
+            abort(404)
+        return render_template('product_detail.html', product=product)
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        abort(404)
 
 if __name__ == '__main__':
     app.run(debug=True)

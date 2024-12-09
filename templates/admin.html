@@ -43,12 +43,26 @@
                 <input type="text" class="form-control" id="price" name="price" required>
             </div>
             <div class="mb-3">
+                <label for="description" class="form-label">Product Description</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category" required>
+                    <option value="Milecrepe">Milecrepe</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Drinks">Drinks</option>
+                    <option value="Patisserie">Patisserie</option>
+                    <option value="pasta_menu">Pasta Menu</option>
+                    <option value="dessert_cake">Dessert Cake</option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="image" class="form-label">Product Image</label>
                 <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
             </div>
             <button type="submit" class="btn btn-primary">Add Product</button>
-        </form>        
-
+        </form>            
         <h2 class="mt-5">Existing Products</h2>
         <table class="table">
             <thead>
@@ -56,6 +70,8 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Image</th>
+                    <th>Description</th> 
+                    <th>Category</th> 
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -65,6 +81,8 @@
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td><img src="{{ product.image }}" alt="{{ product.name }}" style="width: 50px;"></td>
+                    <td>{{ product.description }}</td> 
+                    <td>{{ product.category }}</td> 
                     <td>
                         <form method="POST" action="/admin/delete/{{ product._id }}" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
