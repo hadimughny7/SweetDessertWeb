@@ -1,0 +1,202 @@
+:root {
+  /* Font */
+  --font-family-main: "Poppins", sans-serif;
+
+  /* Colors */
+  --color-primary: #ffd1da; 
+  --color-primary-hover: #fbd8df; 
+  --color-secondary: #808080; 
+  --color-background: #ffffff; 
+
+}
+
+
+.navbar {
+  position: fixed;
+  top: 15px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 1186px;
+  max-width: 100%;
+  height: 88px;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 24px;
+  background-color: var(--color-background);
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+#nav-avatar {
+  width: 71px; 
+  height: 70px; 
+  object-fit: contain; 
+  border-radius: 100%;
+}
+
+#nav-text {
+  font-family: var(--font-family-main);
+  font-size: 14px;
+  font-weight: bold;
+  color: #808080;
+}
+
+.logo-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-background);
+}
+
+
+.container {
+ 
+  margin: 0 auto;
+  margin-top: 140px;
+  display: flex;
+  width: 1200px;
+  max-width: 100%;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+
+.dessert-image {
+  width: 651px;
+  height: 439px;
+  
+}
+
+.form-container {
+  max-width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  width:400px;
+  margin-left: 97px;
+}
+
+.form-container h2 {
+  margin-bottom: 10px;
+  font-size: 36px;
+  font-weight: 500;
+  color: #000000;
+  font-family: var(--font-family-main);
+}
+
+.form-container p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #000000;
+  font-family: var(--font-family-main);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-container input {
+  border: none;
+  border-bottom: 1px solid #888888;
+  padding-bottom: 5px;
+  font-size: 16px;
+  font-family: var(--font-family-main);
+  outline: none;
+  margin-bottom: 15px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+input::placeholder {
+  color: #acacac;
+}
+
+.login-btn {
+  background-color: var(--color-primary);
+  color: #000000;
+  border: none;
+  height: 56px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-family-main);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.login-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.form-container a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: var(--font-family-main);
+}
+
+.form-container a:hover {
+  border: none;
+  border-bottom: 1px solid #888888;
+  padding-bottom: 4px;
+}
+
+.custom-card {
+  width: 280px;
+  max-width: 500px; 
+  margin: 0 auto; 
+  text-align: center; 
+  border: none;
+}
+
+.custom-card img {
+  max-width: 250px;
+  margin: 0 auto; 
+  height: auto; 
+  object-fit: cover; 
+  border-radius: 5px; 
+  background-color: #F5F5F5;
+}
+
+.custom-card .card-title {
+  font-size: 16px; 
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: left
+}
+
+.custom-card .card-text {
+  font-size: 14px; 
+  color: #DB4444; 
+  text-align: left
+}
+
+
+#logo-cart {
+  position: absolute;
+  right: 15px;
+  bottom: 23px; 
+  max-width: 40px; 
+  height: auto;
+  transform: none;
+  background-color: transparent;
+}
