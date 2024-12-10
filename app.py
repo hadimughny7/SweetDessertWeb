@@ -5,7 +5,19 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")  # Ganti 'login.html' menjadi 'index.html'
+    return render_template("index.html")
+
+@app.route("/product")
+def product():
+    return render_template("product.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html") 
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
