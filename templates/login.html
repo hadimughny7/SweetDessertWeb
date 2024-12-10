@@ -28,7 +28,8 @@
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                 <ul class="navbar-nav ms-auto gap-1">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}" id="nav-text">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
+                            id="nav-text">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
@@ -61,7 +62,7 @@
     </nav>
 
 
-      
+
     <div class="container ">
         <div class="row">
             <div class="col">
@@ -85,50 +86,83 @@
     </div>
 
     <div id="custom-alert" class="custom-alert" style="display:none;">
-        <span id="alert-message"></span>  
+        <span id="alert-message"></span>
     </div>
 
-       <script>
-    const successMessage = {{ success_message|default('')|tojson }};
-    const errorMessage = {{ error_message|default('')|tojson }};
+    <script>
+        const successMessage = {{ success_message|default ('') | tojson }};
+        const errorMessage = {{ error_message|default ('') | tojson }};
 
-    function showAlert(message, type) {
-        const alertBox = document.getElementById("custom-alert");
-        const alertMessage = document.getElementById("alert-message");
+        function showAlert(message, type) {
+            const alertBox = document.getElementById("custom-alert");
+            const alertMessage = document.getElementById("alert-message");
 
-        alertMessage.textContent = message;
+            alertMessage.textContent = message;
 
-        if (type === "success") {
-            alertBox.style.backgroundColor = "#28a745"; 
-            alertBox.style.borderColor = "#28a745";
-        } else if (type === "error") {
-            alertBox.style.backgroundColor = "#F95454"; 
-            alertBox.style.borderColor = "#f5c6cb";
-        }
+            if (type === "success") {
+                alertBox.style.backgroundColor = "#28a745";
+                alertBox.style.borderColor = "#28a745";
+            } else if (type === "error") {
+                alertBox.style.backgroundColor = "#F95454";
+                alertBox.style.borderColor = "#f5c6cb";
+            }
 
-        alertBox.style.display = "block";
-        alertBox.classList.remove("hide");
-
-        setTimeout(() => {
-            alertBox.classList.add("hide");
+            alertBox.style.display = "block";
+            alertBox.classList.remove("hide");
 
             setTimeout(() => {
-                alertBox.style.display = "none";
-                if (type === "success") {
-                    window.location.href = "{{ url_for('home') }}"; 
-                }
-            }, 570); 
-        }, 1000);
-    }
+                alertBox.classList.add("hide");
 
-    if (successMessage) {
-        showAlert(successMessage, "success");
-    } else if (errorMessage) {
-        showAlert(errorMessage, "error");
-    }
-</script>
+                setTimeout(() => {
+                    alertBox.style.display = "none";
+                    if (type === "success") {
+                        window.location.href = "{{ url_for('home') }}";
+                    }
+                }, 570);
+            }, 1000);
+        }
 
+        if (successMessage) {
+            showAlert(successMessage, "success");
+        } else if (errorMessage) {
+            showAlert(errorMessage, "error");
+        }
+    </script>
 
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <h3>Sweet Dessert</h3>
+                <p>
+                    Halo! Kami dari Sweet Dessert, usaha kecil yang berfokus menghadirkan berbagai macam dessert lezat
+                    untuk melengkapi hari-hari Anda.
+                </p>
+            </div>
+
+            <div class="footer-center">
+                <h3>Information</h3>
+                <ul>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-right">
+                <h3>HAPPINESS STARTS HERE</h3>
+                <div class="social-icons">
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}"
+                            alt=""></a>
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}"
+                            alt=""></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            &copy; Copyright Galakk 2024. All rights reserved.
+        </div>
+    </footer>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </body>

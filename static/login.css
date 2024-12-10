@@ -16,7 +16,7 @@
 }
 
 body {
-  height: 1000vh;
+  height: auto;
   font-family: "Poppins", sans-serif;
   background-color: var(--color-background);
 }
@@ -204,4 +204,167 @@ input::placeholder {
 
 #alert-close-btn:hover {
   background-color: #f5c6cb;
+}
+
+footer {
+  background-color: #FBA1B7;
+  padding: 30px 20px;
+  color: #ffffff;
+  margin-top: 150px;
+  position: relative;
+}
+
+.footer-container {
+  display: flex;
+  max-width: 1000px;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+.footer-left {
+  flex: 1;
+}
+
+.footer-left h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.footer-left p {
+  margin-top: 10px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.social-icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.footer-center {
+  flex: 1;
+  text-align: center;
+}
+
+.footer-center h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.footer-center ul {
+  list-style: none;
+  padding: 0 0 0 92px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.footer-center li {
+  margin-bottom: 5px;
+}
+
+.footer-center a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.footer-right {
+  flex: 1;
+  text-align: right;
+}
+
+.footer-right h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.footer-copyright {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fafafabc
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
+}
+
+
+/* Responsive Styles with Media Query */
+@media (max-width: 1200px) {
+  .container {
+      width: 100%;
+      /* Full width for smaller screens */
+      margin-top: 100px;
+  }
+
+  .navbar {
+      width: 100%;
+      /* Navbar takes full width */
+      padding: 10px;
+      /* Add some padding for smaller screens */
+  }
+
+  .custom-card {
+      width: 100%;
+      /* Make card full width */
+      margin: 10px 0;
+      /* Add margin between cards */
+  }
+
+  .custom-card img {
+      width: 100%;
+      /* Make image full width within the card */
+      height: auto;
+      /* Maintain aspect ratio */
+  }
+
+  .footer-container {
+      flex-direction: column;
+      /* Stack footer items vertically */
+      gap: 20px;
+      /* Space out footer items a bit */
+  }
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+      flex: none;
+      /* Allow elements to shrink based on content */
+      text-align: center;
+      /* Align text to center for better readability */
+  }
+
+  .footer-left p {
+      text-align: center;
+      /* Center text in footer */
+  }
+
+  .footer-center ul {
+      padding-left: 0;
+      /* Remove extra padding in the center list */
+      text-align: center;
+  }
+
+  .footer-right {
+      text-align: center;
+      /* Align right text to center */
+  }
+
+  .social-icons {
+      gap: 15px;
+      /* Reduce space between icons */
+      justify-content: center;
+      /* Align social icons to center */
+  }
 }
