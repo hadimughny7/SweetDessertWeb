@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 </head>
 
@@ -28,13 +28,13 @@
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                 <ul class="navbar-nav ms-auto gap-1">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#Home" id="nav-text">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}" id="nav-text">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
+                        <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#Contact" id="nav-text">Contact</a>
@@ -42,24 +42,26 @@
                 </ul>
             </div>
 
-            
-           
+
+
             <div class=" justify-content-space-between" id="navbarNav">
-                
-                <ul class="navbar-nav ms-auto gap-5 me-3 ">      
-                
+
+                <ul class="navbar-nav ms-auto gap-5 me-3 ">
+
                     <li class="nav-item ">
                         <a href="#chart"><img src="/static/chart.png" alt=""></a>
                     </li>
                     <li class="nav-item ">
-                        <a href="#profile"><img src="/static/profile.png" alt=""></a>                    
+                        <a href="#profile"><img src="/static/profile.png" alt=""></a>
                     </li>
-                   
+
                 </ul>
             </div>
         </div>
     </nav>
 
+
+      
     <div class="container ">
         <div class="row">
             <div class="col">
@@ -71,22 +73,64 @@
                 <div class="form-container">
                     <h2>Account Login</h2>
                     <p>Enter your details below</p>
-                    <form action="#">
-                        <input type="text" placeholder="Email or Phone Number" required>
-                        <input type="password" placeholder="Password" required>
+                    <form action="/signin" method="POST">
+                        <input type="text" name="email" placeholder="Email or Phone Number" required>
+                        <input type="password" name="password" placeholder="Password" required>
                         <button type="submit" class="login-btn">LOGIN</button>
-                        <p>Don't have an account? <a href="#">Sign Up Here</a></p>
+                        <p>Don't have an account? <a href="/signup">Sign Up Here</a></p>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-            
-    
-        
+
+    <div id="custom-alert" class="custom-alert" style="display:none;">
+        <span id="alert-message"></span>  
+    </div>
+
+       <script>
+    const successMessage = {{ success_message|default('')|tojson }};
+    const errorMessage = {{ error_message|default('')|tojson }};
+
+    function showAlert(message, type) {
+        const alertBox = document.getElementById("custom-alert");
+        const alertMessage = document.getElementById("alert-message");
+
+        alertMessage.textContent = message;
+
+        if (type === "success") {
+            alertBox.style.backgroundColor = "#28a745"; 
+            alertBox.style.borderColor = "#28a745";
+        } else if (type === "error") {
+            alertBox.style.backgroundColor = "#F95454"; 
+            alertBox.style.borderColor = "#f5c6cb";
+        }
+
+        alertBox.style.display = "block";
+        alertBox.classList.remove("hide");
+
+        setTimeout(() => {
+            alertBox.classList.add("hide");
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+                if (type === "success") {
+                    window.location.href = "{{ url_for('home') }}"; 
+                }
+            }, 570); 
+        }, 1000);
+    }
+
+    if (successMessage) {
+        showAlert(successMessage, "success");
+    } else if (errorMessage) {
+        showAlert(errorMessage, "error");
+    }
+</script>
 
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </body>
 
 </html>

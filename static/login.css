@@ -3,13 +3,23 @@
   --font-family-main: "Poppins", sans-serif;
 
   /* Colors */
-  --color-primary: #ffd1da; 
-  --color-primary-hover: #fbd8df; 
-  --color-secondary: #808080; 
-  --color-background: #ffffff; 
-
+  --color-primary: #ffd1da;
+  --color-primary-hover: #fbd8df;
+  --color-secondary: #808080;
+  --color-background: #ffffff;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 1000vh;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-background);
+}
 
 .navbar {
   position: fixed;
@@ -25,13 +35,12 @@
   border-radius: 24px;
   background-color: var(--color-background);
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
-
 }
 
 #nav-avatar {
-  width: 71px; 
-  height: 70px; 
-  object-fit: contain; 
+  width: 71px;
+  height: 70px;
+  object-fit: contain;
   border-radius: 100%;
 }
 
@@ -48,22 +57,7 @@
   align-items: center;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-}
-
-body {
-  height: 100vh;
-  font-family: "Poppins", sans-serif;
-  background-color: var(--color-background);
-}
-
-
 .container {
- 
   margin: 0 auto;
   margin-top: 140px;
   display: flex;
@@ -72,22 +66,18 @@ body {
   height: auto;
   align-items: center;
   justify-content: center;
-
 }
-
-
 
 .dessert-image {
   width: 651px;
   height: 439px;
-  
 }
 
 .form-container {
   max-width: 100%;
   flex-direction: column;
   justify-content: center;
-  width:400px;
+  width: 400px;
   margin-left: 97px;
 }
 
@@ -160,43 +150,3 @@ input::placeholder {
   padding-bottom: 4px;
 }
 
-.custom-card {
-  width: 280px;
-  max-width: 500px; 
-  margin: 0 auto; 
-  text-align: center; 
-  border: none;
-}
-
-.custom-card img {
-  max-width: 250px;
-  margin: 0 auto; 
-  height: auto; 
-  object-fit: cover; 
-  border-radius: 5px; 
-  background-color: #F5F5F5;
-}
-
-.custom-card .card-title {
-  font-size: 16px; 
-  font-weight: bold;
-  margin-top: 10px;
-  text-align: left
-}
-
-.custom-card .card-text {
-  font-size: 14px; 
-  color: #DB4444; 
-  text-align: left
-}
-
-
-#logo-cart {
-  position: absolute;
-  right: 15px;
-  bottom: 23px; 
-  max-width: 40px; 
-  height: auto;
-  transform: none;
-  background-color: transparent;
-}
