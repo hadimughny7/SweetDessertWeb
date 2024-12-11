@@ -28,16 +28,20 @@
                     <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                     <ul class="navbar-nav ms-auto gap-1">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}" id="nav-text">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
+                                id="nav-text">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}" id="nav-text">Product</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
+                                id="nav-text">Product</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}" id="nav-text">About</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
+                                id="nav-text">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}" id="nav-text">Contact</a>
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
+                                id="nav-text">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -47,7 +51,7 @@
                 <div class=" justify-content-space-between" id="navbarNav">
                     <ul class="navbar-nav ms-auto gap-5 me-3 ">
                         <li class="nav-item ">
-                            <a href="#chart"><img src="/static/chart.png" alt=""></a>
+                            <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
                         </li>
                         <li class="nav-item ">
                             <a href="{{ url_for('signin') }}"><img src="/static/profile.png" alt=""></a>

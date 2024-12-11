@@ -22,39 +22,40 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-     <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                 <ul class="navbar-nav ms-auto gap-1">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#Home" id="nav-text">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
+                            id="nav-text">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
+                            id="nav-text">Product</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
+                            id="nav-text">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#Contact" id="nav-text">Contact</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
+                            id="nav-text">Contact</a>
                     </li>
                 </ul>
             </div>
 
-            
-           
+
+
             <div class=" justify-content-space-between" id="navbarNav">
-                
-                <ul class="navbar-nav ms-auto gap-5 me-3 ">      
-                
+                <ul class="navbar-nav ms-auto gap-5 me-3 ">
                     <li class="nav-item ">
-                        <a href="#chart"><img src="/static/chart.png" alt=""></a>
+                        <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
                     </li>
                     <li class="nav-item ">
-                        <a href="#profile"><img src="/static/profile.png" alt=""></a>                    
+                        <a href="{{ url_for('signin') }}"><img src="/static/profile.png" alt=""></a>
                     </li>
-                   
                 </ul>
             </div>
         </div>
@@ -69,76 +70,71 @@
                 <li class="breadcrumb-item"><a href="#">View Cart</a></li>
                 <li class="breadcrumb-item active"><a href="#">Checkout</a></li>
             </ol>
-          </nav>    
+        </nav>
         <h2 class="mb-4">Billing Details</h2>
         <div class="row">
             <!-- Billing Form -->
-            <div class="col-md-6">
-                <form>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name
-                            <span>*</span></label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tableNumber" class="form-label">No Table <span>*</span>  </label>
-                        <input type="text" class="form-control" id="tableNumber" placeholder="Enter table number">
-                    </div>
-                    <div class="mb-3">
-                        <label for="phoneNumber" class="form-label">Phone Number <span>*</span>  </label>
-                        <input type="text" class="form-control" id="phoneNumber" placeholder="Enter phone number">
-                    </div>
-                    <div class="mb-3">
-                        <label for="emailAddress" class="form-label">Email Address <span>*</span>  </label>
-                        <input type="email" class="form-control" id="emailAddress" placeholder="Enter your email">
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="saveInfo">
-                        <label class="form-check-label" for="saveInfo">
-                            Save this information for faster check-out next time
-                        </label>
-                    </div>
-                </form>
+            <!-- Billing Form -->
+<div class="col-md-6">
+    <form id="billingForm" action="{{ url_for('invoice') }}" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name <span>*</span></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+        </div>
+        <div class="mb-3">
+            <label for="tableNumber" class="form-label">No Table <span>*</span></label>
+            <input type="text" class="form-control" id="tableNumber" name="tableNumber" placeholder="Enter table number" required>
+        </div>
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number <span>*</span></label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required>
+        </div>
+        <div class="mb-3">
+            <label for="emailAddress" class="form-label">Email Address <span>*</span></label>
+            <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="Enter your email" required>
+        </div>
+        <input type="hidden" name="product_name" value="{{ product.name }}">
+        <input type="hidden" name="quantity" value="{{ quantity }}">
+        <input type="hidden" name="subtotal_price" value="{{ subtotal_price }}">
+        <input type="hidden" name="total_price" value="{{ total_price }}">
+    </form>
+</div>
+
+<!-- Order Summary -->
+<div class="col col-md-4">
+    <div class="p-2 rounded">
+        <ul class="list-unstyled mb-4">
+            <li class="d-flex justify-content-between">
+                <span>{{ product.name }}</span>
+                <span class="text-center">{{ quantity }}</span>
+                <span>Rp. {{ subtotal_price }}</span>
+            </li>
+        </ul>
+        <hr>
+        <div class="d-flex justify-content-between mb-3">
+            <strong>Total:</strong>
+            <strong>Rp. {{ total_price }}</strong>
+        </div>
+        <div class="mb-3">
+            <label class="d-block">Payment Method</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="eWallet" value="Qris">
+                <label class="form-check-label" for="eWallet">Qris</label>
             </div>
-    
-            <!-- Order Summary -->
-            <div class="col col-md-4">
-                <div class="p-2 rounded">
-                    <ul class="list-unstyled mb-4">
-                        <li class="d-flex justify-content-between">
-                            <span>Mac & Cheese</span>
-                            <span class="text-center">1</span>
-                            <span>Rp. 20.000</span>
-                        </li>
-                        <li class="d-flex justify-content-between">
-                            <span>Spaghetti Brulee</span>
-                            <span class="text-center">1</span>
-                            <span>Rp. 40.000</span>
-                        </li>
-                    </ul>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-3">
-                        <strong>Total:</strong>
-                        <strong>Rp. 60.000</strong>
-                    </div>
-                    <div class="mb-3">
-                        <label class="d-block">Payment Method</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="eWallet">
-                            <label class="form-check-label" for="qris">Qris</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="cash" checked>
-                            <label class="form-check-label" for="cash">Cash</label>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-pink w-100">Place Order</button>
-                </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="cash" value="Cash" checked>
+                <label class="form-check-label" for="cash">Cash</label>
             </div>
         </div>
-    </div>    
+        <!-- Button linked to form -->
+        <button type="submit" class="btn btn-pink w-100" form="billingForm">Place Order</button>
+    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+            
+
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

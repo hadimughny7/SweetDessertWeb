@@ -20,51 +20,50 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container-fluid">
-                <div class="logo-top">
-                    <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
-                    <ul class="navbar-nav ms-auto gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
-                                id="nav-text">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
-                                id="nav-text">Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
-                                id="nav-text">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
-                                id="nav-text">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-    
-    
-    
-                <div class=" justify-content-space-between" id="navbarNav">
-                    <ul class="navbar-nav ms-auto gap-5 me-3 ">
-                        <li class="nav-item ">
-                            <a href="#chart"><img src="/static/chart.png" alt=""></a>
-                        </li>
-                        <li class="nav-item ">
-                            <a href="{{ url_for('signin') }}"><img src="/static/profile.png" alt=""></a>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <div class="logo-top">
+                <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
+                            id="nav-text">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
+                            id="nav-text">Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
+                            id="nav-text">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
+                            id="nav-text">Contact</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    
+
+
+
+            <div class=" justify-content-space-between" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5 me-3 ">
+                    <li class="nav-item ">
+                        <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
+                    </li>
+                    <li class="nav-item ">
+                        <a href="{{ url_for('signin') }}"><img src="/static/profile.png" alt=""></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6">
-                <div><img src="/{{ product.image }}" class="product-image bg-light"
-                        alt="{{ product.name }}">
+                <div><img src="/{{ product.image }}" class="product-image bg-light" alt="{{ product.name }}">
                 </div>
             </div>
             <div class="col-md-6">
@@ -74,64 +73,79 @@
                 <hr>
                 <div class="d-flex align-items-center mb-4">
                     <button id="decrement" class="btn btn-outline-secondary btn-sm me-2">-</button>
-                    <input id="quantity" type="text" value="1" class="form-control text-center w-25" readonly>
+                    <input id="quantity" type="text" value="1" class="form-control text-center w-25">
                     <button id="increment" class="btn btn-outline-secondary btn-sm ms-2">+</button>
-                    <button class="btn btn-pink px-4 py-2" style="margin-left: 10px;">Buy Now</button>
+                    <button class="btn btn-pink px-4 py-2"
+                    onclick="window.location.href='{{ url_for('checkout', product_id=product['_id']) }}&quantity=' + document.getElementById('quantity').value">
+                    Buy Now
+                </button>
+                
+
+
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const quantityInput = document.getElementById("quantity");
-        const incrementButton = document.getElementById("increment");
-        const decrementButton = document.getElementById("decrement");
+const quantityInput = document.getElementById("quantity");
+const incrementButton = document.getElementById("increment");
+const decrementButton = document.getElementById("decrement");
 
-        incrementButton.addEventListener("click", () => {
-            let currentValue = parseInt(quantityInput.value, 10);
-            quantityInput.value = currentValue + 1;
-        });
+incrementButton.addEventListener("click", () => {
+    let currentValue = parseInt(quantityInput.value, 10);
+    quantityInput.value = currentValue + 1;
+});
 
-        decrementButton.addEventListener("click", () => {
-            let currentValue = parseInt(quantityInput.value, 10);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
-            }
-        });
+// Event listener untuk tombol decrement (mengurangi quantity)
+decrementButton.addEventListener("click", () => {
+    let currentValue = parseInt(quantityInput.value, 10);
+    if (currentValue > 1) { // Mengecek agar quantity tidak kurang dari 1
+        quantityInput.value = currentValue - 1; // Mengurangi quantity
+    }
+});
+
+        
     </script>
 
-<footer>
-    <div class="footer-container">
-        <div class="footer-left">
-            <h3>Sweet Dessert</h3>
-            <p>
-                Halo! Kami dari Sweet Dessert, usaha kecil yang berfokus menghadirkan berbagai macam dessert lezat
-                untuk melengkapi hari-hari Anda.
-            </p>
-        </div>
+    <script>
+       
+    </script>
 
-        <div class="footer-center">
-            <h3>Information</h3>
-            <ul>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contacts</a></li>
-            </ul>
-        </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+                <h3>Sweet Dessert</h3>
+                <p>
+                    Halo! Kami dari Sweet Dessert, usaha kecil yang berfokus menghadirkan berbagai macam dessert lezat
+                    untuk melengkapi hari-hari Anda.
+                </p>
+            </div>
 
-        <div class="footer-right">
-            <h3>HAPPINESS STARTS HERE</h3>
-            <div class="social-icons">
-                <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}" alt=""></a>
-                <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}" alt=""></a>
+            <div class="footer-center">
+                <h3>Information</h3>
+                <ul>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-right">
+                <h3>HAPPINESS STARTS HERE</h3>
+                <div class="social-icons">
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}"
+                            alt=""></a>
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}"
+                            alt=""></a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="footer-copyright">
-        &copy; Copyright Galakk 2024. All rights reserved.
-    </div>
-</footer>
+        <div class="footer-copyright">
+            &copy; Copyright Galakk 2024. All rights reserved.
+        </div>
+    </footer>
 
 </body>
 

@@ -49,7 +49,7 @@
                 <div class=" justify-content-space-between" id="navbarNav">
                     <ul class="navbar-nav ms-auto gap-5 me-3 ">
                         <li class="nav-item ">
-                            <a href="#chart"><img src="/static/chart.png" alt=""></a>
+                            <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
                         </li>
                         <li class="nav-item ">
                             <a href="{{ url_for('signin') }}"><img src="/static/profile.png" alt=""></a>
@@ -88,7 +88,7 @@
                         <img src="/{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.name }} <img src="{{ url_for('static', filename='Cart 5.png') }}" alt="" id="logo-cart"></h5>
+                        <h5 class="card-title">{{ product.name }} <a href="{{ url_for('cart') }}"><img src="{{ url_for('static', filename='Cart 5.png') }}" data-product-id="{{ product._id }}" alt="" id="logo-cart" class="add-to-cart"></a></h5>
                         <p class="card-text">{{ product.price }}</p>
                     </div>
                 </div>
@@ -98,14 +98,30 @@
     </div>
 
     <script>
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', function (event) {
-                event.preventDefault();
-                const selectedText = this.getAttribute('data-value');
-                document.getElementById('selectedOption').textContent = selectedText;
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.add-to-cart').forEach(function (cartButton) {
+                cartButton.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    
+                    fetch('/add_to_cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ product_id: productId }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message); // Tampilkan pesan sukses
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
             });
         });
-    </script>
+        </script>
+        
 
     <footer>
         <div class="footer-container">

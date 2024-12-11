@@ -52,10 +52,14 @@
             <div class=" justify-content-space-between" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-5 me-3 ">
                     <li class="nav-item ">
-                        <a href="#chart"><img src="/static/chart.png" alt=""></a>
+                        <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
                     </li>
-                    <li class="nav-item ">
-                        <a href="{{ url_for('signin') }}"><img src="/static/profile.png" alt=""></a>
+                    <li class="nav-item">
+                     
+                            <a  href="{{ url_for('signin') }}">
+                                <img src="/static/profile.png" alt="Profile">
+                            </a>
+          
                     </li>
                 </ul>
             </div>

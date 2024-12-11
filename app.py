@@ -1,8 +1,9 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
 from pymongo import MongoClient
 from bson import ObjectId
 from werkzeug.utils import secure_filename
+from bson.errors import InvalidId
 
 app = Flask(__name__)
 
@@ -16,7 +17,10 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 client = MongoClient("mongodb+srv://test:sparta@cluster0.lf8qu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client['sweet_dessert']
 products_collection = db['products']
-users_collection = db['users']  # Tambahkan koleksi untuk user
+users_collection = db['users']
+
+# Konfigurasi session
+app.secret_key = 'test'  # Gantilah dengan string yang lebih aman
 
 # Fungsi validasi file
 def allowed_file(filename):
@@ -160,13 +164,33 @@ def signin():
 
         user = users_collection.find_one({"email": email, "password": password})
         if user:
-            return render_template("login.html", success_message='Login successful!')
+            session['user_email'] = user['email']
+            return render_template("login.html", success_message='Login successful!')  # Kirim pesan sukses
 
-        return render_template("login.html", error_message='Invalid email or password.')
+        return render_template("login.html", error_message='Invalid email or password.')  # Kirim pesan error
 
     return render_template("login.html")
 
-# Rute lainnya
+
+# Rute untuk halaman profil
+@app.route("/profile")
+def profile():
+    # Cek apakah user sudah login dengan memeriksa session
+    if 'user_email' not in session:
+        return redirect(url_for('signin'))  # Arahkan ke halaman login jika belum login
+
+    # Ambil data pengguna dari session atau database
+    user_email = session['user_email']
+    user = users_collection.find_one({"email": user_email})
+
+    return render_template("profile.html", user=user)
+
+# Rute untuk logout
+@app.route("/logout")
+def logout():
+    session.pop('user_email', None)  # Menghapus session ketika logout
+    return redirect(url_for('home'))  # Arahkan ke halaman utama setelah logout
+
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -174,6 +198,69 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
+
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    product_id = request.form.get('product_id')
+    # Logika untuk menambahkan produk ke keranjang
+    cart = session.get('cart', [])
+    cart.append(product_id)
+    session['cart'] = cart
+    return jsonify({'message': 'Product added to cart successfully!'})
+
+@app.route('/checkout', methods=["GET", "POST"])
+def checkout():
+    product_id = request.args.get('product_id')
+    if not product_id:
+        return "Product ID is required", 400
+
+    try:
+        # Validasi ObjectId
+        product_id = ObjectId(product_id)
+    except (InvalidId, ValueError):
+        return "Invalid product ID", 400
+
+    product = products_collection.find_one({"_id": product_id})
+    if not product:
+        return "Product not found", 404
+
+    try:
+        quantity = int(request.args.get('quantity', 1))  # Default quantity to 1
+    except ValueError:
+        return "Invalid quantity value", 400
+
+    subtotal_price = int(product['price']) * quantity
+    total_price = subtotal_price
+
+    return render_template('checkout.html', product=product, quantity=quantity, total_price=total_price, subtotal_price=subtotal_price)
+
+@app.route('/invoice', methods=['POST'])
+def invoice():
+    name = request.form.get('name')
+    table_number = request.form.get('tableNumber')
+    phone_number = request.form.get('phoneNumber')
+    email_address = request.form.get('emailAddress')
+    payment_method = request.form.get('paymentMethod')
+    
+    # Simpan atau olah data sesuai kebutuhan
+
+    # Kirim data ke template invoice.html
+    return render_template(
+        'invoice.html', 
+        name=name, 
+        table_number=table_number, 
+        phone_number=phone_number, 
+        email_address=email_address, 
+        payment_method=payment_method, 
+        product_name=request.form.get('product_name'),
+        quantity=int(request.form.get('quantity', 1)),
+        subtotal_price=int(request.form.get('subtotal_price', 0)),
+        total_price=int(request.form.get('total_price', 0))
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
