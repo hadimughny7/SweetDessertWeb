@@ -62,52 +62,47 @@
             </div>
         </nav>
     
-    <main>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <div class="clip"><img src="/static/clip.png" alt=""></div>
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active"><a href="#">My Account</a></li>
-            </ol>
-          </nav>   
+    <div id="custom-alert" class="custom-alert" style="display:none;">
+        <span id="alert-message"></span>
+    </div>
+    <div class="container">
+
         <section class="profile-container">
             <aside class="sidebar">
-                <h3>Manage My Account</h3>
-                <ul>
-                    <li><a href="#" class="active">My Profile</a></li>
-                </ul>
-            </aside>
+                <div class="profile-wrapper">
+
+                    <div class="clip"><img src="/static/clip.png" alt=""></div>
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="#">My Account</a></li>
+                 </div>
+           </aside>
+        </section>
+        
             <div class="profile-form">
-                <form class="form">
+                <div class="profile-desc">
+                    <h3>Manage My Account</h3>
+                    <ul>
+                        <li><a href="#" class="active">My Profile</a></li>
+                    </ul>
+                </div>
+                <form class="form" action="{{ url_for('update_profile') }}" method="POST">
                     <h2>Edit Your Profile</h2>
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label">Frist Name</label>
-                            <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                            <label class="form-label">Name</label>
+                            <input type="text" name="username" class="form-control" value="{{ user['username'] }}"  >
                           </div>
-                          <div class="col-md-4">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name">
-                          </div>
+                   
                     </div>
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label for="inputEmail4" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                            <input type="email"  name="email" class="form-control" id="inputEmail" value="{{ user['email'] }}" placeholder="Email">
                           </div>
-                          <div class="col-md-4">
-                            <label for="inputEmail4" class="form-label">Address</label>
-                            <input type="address" class="form-control" id="inputaddress" placeholder="Address">
-                          </div>
+
                           <h3>Password Changes</h3>
                           <div class="col-md-8">
-                              <input type="password" class="form-control" id="inputPassword" placeholder="Current Password">
-                          </div>
-                          <div class="col-md-8">
-                              <input type="password" class="form-control" id="inputPassword2" placeholder="New Password">
-                          </div>
-                          <div class="col-md-8">
-                              <input type="password" class="form-control" id="inputPassword3" placeholder="Confirm New Password">
+                              <input type="password" name="password" class="form-control" id="inputPassword"  value="{{ user['password'] }}" placeholder="Current Password">
                           </div>
                       </div>
                     <div class="form-buttons">
@@ -116,8 +111,48 @@
                     </div>
                 </form>
             </div>
-        </section>
-    </main>
+     
+    </div>
+     <script>
+    const successMessage = {{ success_message|default('')|tojson }};
+    const errorMessage = {{ error_message|default('')|tojson }};
+
+    function showAlert(message, type) {
+        const alertBox = document.getElementById("custom-alert");
+        const alertMessage = document.getElementById("alert-message");
+
+        alertMessage.textContent = message;
+
+        if (type === "success") {
+            alertBox.style.backgroundColor = "#28a745"; 
+            alertBox.style.borderColor = "#28a745";
+        } else if (type === "error") {
+            alertBox.style.backgroundColor = "#F95454"; 
+            alertBox.style.borderColor = "#f5c6cb";
+        }
+
+        alertBox.style.display = "block";
+        alertBox.classList.remove("hide");
+
+        setTimeout(() => {
+            alertBox.classList.add("hide");
+
+            setTimeout(() => {
+                alertBox.style.display = "none";
+                if (type === "success") {
+                    window.location.href = "{{ url_for('signin') }}"; 
+                }
+            }, 570); 
+        }, 1000);
+    }
+
+    if (successMessage) {
+        showAlert(successMessage, "success");
+    } else if (errorMessage) {
+        showAlert(errorMessage, "error");
+    }
+</script>
+
     
 </body>
 

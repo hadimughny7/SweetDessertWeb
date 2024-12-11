@@ -61,6 +61,12 @@
         </div>
     </nav>
 
+    
+    <div id="custom-alert" class="custom-alert" style="display:none;">
+        <span id="alert-message"></span>
+    </div>
+
+
 
 
     <div class="container ">
@@ -85,49 +91,45 @@
         </div>
     </div>
 
-    <div id="custom-alert" class="custom-alert" style="display:none;">
-        <span id="alert-message"></span>
-    </div>
-
     <script>
-        const successMessage = {{ success_message|default ('') | tojson }};
-        const errorMessage = {{ error_message|default ('') | tojson }};
+    const successMessage = {{ success_message|default('')|tojson }};
+    const errorMessage = {{ error_message|default('')|tojson }};
 
-        function showAlert(message, type) {
-            const alertBox = document.getElementById("custom-alert");
-            const alertMessage = document.getElementById("alert-message");
+    function showAlert(message, type) {
+        const alertBox = document.getElementById("custom-alert");
+        const alertMessage = document.getElementById("alert-message");
 
-            alertMessage.textContent = message;
+        alertMessage.textContent = message;
 
-            if (type === "success") {
-                alertBox.style.backgroundColor = "#28a745";
-                alertBox.style.borderColor = "#28a745";
-            } else if (type === "error") {
-                alertBox.style.backgroundColor = "#F95454";
-                alertBox.style.borderColor = "#f5c6cb";
-            }
+        if (type === "success") {
+            alertBox.style.backgroundColor = "#28a745"; 
+            alertBox.style.borderColor = "#28a745";
+        } else if (type === "error") {
+            alertBox.style.backgroundColor = "#F95454"; 
+            alertBox.style.borderColor = "#f5c6cb";
+        }
 
-            alertBox.style.display = "block";
-            alertBox.classList.remove("hide");
+        alertBox.style.display = "block";
+        alertBox.classList.remove("hide");
+
+        setTimeout(() => {
+            alertBox.classList.add("hide");
 
             setTimeout(() => {
-                alertBox.classList.add("hide");
+                alertBox.style.display = "none";
+                if (type === "success") {
+                    window.location.href = "{{ url_for('signin') }}"; 
+                }
+            }, 570); 
+        }, 1000);
+    }
 
-                setTimeout(() => {
-                    alertBox.style.display = "none";
-                    if (type === "success") {
-                        window.location.href = "{{ url_for('home') }}";
-                    }
-                }, 570);
-            }, 1000);
-        }
-
-        if (successMessage) {
-            showAlert(successMessage, "success");
-        } else if (errorMessage) {
-            showAlert(errorMessage, "error");
-        }
-    </script>
+    if (successMessage) {
+        showAlert(successMessage, "success");
+    } else if (errorMessage) {
+        showAlert(errorMessage, "error");
+    }
+</script>
 
     <footer>
         <div class="footer-container">

@@ -1,8 +1,8 @@
-import os
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, abort
 from pymongo import MongoClient
 from bson import ObjectId
 from werkzeug.utils import secure_filename
+import os
 from bson.errors import InvalidId
 
 app = Flask(__name__)
@@ -26,19 +26,110 @@ app.secret_key = 'test'  # Gantilah dengan string yang lebih aman
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Rute Homepage
-@app.route("/")
+## Menambahkan admin secara manual
+admin_email = 'admin@gmail.com'
+admin_password = 'admin'
+
+# Mengecek apakah akun admin sudah ada
+if not users_collection.find_one({'email': admin_email}):
+    users_collection.insert_one({
+        'username': 'Admin',
+        'email': admin_email,
+        'password': admin_password,  
+        'role': 'admin'
+    })
+    print('Admin account created!')
+else:
+    print('Admin account already exists.')
+
+
+def login_required(f):
+    def wrapped_function(*args, **kwargs):
+        if 'user' not in session:
+            return redirect(url_for('signin'))  # Arahkan ke login jika belum login
+        return f(*args, **kwargs)
+    
+    # Pastikan nama fungsi tetap berbeda
+    wrapped_function.__name__ = f.__name__
+    return wrapped_function
+
+
+
+@app.route('/')
 def home():
-    return render_template("index.html")
+    if 'user' in session:
+        return render_template('index.html', user=session['user'])
+    return redirect(url_for('signin'))
+
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = users_collection.find_one({'email': email})
+        
+        if user and user['password'] == password:  # Langsung cocokkan password
+            session['user'] = user['username']
+            session['role'] = user['role']
+            session['user_email'] = user['email']
+
+            return redirect(url_for('home'))
+        else:
+            error_message = 'Invalid email or password.'
+            return render_template('login.html', error_message=error_message)
+    return render_template('login.html' )
+
+
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        role = 'admin' if email == 'admin@gmail.com' else 'user'  # Role admin jika email admin
+
+        if users_collection.find_one({'email': email}):
+            return render_template('login.html', error_message='Email already exists!')
+        else:
+            users_collection.insert_one({
+                'username': username,
+                'email': email,
+                'password': password, 
+                'role': role
+            })
+            return render_template('signup.html', success_message='Account successfully created!')
+    
+    return render_template('signup.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    session.pop('role', None)  # Hapus role dari sesi
+    session.pop('user_email', None)  # Hapus email dari sesi
+    return redirect(url_for('signin'))
+
+@app.route('/admin')
+@login_required
+def admin():
+    # Cek apakah ada sesi pengguna yang aktif dan apakah role-nya admin
+    if 'role' in session and session['role'] == 'admin':
+        return render_template('admin.html')
+    
+    return render_template('index.html', error_message='Access denied. Admins only.')  # Pesan error
 
 # Rute untuk halaman produk
 @app.route("/product")
+@login_required
 def product():
     products = list(products_collection.find())
     return render_template("product.html", products=products)
 
 # Rute halaman detail produk
 @app.route("/product/<product_id>")
+@login_required
 def product_detail(product_id):
     try:
         product = products_collection.find_one({"_id": ObjectId(product_id)})
@@ -49,40 +140,13 @@ def product_detail(product_id):
         print(f"Error occurred: {e}")
         abort(404)
 
-# Rute untuk halaman admin
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
-    if request.method == 'POST':
-        product_name = request.form['name']
-        product_price = request.form['price']
-        product_description = request.form['description']
-        product_category = request.form['category']
-
-        if 'image' not in request.files or request.files['image'].filename == '':
-            return 'No image file part or selected', 400
-
-        image_file = request.files['image']
-        if allowed_file(image_file.filename):
-            filename = secure_filename(image_file.filename)
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_file.save(image_path)
-
-            new_product = {
-                "name": product_name,
-                "price": product_price,
-                "description": product_description,
-                "category": product_category,
-                "image": image_path
-            }
-            products_collection.insert_one(new_product)
-            return redirect(url_for('admin'))
-
-    products = list(products_collection.find())
-    return render_template('admin.html', products=products)
-
 # Rute untuk menghapus produk
 @app.route('/admin/delete/<string:product_id>', methods=['POST'])
+@login_required
 def delete_product(product_id):
+    if session['role'] != 'admin':
+        return redirect(url_for('home'))  # Arahkan ke halaman utama jika bukan admin
+
     product = products_collection.find_one({"_id": ObjectId(product_id)})
     if product:
         if 'image' in product:
@@ -95,7 +159,11 @@ def delete_product(product_id):
 
 # Rute untuk memperbarui produk
 @app.route('/admin/update/<string:product_id>', methods=['GET', 'POST'])
+@login_required
 def update_product(product_id):
+    if session['role'] != 'admin':
+        return redirect(url_for('home'))  # Arahkan ke halaman utama jika bukan admin
+
     product = products_collection.find_one({"_id": ObjectId(product_id)})
     if not product:
         return 'Product not found', 404
@@ -130,66 +198,55 @@ def update_product(product_id):
 
     return render_template('edit_product.html', product=product)
 
-# Rute untuk halaman signup
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
-    if request.method == "POST":
-        data = request.form
-        username = data.get("username")
-        email = data.get("email")
-        password = data.get("password")
-
-        if not username or not email or not password:
-            return render_template("signup.html", error_message='All fields are required.')
-
-        existing_user = users_collection.find_one({"email": email})
-        if existing_user:
-            return render_template("signup.html", error_message='Email already exists.')
-
-        users_collection.insert_one({"username": username, "email": email, "password": password})
-        return render_template("signup.html", success_message='Account successfully created!')
-
-    return render_template("signup.html")
-
-# Rute untuk halaman signin
-@app.route("/signin", methods=["GET", "POST"])
-def signin():
-    if request.method == "POST":
-        data = request.form
-        email = data.get("email")
-        password = data.get("password")
-
-        if not email or not password:
-            return render_template("login.html", error_message='Email and password are required.')
-
-        user = users_collection.find_one({"email": email, "password": password})
-        if user:
-            session['user_email'] = user['email']
-            return render_template("login.html", success_message='Login successful!')  # Kirim pesan sukses
-
-        return render_template("login.html", error_message='Invalid email or password.')  # Kirim pesan error
-
-    return render_template("login.html")
-
-
-# Rute untuk halaman profil
 @app.route("/profile")
+@login_required
 def profile():
-    # Cek apakah user sudah login dengan memeriksa session
-    if 'user_email' not in session:
-        return redirect(url_for('signin'))  # Arahkan ke halaman login jika belum login
-
-    # Ambil data pengguna dari session atau database
-    user_email = session['user_email']
+    user_email = session.get('user_email')
     user = users_collection.find_one({"email": user_email})
+    print(user)  # Tambahkan log untuk memeriksa apakah user ditemukan
+    if user:
+        return render_template("profile.html", user=user)
+    else:
+        # Menangani jika user tidak ditemukan
+        return "User not found"
+    
 
-    return render_template("profile.html", user=user)
+@app.route('/update_profile', methods=['POST'])
+@login_required
+def update_profile():
+    user_email = session.get('user_email')
+    if not user_email:
+        return redirect(url_for('signin'))
+    
+    # Ambil data dari form
+    username = request.form.get('username')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
-# Rute untuk logout
-@app.route("/logout")
-def logout():
-    session.pop('user_email', None)  # Menghapus session ketika logout
-    return redirect(url_for('home'))  # Arahkan ke halaman utama setelah logout
+    # Validasi input (opsional)
+    if not username or not email:
+        return "Name and email are required!", 400
+
+    # Update database
+    user_update = {"username": username, "email": email}
+    if password:  # Jika password diisi, tambahkan ke pembaruan
+        user_update["password"] = password
+ 
+
+    result = users_collection.update_one(
+        {"email": user_email},
+        {"$set": user_update}
+    )
+    
+    if result.modified_count > 0:
+        # Update session jika email berubah
+        if email != user_email:
+            session['user_email'] = email
+        return redirect(url_for('profile'))
+    else:
+        return "No changes made to the profile.", 400
+
+
 
 @app.route("/about")
 def about():
@@ -204,14 +261,16 @@ def cart():
     return render_template("cart.html")
 
 @app.route('/add_to_cart', methods=['POST'])
+@login_required
 def add_to_cart():
     product_id = request.form.get('product_id')
-    # Logika untuk menambahkan produk ke keranjang
     cart = session.get('cart', [])
     cart.append(product_id)
     session['cart'] = cart
     return jsonify({'message': 'Product added to cart successfully!'})
 
+
+@login_required
 @app.route('/checkout', methods=["GET", "POST"])
 def checkout():
     product_id = request.args.get('product_id')
