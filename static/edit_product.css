@@ -131,3 +131,13 @@ tbody td{
 .btn-pink-tua:hover{
     background-color: #fb6f92;
 }
+
+.card-img-top{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #F5F5F5;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}

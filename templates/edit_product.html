@@ -69,7 +69,9 @@
             <div class="mb-3">
                 <label class="form-label">Current Image</label>
                 <br>
-                <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" style="width: 150px;">
+                <a href="/product/{{ product._id }}">
+                    <img src="/{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+                </a>
             </div>
             
             <button type="submit" class="btn btn-pink">Update Product</button>

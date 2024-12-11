@@ -67,19 +67,20 @@ def signin():
         email = request.form['email']
         password = request.form['password']
         user = users_collection.find_one({'email': email})
-        
+
         if user and user['password'] == password:  # Langsung cocokkan password
             session['user'] = user['username']
             session['role'] = user['role']
             session['user_email'] = user['email']
 
-            return redirect(url_for('home'))
+            success_message = "Login successful!"  # Pesan sukses
+            return render_template('login.html', success_message=success_message)
+
         else:
-            error_message = 'Invalid email or password.'
+            error_message = 'Invalid email or password.'  # Pesan error
             return render_template('login.html', error_message=error_message)
-    return render_template('login.html' )
 
-
+    return render_template('login.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -91,7 +92,8 @@ def signup():
         role = 'admin' if email == 'admin@gmail.com' else 'user'  # Role admin jika email admin
 
         if users_collection.find_one({'email': email}):
-            return render_template('login.html', error_message='Email already exists!')
+            # Jika email sudah ada, tetap di halaman signup dan tampilkan pesan error
+            return render_template('signup.html', error_message='Email already exists!')
         else:
             users_collection.insert_one({
                 'username': username,
@@ -99,6 +101,7 @@ def signup():
                 'password': password, 
                 'role': role
             })
+            # Jika berhasil, tampilkan pesan sukses dan tetap di halaman signup
             return render_template('signup.html', success_message='Account successfully created!')
     
     return render_template('signup.html')
@@ -111,14 +114,48 @@ def logout():
     session.pop('user_email', None)  # Hapus email dari sesi
     return redirect(url_for('signin'))
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
-    # Cek apakah ada sesi pengguna yang aktif dan apakah role-nya admin
     if 'role' in session and session['role'] == 'admin':
-        return render_template('admin.html')
-    
-    return render_template('index.html', error_message='Access denied. Admins only.')  # Pesan error
+        if request.method == 'POST':
+            # Ambil data dari form
+            name = request.form.get('name')
+            price = request.form.get('price')
+            description = request.form.get('description')
+            category = request.form.get('category')
+            image = request.files.get('image')
+
+            # Validasi input
+            if not name or not price or not description or not category or not image:
+                return render_template('admin.html', products=list(products_collection.find()), 
+                                       error_message="All fields are required!")
+            
+            if allowed_file(image.filename):
+                filename = secure_filename(image.filename)
+                image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                image.save(image_path)
+
+                # Simpan data ke MongoDB
+                new_product = {
+                    'name': name,
+                    'price': price,
+                    'description': description,
+                    'category': category,
+                    'image': image_path
+                }
+                products_collection.insert_one(new_product)
+                return redirect(url_for('admin'))
+
+            return render_template('admin.html', products=list(products_collection.find()), 
+                                   error_message="Invalid file format!")
+
+        # GET: Tampilkan halaman admin
+        products = list(products_collection.find())
+        return render_template('admin.html', products=products)
+
+    return render_template('index.html', error_message='Access denied. Admins only.')
+
 
 # Rute untuk halaman produk
 @app.route("/product")
@@ -256,18 +293,79 @@ def about():
 def contact():
     return render_template("contact.html")
 
-@app.route("/cart")
+from bson import ObjectId
+
+@app.route('/cart')
 def cart():
-    return render_template("cart.html")
+    cart = session.get('cart', [])  # Ambil cart dari sesi
+    products = []
+
+    for item in cart:
+        product_id = item.get('product_id')  # Ambil product_id dari cart, bukan _id
+
+        if not product_id:
+            continue  # Jika tidak ada product_id, lewati item ini
+        
+        try:
+            # Konversi product_id ke ObjectId untuk pencarian di MongoDB
+            product_id = ObjectId(product_id)
+        except Exception as e:
+            print(f"Invalid product _id format: {product_id}")
+            continue  # Lewatkan item dengan format _id yang tidak valid
+
+        # Cari produk berdasarkan _id
+        product = products_collection.find_one({'_id': product_id})
+
+        if product:
+            # Jika produk ditemukan, tambahkan informasi ke dalam item
+            item['name'] = product['name']
+            item['price'] = product['price']
+            products.append(item)
+        else:
+            print(f"Product with _id {product_id} not found")
+
+    return render_template('cart.html', products=products)
+
+
 
 @app.route('/add_to_cart', methods=['POST'])
 @login_required
 def add_to_cart():
-    product_id = request.form.get('product_id')
+    data = request.get_json()  # Ambil data dalam format JSON
+    product_id = data.get('product_id')  # Ambil product_id dari JSON
+
+    if not product_id:
+        return jsonify({'message': 'Product ID is required!'}), 400
+
+    # Ambil produk dari database menggunakan product_id
+    product = products_collection.find_one({'_id': product_id})  # Mengambil produk berdasarkan ID
+
+    if not product:
+        return jsonify({'message': 'Product not found!'}), 404
+
+    # Ambil cart yang sudah ada di sesi, jika tidak ada buat cart kosong
     cart = session.get('cart', [])
-    cart.append(product_id)
+
+    # Cek apakah produk sudah ada di dalam cart
+    existing_product = next((item for item in cart if item['product_id'] == product_id), None)
+
+    if existing_product:
+        # Jika produk sudah ada, tambahkan kuantitasnya
+        existing_product['quantity'] += 1
+    else:
+        # Jika produk belum ada, tambahkan produk ke cart
+        cart.append({
+            'product_id': product_id,
+            'name': product['name'],
+            'price': product['price'],
+            'quantity': 1
+        })
+
+    # Simpan cart ke sesi
     session['cart'] = cart
-    return jsonify({'message': 'Product added to cart successfully!'})
+
+    return jsonify({'message': 'Product added to cart successfully!'}), 200
+
 
 
 @login_required

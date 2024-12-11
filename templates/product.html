@@ -20,51 +20,52 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container-fluid">
-                <div class="logo-top">
-                    <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
-                    <ul class="navbar-nav ms-auto gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
-                                id="nav-text">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
-                                id="nav-text">Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
-                                id="nav-text">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
-                                id="nav-text">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-    
-    
-    
-                <<div class="justify-content-space-between" id="navbarNav">
-    <ul class="navbar-nav ms-auto gap-5 me-3 d-flex align-items-center">
-        <li class="nav-item">
-            <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
-        </li>
-        <li class="nav-item dropdown">
-            <!-- Profile dengan hover untuk dropdown -->
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="/static/profile.png" alt="Profile">
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
-        </nav>
-    
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <div class="logo-top">
+                <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
+                            id="nav-text">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
+                            id="nav-text">Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
+                            id="nav-text">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
+                            id="nav-text">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+
+
+            <div class="justify-content-space-between" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5 me-3 d-flex align-items-center">
+                    <li class="nav-item">
+                        <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <!-- Profile dengan hover untuk dropdown -->
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="/static/profile.png" alt="Profile">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+    </nav>
+
     <div class="container">
         <div class="Product-text">
             <div class="section-title">
@@ -94,7 +95,10 @@
                         <img src="/{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
                     </a>
                     <div class="card-body">
-                        <h5 class="card-title">{{ product.name }} <a href="{{ url_for('cart') }}"><img src="{{ url_for('static', filename='Cart 5.png') }}" data-product-id="{{ product._id }}" alt="" id="logo-cart" class="add-to-cart"></a></h5>
+                        <h5 class="card-title">{{ product.name }}<a href="{{ url_for('cart') }}"><img
+                                    src="{{ url_for('static', filename='Cart 5.png') }}"
+                                    data-product-id="{{ product._id }}" alt="" id="logo-cart" class="add-to-cart"></a>
+                        </h5>
                         <p class="card-text">{{ product.price }}</p>
                     </div>
                 </div>
@@ -105,29 +109,34 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.add-to-cart').forEach(function (cartButton) {
-                cartButton.addEventListener('click', function () {
-                    const productId = this.getAttribute('data-product-id');
-                    
-                    fetch('/add_to_cart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ product_id: productId }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message); // Tampilkan pesan sukses
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-                });
+    document.querySelectorAll('.add-to-cart').forEach(function (cartButton) {
+        cartButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default anchor behavior
+            const productId = this.getAttribute('data-product-id'); // Get product ID
+
+            // Send a POST request to add the product to the cart
+            fetch('/add_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ product_id: productId }), // Send product ID as JSON
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success message
+                window.location.href = "{{ url_for('cart') }}"; // Redirect to cart page after adding product
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         });
-        </script>
-        
+    });
+});
+
+    </script>
+
+
 
     <footer>
         <div class="footer-container">
@@ -151,8 +160,10 @@
             <div class="footer-right">
                 <h3>HAPPINESS STARTS HERE</h3>
                 <div class="social-icons">
-                    <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}" alt=""></a>
-                    <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}" alt=""></a>
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}"
+                            alt=""></a>
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}"
+                            alt=""></a>
                 </div>
             </div>
         </div>
