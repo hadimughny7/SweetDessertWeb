@@ -342,18 +342,15 @@ def add_to_cart():
 
     if not product:
         return jsonify({'message': 'Product not found!'}), 404
-
-    # Ambil cart yang sudah ada di sesi, jika tidak ada buat cart kosong
     cart = session.get('cart', [])
 
-    # Cek apakah produk sudah ada di dalam cart
     existing_product = next((item for item in cart if item['product_id'] == product_id), None)
 
     if existing_product:
-        # Jika produk sudah ada, tambahkan kuantitasnya
+
         existing_product['quantity'] += 1
     else:
-        # Jika produk belum ada, tambahkan produk ke cart
+
         cart.append({
             'product_id': product_id,
             'name': product['name'],
@@ -361,7 +358,6 @@ def add_to_cart():
             'quantity': 1
         })
 
-    # Simpan cart ke sesi
     session['cart'] = cart
 
     return jsonify({'message': 'Product added to cart successfully!'}), 200
