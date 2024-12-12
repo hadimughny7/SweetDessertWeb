@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Invoices</title>
+    <link rel="stylesheet" href="/static/admin_invoices.css">
+</head>
+
+<body>
+     
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="logo-top">
+                <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
+                <ul class="navbar-nav ms-auto gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#admin" id="nav-text">Admin</a>
+                        <a href="{{ url_for('admin_invoices') }}">View Invoices</a>
+                    </li>
+     
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h1>Invoices</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Table Number</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice.name }}</td>
+                <td>{{ invoice.table_number }}</td>
+                <td>{{ invoice.phone_number }}</td>
+                <td>{{ invoice.email_address }}</td>
+                <td>{{ invoice.product_name }}</td>
+                <td>{{ invoice.quantity }}</td>
+                <td>Rp. {{ invoice.total_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

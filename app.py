@@ -18,6 +18,8 @@ client = MongoClient("mongodb+srv://test:sparta@cluster0.lf8qu.mongodb.net/?retr
 db = client['sweet_dessert']
 products_collection = db['products']
 users_collection = db['users']
+invoices_collection = db['invoices']
+cart_collection = db['carts']
 
 # Konfigurasi session
 app.secret_key = 'test'  # Gantilah dengan string yang lebih aman
@@ -296,61 +298,83 @@ def contact():
 from bson import ObjectId
 
 @app.route('/cart')
+@login_required
 def cart():
-    cart = session.get('cart', [])  # Ambil cart dari sesi
+    user_email = session.get('user_email')
+    
+    if not user_email:
+        return redirect(url_for('signin'))  # Jika email pengguna tidak ada di session, redirect ke login
+    
+    # Ambil cart berdasarkan user_email dari database
+    cart_data = cart_collection.find_one({'user_email': user_email})
+
+    if not cart_data:
+        return render_template('cart.html', products=[], total_price=0)
+
+    cart = cart_data.get('cart', [])
     products = []
+    total_price = 0
 
     for item in cart:
-        product_id = item.get('product_id')  # Ambil product_id dari cart, bukan _id
+        product_id = item.get('product_id')
 
         if not product_id:
-            continue  # Jika tidak ada product_id, lewati item ini
-        
+            continue
+
         try:
-            # Konversi product_id ke ObjectId untuk pencarian di MongoDB
             product_id = ObjectId(product_id)
         except Exception as e:
-            print(f"Invalid product _id format: {product_id}")
-            continue  # Lewatkan item dengan format _id yang tidak valid
+            continue
 
-        # Cari produk berdasarkan _id
         product = products_collection.find_one({'_id': product_id})
 
         if product:
-            # Jika produk ditemukan, tambahkan informasi ke dalam item
-            item['name'] = product['name']
-            item['price'] = product['price']
-            products.append(item)
-        else:
-            print(f"Product with _id {product_id} not found")
+            # Konversi price dan quantity menjadi angka
+            price = int(product['price'])  # Pastikan price adalah integer
+            quantity = int(item.get('quantity', 1))  # Pastikan quantity adalah integer
+            
+            subtotal_price = price * quantity
+            total_price += subtotal_price
 
-    return render_template('cart.html', products=products)
+            item['name'] = product['name']
+            item['price'] = price
+            item['quantity'] = quantity
+            item['subtotal_price'] = subtotal_price
+            products.append(item)
+    
+    return render_template('cart.html', products=products, total_price=total_price)
 
 
 
 @app.route('/add_to_cart', methods=['POST'])
 @login_required
 def add_to_cart():
-    data = request.get_json()  # Ambil data dalam format JSON
-    product_id = data.get('product_id')  # Ambil product_id dari JSON
+    data = request.get_json()
+    product_id = data.get('product_id')
 
     if not product_id:
         return jsonify({'message': 'Product ID is required!'}), 400
 
-    # Ambil produk dari database menggunakan product_id
-    product = products_collection.find_one({'_id': product_id})  # Mengambil produk berdasarkan ID
+    product = products_collection.find_one({'_id': ObjectId(product_id)})
 
     if not product:
         return jsonify({'message': 'Product not found!'}), 404
-    cart = session.get('cart', [])
 
+    # Ambil cart dari database berdasarkan email pengguna
+    user_email = session['user_email']
+    cart_data = cart_collection.find_one({'user_email': user_email})
+
+    if cart_data:
+        cart = cart_data.get('cart', [])
+    else:
+        cart = []
+
+    # Cek apakah produk sudah ada dalam cart
     existing_product = next((item for item in cart if item['product_id'] == product_id), None)
 
     if existing_product:
-
-        existing_product['quantity'] += 1
+        existing_product['quantity'] += 1  # Tambahkan quantity jika produk sudah ada
     else:
-
         cart.append({
             'product_id': product_id,
             'name': product['name'],
@@ -358,11 +382,33 @@ def add_to_cart():
             'quantity': 1
         })
 
-    session['cart'] = cart
+    # Simpan cart ke database berdasarkan email pengguna
+    cart_collection.update_one(
+        {'user_email': user_email},
+        {'$set': {'cart': cart}},
+        upsert=True  # Jika tidak ada, buat baru
+    )
 
     return jsonify({'message': 'Product added to cart successfully!'}), 200
 
 
+
+@app.route('/update_cart', methods=['POST'])
+def update_cart():
+    data = request.get_json()  # Get JSON data from the request
+    product_id = data.get('product_id')
+    quantity = data.get('quantity')
+
+    if not product_id or not quantity:
+        return jsonify({'message': 'Product ID and quantity are required!'}), 400
+
+    # Update the product quantity in the "cart" (for simplicity, it's just a list)
+    for product in products:
+        if str(product['_id']) == product_id:
+            product['quantity'] = int(quantity)
+            break
+
+    return jsonify({'message': 'Cart updated successfully!'}), 200
 
 @login_required
 @app.route('/checkout', methods=["GET", "POST"])
@@ -398,22 +444,46 @@ def invoice():
     phone_number = request.form.get('phoneNumber')
     email_address = request.form.get('emailAddress')
     payment_method = request.form.get('paymentMethod')
-    
-    # Simpan atau olah data sesuai kebutuhan
+    product_name = request.form.get('product_name')
+    quantity = int(request.form.get('quantity', 1))
+    subtotal_price = int(request.form.get('subtotal_price', 0))
+    total_price = int(request.form.get('total_price', 0))
+
+    # Simpan data invoice ke database
+    invoice_data = {
+        'name': name,
+        'table_number': table_number,
+        'phone_number': phone_number,
+        'email_address': email_address,
+        'payment_method': payment_method,
+        'product_name': product_name,
+        'quantity': quantity,
+        'subtotal_price': subtotal_price,
+        'total_price': total_price
+    }
+    invoices_collection.insert_one(invoice_data)
 
     # Kirim data ke template invoice.html
     return render_template(
-        'invoice.html', 
-        name=name, 
-        table_number=table_number, 
-        phone_number=phone_number, 
-        email_address=email_address, 
-        payment_method=payment_method, 
-        product_name=request.form.get('product_name'),
-        quantity=int(request.form.get('quantity', 1)),
-        subtotal_price=int(request.form.get('subtotal_price', 0)),
-        total_price=int(request.form.get('total_price', 0))
+        'invoice.html',
+        name=name,
+        table_number=table_number,
+        phone_number=phone_number,
+        email_address=email_address,
+        payment_method=payment_method,
+        product_name=product_name,
+        quantity=quantity,
+        subtotal_price=subtotal_price,
+        total_price=total_price
     )
+
+@app.route('/admin/invoices')
+@login_required
+def admin_invoices():
+    if 'role' in session and session['role'] == 'admin':
+        invoices = list(invoices_collection.find())
+        return render_template('admin_invoices.html', invoices=invoices)
+    return render_template('index.html', error_message='Access denied. Admins only.')
 
 if __name__ == "__main__":
     app.run(debug=True)

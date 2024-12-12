@@ -28,7 +28,7 @@
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                 <ul class="navbar-nav ms-auto gap-1">
-                    
+
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
                             id="nav-text">Home</a>
@@ -50,30 +50,31 @@
 
 
 
-          <div class="justify-content-space-between" id="navbarNav">
-    <ul class="navbar-nav ms-auto gap-5 me-3 d-flex align-items-center">
-        <li class="nav-item">
-            <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
-        </li>
+            <div class="justify-content-space-between" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5 me-3 d-flex align-items-center">
+                    <li class="nav-item">
+                        <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
+                    </li>
 
-     
-        <li class="nav-item dropdown">
-            <!-- Profile dengan hover untuk dropdown -->
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="/static/profile.png" alt="Profile">
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
-                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </li>
 
-    </ul>
-</div>
+                    <li class="nav-item dropdown">
+                        <!-- Profile dengan hover untuk dropdown -->
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="/static/profile.png" alt="Profile">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
 
-  <div id="custom-alert" class="custom-alert" style="display:none;">
-        <span id="alert-message"></span>
-    </div>
+                </ul>
+            </div>
+
+            <div id="custom-alert" class="custom-alert" style="display:none;">
+                <span id="alert-message"></span>
+            </div>
 
 
         </div>
@@ -199,8 +200,10 @@
             <div class="footer-right">
                 <h3>HAPPINESS STARTS HERE</h3>
                 <div class="social-icons">
-                    <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}" alt=""></a>
-                    <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}" alt=""></a>
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}"
+                            alt=""></a>
+                    <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}"
+                            alt=""></a>
                 </div>
             </div>
         </div>
@@ -211,44 +214,44 @@
     </footer>
 
     <script>
-    const successMessage = {{ success_message|default('')|tojson }};
-    const errorMessage = {{ error_message|default('')|tojson }};
+        const successMessage = {{ success_message|default ('') | tojson }};
+        const errorMessage = {{ error_message|default ('') | tojson }};
 
-    function showAlert(message, type) {
-        const alertBox = document.getElementById("custom-alert");
-        const alertMessage = document.getElementById("alert-message");
+        function showAlert(message, type) {
+            const alertBox = document.getElementById("custom-alert");
+            const alertMessage = document.getElementById("alert-message");
 
-        alertMessage.textContent = message;
+            alertMessage.textContent = message;
 
-        if (type === "success") {
-            alertBox.style.backgroundColor = "#28a745"; 
-            alertBox.style.borderColor = "#28a745";
-        } else if (type === "error") {
-            alertBox.style.backgroundColor = "#F95454"; 
-            alertBox.style.borderColor = "#f5c6cb";
-        }
+            if (type === "success") {
+                alertBox.style.backgroundColor = "#28a745";
+                alertBox.style.borderColor = "#28a745";
+            } else if (type === "error") {
+                alertBox.style.backgroundColor = "#F95454";
+                alertBox.style.borderColor = "#f5c6cb";
+            }
 
-        alertBox.style.display = "block";
-        alertBox.classList.remove("hide");
-
-        setTimeout(() => {
-            alertBox.classList.add("hide");
+            alertBox.style.display = "block";
+            alertBox.classList.remove("hide");
 
             setTimeout(() => {
-                alertBox.style.display = "none";
-                if (type === "success") {
-                    window.location.href = "{{ url_for('signin') }}"; 
-                }
-            }, 570); 
-        }, 1000);
-    }
+                alertBox.classList.add("hide");
 
-    if (successMessage) {
-        showAlert(successMessage, "success");
-    } else if (errorMessage) {
-        showAlert(errorMessage, "error");
-    }
-</script>
+                setTimeout(() => {
+                    alertBox.style.display = "none";
+                    if (type === "success") {
+                        window.location.href = "{{ url_for('signin') }}";
+                    }
+                }, 570);
+            }, 1000);
+        }
+
+        if (successMessage) {
+            showAlert(successMessage, "success");
+        } else if (errorMessage) {
+            showAlert(errorMessage, "error");
+        }
+    </script>
 </body>
 
 </html>
