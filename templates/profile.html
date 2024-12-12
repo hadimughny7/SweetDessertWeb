@@ -66,51 +66,52 @@
         <span id="alert-message"></span>
     </div>
     <div class="container">
+    <section class="profile-container">
+        <aside class="sidebar">
+            <div class="profile-wrapper">
+                <div class="clip"><img src="/static/clip.png" alt=""></div>
+                <div class="profile-title">
+                    <li class=""><a href="#">Home</a></li>
+                    <li class=""><a href="#">/</a></li>
+                    <li class=""><a href="#">My Account</a></li>
+                </div>
+            </div>
+        </aside>
 
-        <section class="profile-container">
-            <aside class="sidebar">
-                <div class="profile-wrapper">
-
-                    <div class="clip"><img src="/static/clip.png" alt=""></div>
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="#">My Account</a></li>
-                 </div>
-           </aside>
-        </section>
-        
+        <div class="d-flex justify-content-end w-100">
             <div class="profile-form">
                 <div class="profile-desc">
                     <h3>Manage My Account</h3>
-                     <p>My Profile</p>
+                    <p>My Profile</p>
                 </div>
                 <form class="form" action="{{ url_for('update_profile') }}" method="POST">
                     <h2>Edit Your Profile</h2>
                     <div class="row g-3">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <label class="form-label">Name</label>
-                            <input type="text" name="username" class="form-control" value="{{ user['username'] }}"  >
-                          </div>
-                   
+                            <input type="text" name="username" class="form-control" value="{{ user['username'] }}">
+                        </div>
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <label for="inputEmail4" class="form-label">Email</label>
-                            <input type="email"  name="email" class="form-control" id="inputEmail" value="{{ user['email'] }}" placeholder="Email">
-                          </div>
+                            <input type="email" name="email" class="form-control" id="inputEmail" value="{{ user['email'] }}" placeholder="Email">
+                        </div>
 
-                          <h3>Password Changes</h3>
-                          <div class="col-md-8">
-                              <input type="password" name="password" class="form-control" id="inputPassword"  value="{{ user['password'] }}" placeholder="Current Password">
-                          </div>
-                      </div>
+                        <h3>Password Changes</h3>
+                        <div class="col-md-8">
+                            <input type="password" name="password" class="form-control" id="inputPassword" value="{{ user['password'] }}" placeholder="Current Password">
+                        </div>
+                    </div>
                     <div class="form-buttons">
-                        <button type="reset" class="cancel">Cancel</button>
                         <button type="submit" class="save">Save Changes</button>
                     </div>
                 </form>
             </div>
-     
-    </div>
+        </div>
+    </section>
+</div>
+
      <script>
     const successMessage = {{ success_message|default('')|tojson }};
     const errorMessage = {{ error_message|default('')|tojson }};

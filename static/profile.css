@@ -76,7 +76,7 @@ header {
 }
 
 .profile-container {
-  border: 1px solid black;
+
   width: 1200px;
 }
 
@@ -84,13 +84,40 @@ header {
   display: flex;
   text-decoration: none;
   list-style: none;
+  align-items: center;
+
 }
 
-.profile-desc a{
-    text-decoration: none;
-    list-style: none;
+
+.profile-wrapper a{
+  color: #FBA1B7;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-family-main);
+  margin-left: 5px;
 }
 
+.profile-title{
+  display: flex;
+  margin-left: 15px;
+}
+
+
+.profile-desc h3{
+  color: #000000;
+  font-size: 16px;
+  font-family: var(--font-family-main);
+  font-weight: 500;
+}
+
+.profile-desc p{
+  color:#fba1b7;
+  font-family: var(--font-family-main);
+  font-size: 16px;
+  font-weight:400;
+  margin-left: 40px;
+}
 
 .sidebar h3 {
   font-size: 16px;
@@ -112,10 +139,11 @@ header {
 .profile-form {
   background: #fff;
   border-radius: 10px;
-
+  margin-top: 45px;
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
+
 }
 .profile-desc {
   width: 700px;
@@ -128,6 +156,7 @@ header {
   font-size: 20px;
   display: flex;
   flex-direction: column;
+  max-width: 400px;
 }
 
 .form {
@@ -136,11 +165,14 @@ header {
   display: flex;
   padding: 20px;
   border: 1px solid black;
+  margin-left: 350px;
 }
 
 .row {
   margin-bottom: 14px;
 }
+
+
 
 .row h3 {
   font-size: 16px;
