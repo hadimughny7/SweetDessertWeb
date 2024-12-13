@@ -19,6 +19,7 @@
                     
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ url_for('admin') }}" id="nav-text">Admin</a>
+                        <a class="nav-link active" href="{{ url_for('admin_invoices') }}" id="nav-text">Invoices</a>
                     </li>
                 </ul>
             </div>
@@ -41,13 +42,13 @@
         <tbody>
             {% for invoice in invoices %}
             <tr>
-                <td>{{ invoice.name }}</td>
+                <td class="name">{{ invoice.name }}</td>
                 <td>{{ invoice.table_number }}</td>
                 <td>{{ invoice.phone_number }}</td>
-                <td>{{ invoice.email_address }}</td>
+                <td class="email">{{ invoice.email_address }}</td>
                 <td>{{ invoice.product_name }}</td>
                 <td>{{ invoice.quantity }}</td>
-                <td>Rp. {{ invoice.total_price }}</td>
+                <td class="total">Rp. {{ invoice.total_price }}</td>
             </tr>
             {% endfor %}
         </tbody>

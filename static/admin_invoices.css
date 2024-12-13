@@ -25,8 +25,7 @@ body {
     font-family: var(--font-family-main);
 }
 
-/* Navbar */
-.navbar {
+ .navbar {
     position: fixed;
     top: 15px;
     left: 0;
@@ -45,25 +44,27 @@ body {
 .logo-top {
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* Semua elemen diratakan ke kiri */
+    gap: 20px; /* Memberikan jarak antara logo dan menu */
     width: 100%;
 }
 
 .navbar-nav {
     display: flex;
-    flex-direction: row; /* Mengatur elemen ul menjadi horizontal */
+    flex-direction: row; /* Elemen ul tetap horizontal */
     list-style: none; /* Menghapus bullet point */
     padding: 0;
     margin: 0;
+    gap: 15px; /* Jarak antar elemen dalam menu */
 }
 
 .nav-link {
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
-    color: #808080;;
+    color: #808080 !important;
     padding: 5px 10px;
 }
-
 
 #nav-avatar {
     width: 71px;
@@ -163,4 +164,16 @@ th:first-child {
 td:last-child,
 th:last-child {
     width: 150px;
+}
+
+.name{
+    text-align: left;
+}
+
+.email{
+    text-align: left;
+}
+
+.total{
+    text-align: left;
 }
