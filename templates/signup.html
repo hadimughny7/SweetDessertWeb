@@ -27,20 +27,24 @@
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
-                <ul class="navbar-nav ms-auto gap-1">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}" id="nav-text">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#About" id="nav-text">Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#portofolio" id="nav-text">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#Contact" id="nav-text">Contact</a>
-                    </li>
-                </ul>
+             <ul class="navbar-nav ms-auto gap-1 menu">
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}" 
+           href="{{ url_for('home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}" 
+           href="{{ url_for('product') }}">Product</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}" 
+           href="{{ url_for('about') }}">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}" 
+           href="{{ url_for('contact') }}">Contact</a>
+    </li>
+</ul>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

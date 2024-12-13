@@ -60,7 +60,7 @@ def login_required(f):
 @app.route('/')
 def home():
     if 'user' in session:
-        return render_template('index.html', user=session['user'])
+        return render_template('index.html', user=session['user'] ,current_page='home')
     return redirect(url_for('signin'))
 
 @app.route('/signin', methods=['GET', 'POST'])
@@ -82,7 +82,7 @@ def signin():
             error_message = 'Invalid email or password.'  # Pesan error
             return render_template('login.html', error_message=error_message)
 
-    return render_template('login.html')
+    return render_template('login.html',current_page='signin')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -106,7 +106,7 @@ def signup():
             # Jika berhasil, tampilkan pesan sukses dan tetap di halaman signup
             return render_template('signup.html', success_message='Account successfully created!')
     
-    return render_template('signup.html')
+    return render_template('signup.html', current_page='signup')
 
 
 @app.route('/logout')
@@ -154,7 +154,7 @@ def admin():
 
         # GET: Tampilkan halaman admin
         products = list(products_collection.find())
-        return render_template('admin.html', products=products)
+        return render_template('admin.html', products=products, current_page='admin')
 
     return render_template('index.html', error_message='Access denied. Admins only.')
 
@@ -164,7 +164,7 @@ def admin():
 @login_required
 def product():
     products = list(products_collection.find())
-    return render_template("product.html", products=products)
+    return render_template("product.html", products=products,current_page='product')
 
 # Rute halaman detail produk
 @app.route("/product/<product_id>")
@@ -174,7 +174,7 @@ def product_detail(product_id):
         product = products_collection.find_one({"_id": ObjectId(product_id)})
         if not product:
             abort(404)
-        return render_template('product_detail.html', product=product)
+        return render_template('product_detail.html', product=product ,current_page='product_detail')
     except Exception as e:
         print(f"Error occurred: {e}")
         abort(404)
@@ -241,10 +241,10 @@ def update_product(product_id):
 @login_required
 def profile():
     user_email = session.get('user_email')
-    user = users_collection.find_one({"email": user_email})
+    user = users_collection.find_one({"email": user_email}, )
     print(user)  # Tambahkan log untuk memeriksa apakah user ditemukan
     if user:
-        return render_template("profile.html", user=user)
+        return render_template("profile.html", user=user, current_page='profile')
     else:
         # Menangani jika user tidak ditemukan
         return "User not found"
@@ -289,11 +289,11 @@ def update_profile():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", current_page='about')
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
+    return render_template("contact.html", current_page='contact')
 
 from bson import ObjectId
 
@@ -342,7 +342,7 @@ def cart():
             item['subtotal_price'] = subtotal_price
             products.append(item)
     
-    return render_template('cart.html', products=products, total_price=total_price)
+    return render_template('cart.html', products=products, total_price=total_price, current_page='cart')
 
 
 
@@ -435,7 +435,7 @@ def checkout():
     subtotal_price = int(product['price']) * quantity
     total_price = subtotal_price
 
-    return render_template('checkout.html', product=product, quantity=quantity, total_price=total_price, subtotal_price=subtotal_price)
+    return render_template('checkout.html', product=product, quantity=quantity, total_price=total_price, subtotal_price=subtotal_price, current_page='checkout')
 
 @app.route('/invoice', methods=['POST'])
 def invoice():
@@ -474,7 +474,8 @@ def invoice():
         product_name=product_name,
         quantity=quantity,
         subtotal_price=subtotal_price,
-        total_price=total_price
+        total_price=total_price,
+        current_page='invoice'
     )
 
 @app.route('/admin/invoices')
@@ -482,7 +483,7 @@ def invoice():
 def admin_invoices():
     if 'role' in session and session['role'] == 'admin':
         invoices = list(invoices_collection.find())
-        return render_template('admin_invoices.html', invoices=invoices)
+        return render_template('admin_invoices.html', invoices=invoices, current_page='admin_invoices')
     return render_template('index.html', error_message='Access denied. Admins only.')
 
 if __name__ == "__main__":

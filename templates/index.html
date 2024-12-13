@@ -7,12 +7,13 @@
     <title>Sweet Dessert</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit" />
 
 </head>
 </head>
@@ -23,29 +24,30 @@
         crossorigin="anonymous"></script>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
-                <ul class="navbar-nav ms-auto gap-1">
+                <ul class="navbar-nav ms-auto gap-1 menu">
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}" 
+           href="{{ url_for('home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}" 
+           href="{{ url_for('product') }}">Product</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}" 
+           href="{{ url_for('about') }}">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}" 
+           href="{{ url_for('contact') }}">Contact</a>
+    </li>
+</ul>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
-                            id="nav-text">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
-                            id="nav-text">Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
-                            id="nav-text">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
-                            id="nav-text">Contact</a>
-                    </li>
-                </ul>
+
             </div>
 
 
@@ -57,17 +59,29 @@
                     </li>
 
 
-                    <li class="nav-item dropdown">
-                        <!-- Profile dengan hover untuk dropdown -->
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/static/profile.png" alt="Profile">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-                        </ul>
-                    </li>
+                    <li class="nav-item dropdown" 
+    onmouseover="this.classList.add('show'); this.querySelector('.dropdown-menu').classList.add('show');"
+    onmouseout="this.classList.remove('show'); this.querySelector('.dropdown-menu').classList.remove('show');">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
+        <img src="/static/profile.png" alt="Profile">
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+    <a class="dropdown-item" href="{{ url_for('profile') }}">
+        <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+        Edit Profile
+    </a>
+</li>
+<li>
+    <a class="dropdown-item" href="{{ url_for('logout') }}">
+        <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+        Logout
+    </a>
+</li>
+
+    </ul>
+</li>
+
 
                 </ul>
             </div>

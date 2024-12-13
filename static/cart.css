@@ -49,6 +49,62 @@
     align-items: center;
   }
   
+.menu a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+      font-family: var(--font-family-main);
+  font-size: 14px;
+  font-weight: bold;
+  color: #808080;
+    
+    padding: 8px 16px; /* Sesuaikan padding */
+    transition: color 0.3s ease; /* Opsional: transisi warna */
+}
+
+/* Pseudo-elemen untuk garis bawah */
+.menu a::before {
+    content: "";
+    width: 50%; /* Lebar garis diatur menjadi 50% */
+    height: 3px;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%; /* Posisikan garis di tengah */
+    bottom: 0;
+    background: #FBA1B7; /* Warna garis */
+    transform: scale3d(0, 1, 1); /* Garis awal dengan lebar 0 */
+    transform-origin: 50% 50%; /* Mulai dari tengah */
+    transition: transform 0.5s ease; /* Transisi animasi */
+    margin-left: -25%; 
+}
+
+.menu .current-page {
+    color: #000; /* Ubah warna teks menjadi hitam saat aktif */
+}
+
+/* Efek hover */
+.menu a:hover::before {
+    transform: scale3d(1, 1, 1); /* Perluas garis ke ukuran yang ditentukan (50%) */
+    color: #000000;
+}
+
+/* Garis tetap muncul pada halaman aktif */
+.menu .current-page::before {
+    transform: scale3d(1, 1, 1); /* Perluas garis ke ukuran penuh */
+    color: #000000;
+    
+}
+
+a.dropdown-item:hover .edit-icon {
+    content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
+}
+
+/* Mengganti gambar menjadi logout-red.png ketika link "Logout" di-hover */
+a.dropdown-item:hover .logout-icon {
+    content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
+}
+
+
   * {
     margin: 0;
     padding: 0;

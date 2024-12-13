@@ -24,24 +24,24 @@
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
-                <ul class="navbar-nav ms-auto gap-1">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
-                            id="nav-text">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
-                            id="nav-text">Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
-                            id="nav-text">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
-                            id="nav-text">Contact</a>
-                    </li>
-                </ul>
+            <ul class="navbar-nav ms-auto gap-1 menu">
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}" 
+           href="{{ url_for('home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}" 
+           href="{{ url_for('product') }}">Product</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}" 
+           href="{{ url_for('about') }}">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}" 
+           href="{{ url_for('contact') }}">Contact</a>
+    </li>
+</ul>
             </div>
 
 
@@ -51,17 +51,27 @@
                     <li class="nav-item">
                         <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <!-- Profile dengan hover untuk dropdown -->
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/static/profile.png" alt="Profile">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-                        </ul>
-                    </li>
+                   
+                
+                    <li class="nav-item dropdown" 
+    onmouseover="this.classList.add('show'); this.querySelector('.dropdown-menu').classList.add('show');"
+    onmouseout="this.classList.remove('show'); this.querySelector('.dropdown-menu').classList.remove('show');">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
+        <img src="/static/profile.png" alt="Profile">
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <li>
+    <a class="dropdown-item" href="{{ url_for('profile') }}">
+        <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+        Edit Profile
+    </a>
+</li>
+<li>
+    <a class="dropdown-item" href="{{ url_for('logout') }}">
+        <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+        Logout
+    </a>
+</li>
                 </ul>
             </div>
     </nav>
