@@ -121,12 +121,16 @@ body {
 
 
 /* Tabel */
-h1 {
-    text-align: center;
+.section-title {
+    text-align: left;
+    font-size: 20px;
+    color: #FBA1B7;
+    display: flex;
+    gap: 15px;
     margin-top: 120px; /* Tambahkan jarak untuk navbar */
-    font-size: 2.5rem;
-    color: var(--color-text-dark);
+    margin-left: 94px;
 }
+
 
 table {
     width: 78%;
@@ -177,3 +181,5 @@ th:last-child {
 .total{
     text-align: left;
 }
+
+

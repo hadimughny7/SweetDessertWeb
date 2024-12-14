@@ -57,11 +57,21 @@ def login_required(f):
 
 
 
+
 @app.route('/')
 def home():
+    # Mengambil hanya 4 produk dari koleksi 'products'
+    products = products_collection.find().limit(4)  # Menambahkan limit(4) untuk mengambil 4 produk pertama
+
     if 'user' in session:
-        return render_template('index.html', user=session['user'] ,current_page='home')
+        # Menampilkan halaman utama dengan data produk dan informasi user
+        return render_template('index.html', user=session['user'], current_page='home', products=products)
+    
+    # Jika user belum login, arahkan ke halaman login
     return redirect(url_for('signin'))
+
+
+
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():

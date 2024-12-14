@@ -108,6 +108,9 @@ a.dropdown-item:active, a.dropdown-item:focus {
 }
 
 
+a.dropdown-item:hover .dashboard-icon {
+    content: url('/static/dashboard_red.png'); /* Gambar merah untuk Edit */
+}
 a.dropdown-item:hover .edit-icon {
     content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
 }
@@ -255,7 +258,7 @@ h1 {
 }
 
 .product-card {
-  transition: transform 0.2s;
+
   background-color: #fff;
   width: 270px;
   height: 322px;
@@ -268,9 +271,6 @@ h1 {
 
 }
 
-.product-card:hover {
-  transform: scale(1.05);
-}
 
 .product-card p{
   text-align: left;
@@ -278,16 +278,31 @@ h1 {
   font-weight: 450;
   width: 100%;
   margin-left: 3px;
+ 
 }
+
 
 .product-title{
   color: black;
+  margin-top: 5px
 }
 
 .product-price{
   color: #FBA1B7;
-  margin-top: 5px;
 }
+
+#logo-cart {
+    position: absolute;
+    right: 15px;
+    bottom: 23px;
+    max-width: 40px;
+    height: auto;
+    transform: none;
+    background-color: transparent;
+
+    color: black;
+}
+
 
 .product-card img {
   border-radius: 10px;
@@ -296,6 +311,11 @@ h1 {
   object-fit: cover; 
   border-radius: 10;
   cursor: pointer;
+   transition: transform 0.2s;
+}
+
+.product-card img:hover{
+  transform: scale(1.05);
 }
 
 footer {

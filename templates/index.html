@@ -66,12 +66,20 @@
         <img src="/static/profile.png" alt="Profile">
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-      <li>
-    <a class="dropdown-item" href="{{ url_for('profile') }}">
-        <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-        Edit Profile
-    </a>
-</li>
+                {% if session['role'] == 'admin' %}
+        <li>
+            <a class="dropdown-item" href="{{ url_for('admin') }}">
+                <img src="/static/dashboard.png" alt="" class="dashboard-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                Dashboard
+            </a>
+        </li>
+        {% endif %}
+        <li>
+      <a class="dropdown-item" href="{{ url_for('profile') }}">
+          <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+          Edit Profile
+      </a>
+    </li>
 <li>
     <a class="dropdown-item" href="{{ url_for('logout') }}">
         <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
@@ -168,29 +176,19 @@
     </div>
 
     <div class="container my-1">
-        <div id="product-container gap-5" class="d-flex justify-content-between flex-nowrap">
-            <div class="product-card">
-                <a href=""><img src="static/Group 1.png" alt="Sago Mango"></a>
-                <p class="product-title">Sago Mango</p>
-                <p class="product-price">22k</p>
-            </div>
-            <div class="product-card">
-                <a href=""><img src="static/Group 1.png" alt="Manggo Smoothies"></a>
-                <p class="product-title">Manggo Smoothies</p>
-                <p class="product-price">22k</p>
-            </div>
-            <div class="product-card">
-                <a href=""><img src="static/Group 1.png" alt="Mac & Cheese"></a>
-                <p class="product-title">Mac & Cheese</p>
-                <p class="product-price">22k</p>
-            </div>
-            <div class="product-card">
-                <a href=""><img src="static/Group 1.png" alt="Buko Pandan"></a>
-                <p class="product-title">Buko Pandan</p>
-                <p class="product-price">22k</p>
+        <div id="product-container " class="d-flex justify-content-between flex-nowrap">
+            
+                     {% for product in products %}
+        <div class="product-card ">
+            <a href="{{ url_for('product_detail', product_id=product['_id']) }}">
+                <img src="{{ product.image }}" alt="{{ product['name'] }}">
+            </a>
+                    <p class="product-title">{{ product['name'] }}</p>
+                    <p class="product-price">Rp. {{ product['price'] }}</p>
+        </div>
+    {% endfor %}
             </div>
         </div>
-    </div>
 
     <footer>
         <div class="footer-container">
