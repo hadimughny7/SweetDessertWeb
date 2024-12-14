@@ -184,6 +184,192 @@ table {
     background-color: var(--color-background);
 }
 
+:root {
+    /* Font */
+    --font-family-main: "Poppins", sans-serif;
+
+    /* Colors */
+    --color-primary: #ffd1da;
+    --color-primary-hover: #fbd8df;
+    --color-secondary: #808080;
+    --color-background: #ffffff;
+
+}
+
+
+
+
+:root {
+    /* Font */
+    --font-family-main: "Poppins", sans-serif;
+
+    /* Colors */
+    --color-primary: #ffd1da;
+    --color-primary-hover: #fbd8df;
+    --color-secondary: #808080;
+    --color-background: #ffffff;
+
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #fff;
+}
+.title{
+    color: var(--color-primary);
+    font-family: var(--font-family-main);
+    font-size: 20x;
+    font-weight: bold;
+}
+.sidebar {
+    background-color:var(--color-primary);
+    color: #fff;
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.sidebar .logo h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.sidebar .nav1 {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+}
+
+.sidebar .nav1 li {
+    margin-bottom: 20px;
+}
+
+.sidebar .nav1 a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .header-left h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #333;
+}
+
+header .header-right p {
+    margin: 0;
+    color: #333;
+}
+
+header .theme-toggle {
+    background-color: #7ed321;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.connection {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin-top: 20px;
+}
+
+.device-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.earnings-statistics {
+    margin-top: 40px;
+}
+
+
+.btn-pink {
+    background-color: #fb6f92;
+    color: white;
+    border: none;
+}
+
+.btn-pink:hover {
+    background-color: #fb6f92;
+}
+
+.mt-5{
+    color: #FBA1B7;
+}
+
+thead th {
+    text-align: center; /* Untuk membuat teks berada di tengah secara horizontal */
+    vertical-align: middle; /* Untuk membuat teks berada di tengah secara vertikal */
+    padding: 10px; /* Tambahan opsional untuk memberi ruang di dalam elemen */
+    background-color: #fb6f92; /* Opsional, memberi warna latar belakang */
+    font-weight: bold; /* Opsional, agar teks terlihat lebih menonjol */
+}
+
+tbody td{
+    text-align: center;
+    vertical-align: middle; /* Untuk membuat teks berada di tengah secara vertikal */
+    padding: 10px; /* Tambahan opsional untuk memberi ruang di dalam elemen */
+    background-color: #f2f2f2; /* Opsional, memberi warna latar belakang */
+    width: 50px;
+}
+
+.description{
+    text-align: justify;
+}
+
+.product-image{
+    width: 90px; 
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.btn-pink-tua{
+    background-color: #e42222;
+    color: white;
+    border: none;
+}
+
+.btn-pink-tua:hover{
+    background-color: #e42222;
+}
+
+
+
+
+table {
+    width: 100%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-background);
+}
+
 thead {
     background-color: #fc839b;
     color: white;
@@ -222,8 +408,6 @@ th:last-child {
     text-align: left;
 }
 
-.total{
-    text-align: left;
+.table .no{
+    width: 10px;
 }
-
-

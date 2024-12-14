@@ -496,5 +496,13 @@ def admin_invoices():
         return render_template('admin_invoices.html', invoices=invoices, current_page='admin_invoices')
     return render_template('index.html', error_message='Access denied. Admins only.')
 
+@app.route('/admin/users')
+@login_required
+def users():
+    if 'role' in session and session['role'] == 'admin':
+        users = list(users_collection.find())
+        return render_template('users.html', users=users, current_page='users')
+    return render_template('index.html', error_message='Access denied. Admins only.')
+
 if __name__ == "__main__":
     app.run(debug=True)
