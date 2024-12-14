@@ -93,6 +93,9 @@
     color: #000000;
     
 }
+a.dropdown-item:hover .dashboard-icon {
+    content: url('/static/dashboard_red.png'); /* Gambar merah untuk Edit */
+}
 
 a.dropdown-item:hover .edit-icon {
     content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
