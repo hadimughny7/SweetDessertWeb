@@ -55,7 +55,7 @@
 body {
   background-color: #fff;
   color: #333;
-  height: 150vh;
+  height: auto;
 }
 
 header {
@@ -68,10 +68,10 @@ header {
   position: relative;
   display: inline-block;
   text-decoration: none;
-    font-family: var(--font-family-main);
-font-size: 14px;
-font-weight: bold;
-color: #808080;
+  font-family: var(--font-family-main);
+  font-size: 14px;
+  font-weight: bold;
+  color: #808080;
   
   padding: 8px 16px; /* Sesuaikan padding */
   transition: color 0.3s ease; /* Opsional: transisi warna */
@@ -112,13 +112,12 @@ color: #808080;
 
 .container {
   padding: 0 20px;
-  margin: 0 auto;
+  margin: 170px;
   margin-top: 140px;
   max-width: 1200px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  border: 1px solid black;
 }
 
 .profile-container {
@@ -188,9 +187,8 @@ color: #808080;
   margin-top: 45px;
   display: flex;
   justify-content: space-between;
-  border: 1px solid black;
+  }
 
-}
 .profile-desc {
   width: 700px;
   padding: 0;
@@ -210,8 +208,10 @@ color: #808080;
   width: 100%;
   display: flex;
   padding: 20px;
-  border: 1px solid black;
-  margin-left: 350px;
+  margin-left: 35px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #ffff;
 }
 
 .row {
@@ -251,7 +251,94 @@ button.save {
 }
 
 footer {
-  background-color: pink;
-  color: #fff;
-  padding: 20px 40px;
+  background-color: #FBA1B7;
+  padding: 30px 20px;
+  color: #ffffff;
+  margin-top: 150px;
+  position: relative;
+}
+
+.footer-container {
+  display: flex;
+  max-width: 1000px;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+.footer-left {
+  flex: 1;
+}
+
+.footer-left h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.footer-left p {
+  margin-top: 10px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.social-icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.footer-center {
+  flex: 1;
+  text-align: center;
+}
+
+.footer-center h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.footer-center ul {
+  list-style: none;
+  padding: 0 0 0 92px;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.footer-center li {
+  margin-bottom: 5px;
+}
+
+.footer-center a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.footer-right {
+  flex: 1;
+  text-align: right;
+}
+
+.footer-right h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.footer-copyright {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fafafabc
+}
+
+.social-icons {
+  display: flex;
+  gap: 20px;
 }

@@ -60,7 +60,15 @@
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
       <li>
-    <a class="dropdown-item" href="{{ url_for('profile') }}">
+        {% if session['role'] == 'admin' %}
+        <li>
+            <a class="dropdown-item" href="{{ url_for('admin') }}">
+                <img src="/static/dashboard.png" alt="" class="dashboard-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                Dashboard
+            </a>
+        </li>
+        {% endif %}
+        <a class="dropdown-item" href="{{ url_for('profile') }}">
         <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
         Edit Profile
     </a>
