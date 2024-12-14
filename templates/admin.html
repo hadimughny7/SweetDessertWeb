@@ -22,10 +22,14 @@
             <h1>Sweet Dessert™</h1>
         </div>
         <ul class="nav1">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a class="nav-link active" href="{{ url_for('admin') }}" id="nav-text">Products</a></li>
-            <li><a class="nav-link active" href="{{ url_for('admin_invoices') }}" id="nav-text">Invoices</a></li>
-            <li><a class="nav-link active" href="{{ url_for('users') }}" id="nav-text">User</a></li>
+            <li><img src="/static/home.png" alt="" class="edit-icon">
+                <a href="{{ url_for('home') }}">Home</a></li>
+            <li><img src="/static/box.png" alt="" class="edit-icon">
+                <a class="nav-link active" href="{{ url_for('admin') }}" id="nav-text">Products</a></li>
+            <li><img src="/static/struck.png" alt="" class="edit-icon">
+                <a class="nav-link active" href="{{ url_for('admin_invoices') }}" id="nav-text">Invoices</a></li>
+            <li><img src="/static/users.png" alt="" class="edit-icon">
+                <a class="nav-link active" href="{{ url_for('users') }}" id="nav-text">User</a></li>
         </ul>
     </div>
 

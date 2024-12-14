@@ -10,9 +10,6 @@
 
 }
 
-
-
-
 :root {
     /* Font */
     --font-family-main: "Poppins", sans-serif;
@@ -62,6 +59,7 @@ body {
 
 .sidebar .nav1 li {
     margin-bottom: 20px;
+    display: flex;
 }
 
 .sidebar .nav1 a {
@@ -69,6 +67,13 @@ body {
     text-decoration: none;
     font-size: 16px;
     font-weight: 400;
+}
+
+.edit-icon{
+    width: 20px; 
+    height: 20px; 
+    vertical-align: middle; 
+    margin-right: 8px;
 }
 
 .main-content {

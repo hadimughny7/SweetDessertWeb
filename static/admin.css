@@ -40,8 +40,10 @@ body {
     margin-top: 40px;
 }
 
+
 .sidebar .nav1 li {
     margin-bottom: 20px;
+    display: flex;
 }
 
 .sidebar .nav1 a {
@@ -51,35 +53,24 @@ body {
     font-weight: 400;
 }
 
+.edit-icon{
+    width: 20px; 
+    height: 20px; 
+    vertical-align: middle; 
+    margin-right: 8px;
+}
+
+.sidebar li:hover{
+    outline: none;         /* Menghilangkan outline (garis tepi saat fokus) */
+    color: inherit;        /* Menjaga warna teks tetap sama */
+    text-decoration: none;
+    background-color: #f8f9fa; /* Menghilangkan underline jika ada */
+}
+
 .main-content {
     flex: 1;
     padding: 30px;
     border: 1px solid black;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header .header-left h2 {
-    margin: 0;
-    font-size: 28px;
-    color: #333;
-}
-
-header .header-right p {
-    margin: 0;
-    color: #333;
-}
-
-header .theme-toggle {
-    background-color: #7ed321;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    cursor: pointer;
 }
 
 
