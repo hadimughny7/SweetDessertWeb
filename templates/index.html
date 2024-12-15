@@ -113,7 +113,7 @@
                     satisfy your sweet cravings at affordable prices. Enjoy the taste of happiness with every bite at
                     Sweet Dessert Shop.
                 </p>
-                <button class="btn btn-primary">Pick your dessert -></button>
+                <a href="{{ url_for('product') }}"><button class="btn btn-primary">Pick your dessert -></button></a>
             </div>
 
             <div class="col">
@@ -137,28 +137,40 @@
     <div class="container my-5">
         <div id="menu-container" class="d-flex justify-content-between flex-nowrap">
             <div class="menu-card">
-                <img src="static/Group 1.png" alt="Millecrepe">
-                <p>Millecrepe</p>
+                <a href="{{ url_for('products_by_category', category='milecrepe') }}">
+                <img src="static/Group 1.png" alt="milecrepe">
+                    <p>Millecrepe</p>
+                </a>
             </div>
             <div class="menu-card">
-                <img src="static/Group 1.png" alt="Pasta Menu">
-                <p>Pasta Menu</p>
+                <a href="{{ url_for('products_by_category', category='pasta_menu') }}">
+                    <img src="static/Group 1.png" alt="pasta_menu">
+                    <p>Pasta Menu</p>
+                </a>
             </div>
             <div class="menu-card">
-                <img src="static/Group 1.png" alt="Patisserie">
-                <p>Patisserie</p>
+                <a href="{{ url_for('products_by_category', category='patisserie') }}">
+                    <img src="static/Group 1.png" alt="patisserie">
+                    <p>Patisserie</p>
+                </a>
             </div>
             <div class="menu-card">
-                <img src="static/Group 1.png" alt="Dessert">
-                <p>Dessert</p>
+                <a href="{{ url_for('products_by_category', category='dessert') }}">
+                    <img src="static/Group 1.png" alt="dessert">
+                    <p>Dessert</p>
+                </a>
             </div>
             <div class="menu-card">
-                <img src="static/Group 1.png" alt="Dessert Cake">
-                <p>Dessert Cake</p>
+                <a href="{{ url_for('products_by_category', category='dessert_cake') }}">
+                    <img src="static/Group 1.png" alt="dessert_cake	">
+                    <p>Pasta Menu</p>
+                </a>
             </div>
             <div class="menu-card">
-                <img src="static/Group 1.png" alt="Drinks">
-                <p>Drinks</p>
+                <a href="{{ url_for('products_by_category', category='drinks') }}">
+                    <img src="static/Group 1.png" alt="drinks">
+                    <p>Drinks</p>
+                </a>
             </div>
         </div>
     </div>

@@ -189,6 +189,17 @@ def product_detail(product_id):
         print(f"Error occurred: {e}")
         abort(404)
 
+@app.route('/products/<category>', methods=['GET'])
+@login_required
+def products_by_category(category):
+    print("Kategori yang dipilih:", category)  # Debug kategori dari URL
+    products = list(products_collection.find({"category": category}))
+    print("Produk ditemukan:", products)  # Debug hasil query
+    return render_template('category.html', products=products, category=category)
+
+
+
+
 # Rute untuk menghapus produk
 @app.route('/admin/delete/<string:product_id>', methods=['POST'])
 @login_required

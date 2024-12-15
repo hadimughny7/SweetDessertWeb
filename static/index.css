@@ -245,11 +245,16 @@ h1 {
   transform: scale(1.05);
 }
 
-.menu-card p{
-  text-align: center;
-  font-size: 16px;
-  font-weight: 400;
+.menu-card a p {
+  color: #000000; 
+  text-decoration: none; 
+  pointer-events: none; 
 }
+
+.menu-card a {
+  text-decoration: none; 
+}
+
 
 #product-container{
   display: flex;
