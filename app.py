@@ -414,23 +414,6 @@ def add_to_cart():
 
 
 
-@app.route('/update_cart', methods=['POST'])
-def update_cart():
-    data = request.get_json()  # Get JSON data from the request
-    product_id = data.get('product_id')
-    quantity = data.get('quantity')
-
-    if not product_id or not quantity:
-        return jsonify({'message': 'Product ID and quantity are required!'}), 400
-
-    # Update the product quantity in the "cart" (for simplicity, it's just a list)
-    for product in products:
-        if str(product['_id']) == product_id:
-            product['quantity'] = int(quantity)
-            break
-
-    return jsonify({'message': 'Cart updated successfully!'}), 200
-
 @login_required
 @app.route('/checkout', methods=["GET", "POST"])
 def checkout():
@@ -514,6 +497,53 @@ def users():
         users = list(users_collection.find())
         return render_template('users.html', users=users, current_page='users')
     return render_template('index.html', error_message='Access denied. Admins only.')
+
+
+@app.route('/update_cart', methods=['POST'])
+@login_required
+def update_cart():
+    data = request.get_json()  # Dapatkan data JSON dari request
+    product_id = data.get('product_id')
+    quantity = data.get('quantity')
+
+    # Validasi apakah product_id dan quantity ada
+    if not product_id or quantity is None:
+        return jsonify({'message': 'Product ID and quantity are required!'}), 400
+
+    # Konversi product_id menjadi ObjectId
+    try:
+        product_id = ObjectId(product_id)
+    except Exception as e:
+        return jsonify({'message': 'Invalid product ID!'}), 400
+
+    # Ambil cart berdasarkan email pengguna
+    user_email = session['user_email']
+    cart_data = cart_collection.find_one({'user_email': user_email})
+
+    if not cart_data:
+        return jsonify({'message': 'Cart not found!'}), 404
+
+    cart = cart_data.get('cart', [])
+    product_found = False
+
+    # Cek apakah produk ada dalam keranjang dan perbarui quantity
+    for item in cart:
+        if item['product_id'] == product_id:
+            item['quantity'] = int(quantity)
+            product_found = True
+            break
+
+    if not product_found:
+        return jsonify({'message': 'Product not found in cart!'}), 404
+
+    # Simpan perubahan cart ke database
+    cart_collection.update_one(
+        {'user_email': user_email},
+        {'$set': {'cart': cart}}
+    )
+
+    return jsonify({'message': 'Cart updated successfully!'}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)

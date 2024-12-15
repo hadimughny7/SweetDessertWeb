@@ -65,33 +65,30 @@
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
         <img src="/static/profile.png" alt="Profile">
     </a>
-    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% if session['role'] == 'admin' %}
-        <li>
-            <a class="dropdown-item" href="{{ url_for('admin') }}">
-                <img src="/static/dashboard.png" alt="" class="dashboard-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-                Dashboard
-            </a>
-        </li>
-        {% endif %}
-        <li>
-      <a class="dropdown-item" href="{{ url_for('profile') }}">
-          <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-          Edit Profile
-      </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10%;">
+    {% if session['role'] == 'admin' %}
+    <li>
+        <a class="dropdown-item" href="{{ url_for('admin') }}">
+            <img src="/static/dashboard.png" alt="" class="dashboard-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+            Dashboard
+        </a>
     </li>
-<li>
-    <a class="dropdown-item" href="{{ url_for('logout') }}">
-        <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-        Logout
-    </a>
-</li>
+    {% endif %}
+    <li>
+        <a class="dropdown-item" href="{{ url_for('profile') }}">
+            <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+            Edit Profile
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="{{ url_for('logout') }}">
+            <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+            Logout
+        </a>
+    </li>
+</ul>
 
-    </ul>
-</li>
 
-
-                </ul>
             </div>
 
             <div id="custom-alert" class="custom-alert" style="display:none;">
