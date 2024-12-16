@@ -107,10 +107,12 @@
                         <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="Enter your email" required>
                     </div>
                     <!-- Hidden inputs for the product details -->
-                    <input type="hidden" name="product_name" value="{{ product.name }}">
-                    <input type="hidden" name="quantity" value="{{ quantity }}">
-                    <input type="hidden" name="subtotal_price" value="{{ subtotal_price }}">
-                    <input type="hidden" name="total_price" value="{{ total_price }}">
+                    {% for item in order['order_details'] %}
+                    <input type="hidden" name="product_name" value="{{ item['product_name'] }}">
+                    <input type="hidden" name="quantity" value="{{ item['quantity'] }}">
+                    <input type="hidden" name="subtotal_price" value="{{ item['subtotal_price'] }}">
+                    {% endfor %}
+                    <input type="hidden" name="total_price" value="{{ order['total_price'] }}">
                 </form>
             </div>
 
@@ -118,16 +120,18 @@
             <div class="col col-md-4">
                 <div class="p-2 rounded">
                     <ul class="list-unstyled mb-4">
+                        {% for item in order['order_details'] %}
                         <li class="d-flex justify-content-between">
-                            <span>{{ product.name }}</span>
-                            <span class="text-center">{{ quantity }}</span>
-                            <span>Rp. {{ subtotal_price }}</span>
+                            <span>{{ item['product_name'] }}</span>
+                            <span class="text-center">{{ item['quantity'] }}</span>
+                            <span>Rp. {{ item['subtotal_price'] }}</span>
                         </li>
+                        {% endfor %}
                     </ul>
                     <hr>
                     <div class="d-flex justify-content-between mb-3">
                         <strong>Total:</strong>
-                        <strong>Rp. {{ total_price }}</strong>
+                        <strong>Rp. {{ order['total_price'] }}</strong>
                     </div>
                     <div class="mb-3">
                         <label class="d-block">Payment Method</label>

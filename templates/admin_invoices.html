@@ -44,30 +44,37 @@
 </div>
 <table>
     <thead>
-            <tr>
-                <th>Name</th>
-                <th>Table Number</th>
-                <th>Phone Number</th>
-                <th>Email</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for invoice in invoices %}
-            <tr>
-                <td class="name">{{ invoice.name }}</td>
-                <td>{{ invoice.table_number }}</td>
-                <td>{{ invoice.phone_number }}</td>
-                <td class="email">{{ invoice.email_address }}</td>
-                <td>{{ invoice.product_name }}</td>
-                <td>{{ invoice.quantity }}</td>
-                <td class="total">Rp. {{ invoice.total_price }}</td>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Table Number</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td class="name" rowspan="{{ invoice.order_details | length }}">{{ invoice.name }}</td>
+            <td class="tableNumber" rowspan="{{ invoice.order_details | length }}">{{ invoice.table_number }}</td>
+            <td class="phoneNumber" rowspan="{{ invoice.order_details | length }}">{{ invoice.phone_number }}</td>
+            <td rowspan="{{ invoice.order_details | length }}">{{ invoice.email_address }}</td>
+            <!-- Iterasi produk dalam order_details -->
+            {% for product in invoice.order_details %}
+                {% if not loop.first %}<tr>{% endif %}
+                <td >{{ product.product_name }}</td>
+                <td>{{ product.quantity }}</td>
+                {% if loop.first %}
+                <td rowspan="{{ invoice.order_details | length }}">Rp. {{ invoice.total_price }}</td>
+                {% endif %}
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
+        {% endfor %}
+    </tbody>
+</table>
+
     </div>
 </body>
 </html>

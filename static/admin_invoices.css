@@ -45,7 +45,7 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: 150vh;
 }
 
 .sidebar .logo h1 {
@@ -149,12 +149,13 @@ thead th {
     text-align: center; /* Untuk membuat teks berada di tengah secara horizontal */
     vertical-align: middle; /* Untuk membuat teks berada di tengah secara vertikal */
     padding: 10px; /* Tambahan opsional untuk memberi ruang di dalam elemen */
-    background-color: #fb6f92; /* Opsional, memberi warna latar belakang */
+    background-color:#FFCCE1; /* Opsional, memberi warna latar belakang */
     font-weight: bold; /* Opsional, agar teks terlihat lebih menonjol */
+    color: black;
 }
 
 tbody td{
-    text-align: center;
+  
     vertical-align: middle; /* Untuk membuat teks berada di tengah secara vertikal */
     padding: 10px; /* Tambahan opsional untuk memberi ruang di dalam elemen */
     background-color: #f2f2f2; /* Opsional, memberi warna latar belakang */
@@ -223,9 +224,6 @@ th:last-child {
     width: 150px;
 }
 
-.name{
-    text-align: left;
-}
 
 .email{
     text-align: left;
@@ -234,5 +232,6 @@ th:last-child {
 .total{
     text-align: left;
 }
+
 
 

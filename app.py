@@ -4,6 +4,7 @@ from bson import ObjectId
 from werkzeug.utils import secure_filename
 import os
 from bson.errors import InvalidId
+import json
 
 app = Flask(__name__)
 
@@ -367,6 +368,7 @@ def cart():
 
 
 
+
 @app.route('/add_to_cart', methods=['POST'])
 @login_required
 def add_to_cart():
@@ -414,6 +416,85 @@ def add_to_cart():
 
 
 
+@app.route('/update_cart_quantity', methods=['POST'])
+@login_required
+def update_cart_quantity():
+    data = request.get_json()
+    product_id = data.get('product_id')
+    new_quantity = data.get('quantity')
+
+    if not product_id or not isinstance(new_quantity, int) or new_quantity <= 0:
+        return jsonify({'message': 'Invalid product ID or quantity!'}), 400
+
+    # Ambil email pengguna dari sesi
+    user_email = session['user_email']
+
+    # Ambil data cart pengguna dari database
+    cart_data = cart_collection.find_one({'user_email': user_email})
+
+    if not cart_data:
+        return jsonify({'message': 'Cart not found!'}), 404
+
+    cart = cart_data.get('cart', [])
+
+    # Perbarui quantity produk dalam cart
+    for product in cart:
+        if product['product_id'] == product_id:
+            product['quantity'] = new_quantity
+            break
+    else:
+        return jsonify({'message': 'Product not found in cart!'}), 404
+
+    # Simpan perubahan ke database
+    cart_collection.update_one(
+        {'user_email': user_email},
+        {'$set': {'cart': cart}}
+    )
+
+    return jsonify({'message': 'Quantity updated successfully!'}), 200
+
+@app.route('/get_cart', methods=['GET'])
+@login_required
+def get_cart():
+    if 'user_email' not in session:
+        return jsonify({"error": "User not logged in"}), 400  # Tangani jika user_email tidak ada dalam session
+     
+    user_email = session['user_email']
+    cart_data = cart_collection.find_one({'user_email': user_email}, {'_id': 0, 'cart': 1})
+    if cart_data and 'cart' in cart_data:
+        return jsonify(cart_data['cart']), 200  # Kembalikan cart jika ada
+    return jsonify([]), 200  # Jika cart tidak ada, kembalikan array kosong
+
+
+# Route untuk menghapus item dari keranjang
+@app.route('/remove_from_cart', methods=['POST'])
+@login_required
+def remove_from_cart():
+    data = request.get_json()
+    product_id = data.get('product_id')
+
+    if not product_id:
+        return jsonify({'message': 'Product ID is required!'}), 400
+
+    user_email = session['user_email']
+    cart_data = cart_collection.find_one({'user_email': user_email})
+
+    if not cart_data:
+        return jsonify({'message': 'Cart not found!'}), 404
+
+    # Hapus item dari keranjang
+    cart = cart_data.get('cart', [])
+    updated_cart = [item for item in cart if item['product_id'] != product_id]
+
+    # Update keranjang di database
+    cart_collection.update_one(
+        {'user_email': user_email},
+        {'$set': {'cart': updated_cart}}
+    )
+
+    return jsonify({'message': 'Product removed from cart successfully!'}), 200
+
+
 @login_required
 @app.route('/checkout', methods=["GET", "POST"])
 def checkout():
@@ -441,17 +522,89 @@ def checkout():
 
     return render_template('checkout.html', product=product, quantity=quantity, total_price=total_price, subtotal_price=subtotal_price, current_page='checkout')
 
+@app.route('/checkout_cart', methods=['GET', 'POST'])
+@login_required
+def checkout_cart():
+    user_email = session.get('user_email')
+    if not user_email:
+        return redirect(url_for('signin'))  # Redirect if not logged in
+    
+    # Get cart data based on the user's email
+    cart_data = cart_collection.find_one({'user_email': user_email})
+    
+    if not cart_data or not cart_data.get('cart'):
+        return render_template('cart_empty.html')  # Show empty cart page if no cart items
+    
+    cart = cart_data.get('cart', [])
+    total_price = 0
+    order_details = []
+
+    # Loop through each item in the cart to fetch product details and calculate the total
+    for item in cart:
+        product_id = item.get('product_id')
+        product = products_collection.find_one({'_id': ObjectId(product_id)})
+        if product:
+            price = int(product['price'])
+            quantity = int(item.get('quantity', 1))
+            subtotal_price = price * quantity
+            total_price += subtotal_price
+
+            # Prepare order details for this item
+            order_details.append({
+                'product_name': product['name'],
+                'quantity': quantity,
+                'price': price,
+                'subtotal_price': subtotal_price
+            })
+    
+    # Prepare the order object
+    order = {
+        'user_email': user_email,
+        'total_price': total_price,
+        'order_details': order_details  # List of products in the cart
+    }
+
+    # Handle POST request (when user clicks "Place Order")
+    if request.method == 'POST':
+        payment_method = request.form.get('paymentMethod')
+        # Perform additional actions like saving the order to the database or processing payment
+        return render_template('checkout_cart.html', cart=cart, total_price=total_price, payment_method=payment_method, order=order, current_page='checkout_cart')
+
+    # For GET request (default behavior)
+    return render_template('checkout_cart.html', cart=cart, total_price=total_price, order=order, current_page='checkout_cart')
+
+
+
 @app.route('/invoice', methods=['POST'])
 def invoice():
+    # Mengambil data dari form
     name = request.form.get('name')
     table_number = request.form.get('tableNumber')
     phone_number = request.form.get('phoneNumber')
     email_address = request.form.get('emailAddress')
     payment_method = request.form.get('paymentMethod')
-    product_name = request.form.get('product_name')
-    quantity = int(request.form.get('quantity', 1))
-    subtotal_price = int(request.form.get('subtotal_price', 0))
-    total_price = int(request.form.get('total_price', 0))
+
+    # Ambil semua produk yang dipesan
+    product_names = request.form.getlist('product_name')
+    quantities = request.form.getlist('quantity')
+    subtotal_prices = request.form.getlist('subtotal_price')
+    
+    # Menghitung total harga
+    order_details = []
+    total_price = 0
+    
+    for i in range(len(product_names)):
+        product_name = product_names[i]
+        quantity = int(quantities[i])
+        subtotal_price = int(subtotal_prices[i])
+        
+        order_details.append({
+            'product_name': product_name,
+            'quantity': quantity,
+            'subtotal_price': subtotal_price
+        })
+        
+        total_price += subtotal_price
 
     # Simpan data invoice ke database
     invoice_data = {
@@ -460,11 +613,10 @@ def invoice():
         'phone_number': phone_number,
         'email_address': email_address,
         'payment_method': payment_method,
-        'product_name': product_name,
-        'quantity': quantity,
-        'subtotal_price': subtotal_price,
+        'order_details': order_details,
         'total_price': total_price
     }
+    
     invoices_collection.insert_one(invoice_data)
 
     # Kirim data ke template invoice.html
@@ -475,9 +627,7 @@ def invoice():
         phone_number=phone_number,
         email_address=email_address,
         payment_method=payment_method,
-        product_name=product_name,
-        quantity=quantity,
-        subtotal_price=subtotal_price,
+        order_details=order_details,
         total_price=total_price,
         current_page='invoice'
     )
@@ -490,6 +640,8 @@ def admin_invoices():
         return render_template('admin_invoices.html', invoices=invoices, current_page='admin_invoices')
     return render_template('index.html', error_message='Access denied. Admins only.')
 
+
+
 @app.route('/admin/users')
 @login_required
 def users():
@@ -499,50 +651,8 @@ def users():
     return render_template('index.html', error_message='Access denied. Admins only.')
 
 
-@app.route('/update_cart', methods=['POST'])
-@login_required
-def update_cart():
-    data = request.get_json()  # Dapatkan data JSON dari request
-    product_id = data.get('product_id')
-    quantity = data.get('quantity')
 
-    # Validasi apakah product_id dan quantity ada
-    if not product_id or quantity is None:
-        return jsonify({'message': 'Product ID and quantity are required!'}), 400
 
-    # Konversi product_id menjadi ObjectId
-    try:
-        product_id = ObjectId(product_id)
-    except Exception as e:
-        return jsonify({'message': 'Invalid product ID!'}), 400
-
-    # Ambil cart berdasarkan email pengguna
-    user_email = session['user_email']
-    cart_data = cart_collection.find_one({'user_email': user_email})
-
-    if not cart_data:
-        return jsonify({'message': 'Cart not found!'}), 404
-
-    cart = cart_data.get('cart', [])
-    product_found = False
-
-    # Cek apakah produk ada dalam keranjang dan perbarui quantity
-    for item in cart:
-        if item['product_id'] == product_id:
-            item['quantity'] = int(quantity)
-            product_found = True
-            break
-
-    if not product_found:
-        return jsonify({'message': 'Product not found in cart!'}), 404
-
-    # Simpan perubahan cart ke database
-    cart_collection.update_one(
-        {'user_email': user_email},
-        {'$set': {'cart': cart}}
-    )
-
-    return jsonify({'message': 'Cart updated successfully!'}), 200
 
 
 if __name__ == "__main__":
