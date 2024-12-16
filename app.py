@@ -3,6 +3,8 @@ from pymongo import MongoClient
 from bson import ObjectId
 from werkzeug.utils import secure_filename
 import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 from bson.errors import InvalidId
 import json
 
@@ -14,9 +16,15 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Koneksi MongoDB
-client = MongoClient("mongodb+srv://test:sparta@cluster0.lf8qu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-db = client['sweet_dessert']
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
+
+client = MongoClient(MONGODB_URI)
+db = client[DB_NAME]
+
 products_collection = db['products']
 users_collection = db['users']
 invoices_collection = db['invoices']
