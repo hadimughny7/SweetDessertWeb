@@ -36,7 +36,7 @@
     <div class="main-content">
         <header>
             <div class="header-left">
-                <h2>Admin</h2>
+                <h2>Admin {{ user }}</h2>
             </div>
         </header>
 
@@ -59,10 +59,10 @@
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
                 <select class="form-select" id="category" name="category" required>
-                    <option value="Milecrepe">Milecrepe</option>
-                    <option value="Dessert">Dessert</option>
-                    <option value="Drinks">Drinks</option>
-                    <option value="Patisserie">Patisserie</option>
+                    <option value="milecrepe">Milecrepe</option>
+                    <option value="dessert">Dessert</option>
+                    <option value="drinks">Drinks</option>
+                    <option value="patisserie">Patisserie</option>
                     <option value="pasta_menu">Pasta Menu</option>
                     <option value="dessert_cake">Dessert Cake</option>
                 </select>
@@ -96,8 +96,8 @@
                     <td>
                         <form method="POST" action="/admin/delete/{{ product._id }}" style="display:inline;">
                             <a href="/admin/update/{{ product._id }}" class="btn btn-pink btn-sm">Edit</a>
+                            <button type="submit" class="btn btn-pink-tua btn-sm">Delete</button>
                         </form>
-                        <button type="submit" class="btn btn-pink-tua btn-sm">Delete</button>
                     </td>                    
                 </tr>
                 {% endfor %}

@@ -222,3 +222,35 @@ h5{
   pointer-events: none; /* Nonaktifkan klik pada item aktif */
   text-decoration: none;
 }
+
+.btn-remove {
+  background-color: #ff4d4d; /* Warna merah untuk tombol */
+  color: white; /* Warna teks putih */
+  padding: 8px 10px; /* Jarak dalam tombol */
+  border: none; /* Menghapus border default */
+  border-radius: 4px; /* Membuat sudut tombol melengkung */
+  cursor: pointer; /* Menunjukkan pointer saat hover */
+  font-size: 14px; /* Ukuran font tombol */
+  transition: background-color 0.3s ease; /* Transisi halus untuk perubahan warna */
+}
+
+.btn-remove:hover {
+  background-color: #ff1a1a; /* Warna lebih gelap saat hover */
+}
+
+.btn-remove:focus {
+  outline: none; /* Menghilangkan outline ketika tombol difokuskan */
+}
+
+
+a.dropdown-item:hover .dashboard-icon {
+  content: url('/static/dashboard-red.png'); /* Gambar merah untuk Edit */
+}
+a.dropdown-item:hover .edit-icon {
+  content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
+}
+
+/* Mengganti gambar menjadi logout-red.png ketika link "Logout" di-hover */
+a.dropdown-item:hover .logout-icon {
+  content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
+}

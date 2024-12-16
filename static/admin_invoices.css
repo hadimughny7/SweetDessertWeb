@@ -37,10 +37,11 @@ body {
     font-family: var(--font-family-main);
     font-size: 20x;
     font-weight: bold;
+    margin-top: 50px;
 }
 .sidebar {
     background-color:var(--color-primary);
-    color: #fff;
+    color: black;
     width: 250px;
     padding: 20px;
     display: flex;
@@ -144,6 +145,7 @@ header .theme-toggle {
 .mt-5{
     color: #FBA1B7;
 }
+
 
 thead th {
     text-align: center; /* Untuk membuat teks berada di tengah secara horizontal */

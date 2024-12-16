@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +10,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/admin_invoices.css">
 </head>
+
 <body>
+
     <div class="sidebar">
         <div class="logo">
             <h1>Sweet Dessert™</h1>
         </div>
         <ul class="nav1">
             <li><img src="/static/home.png" alt="" class="edit-icon">
-                <a href="{{ url_for('home') }}">Home</a></li>
+                <a href="{{ url_for('home') }}">Home</a>
+            </li>
             <li><img src="/static/box.png" alt="" class="edit-icon">
-                <a class="nav-link active" href="{{ url_for('admin') }}" id="nav-text">Products</a></li>
+                <a class="nav-link active" href="{{ url_for('admin') }}" id="nav-text">Products</a>
+            </li>
             <li><img src="/static/struck.png" alt="" class="edit-icon">
-                <a class="nav-link active" href="{{ url_for('admin_invoices') }}" id="nav-text">Invoices</a></li>
+                <a class="nav-link active" href="{{ url_for('admin_invoices') }}" id="nav-text">Invoices</a>
+            </li>
             <li><img src="/static/users.png" alt="" class="edit-icon">
-                <a class="nav-link active" href="{{ url_for('users') }}" id="nav-text">User</a></li>
+                <a class="nav-link active" href="{{ url_for('users') }}" id="nav-text">User</a>
+            </li>
         </ul>
     </div>
 
@@ -31,50 +38,53 @@
             <div class="header-left">
                 <h2>Dashboard</h2>
             </div>
-            <div class="header-right">
-                <p>Hello, cakalangfufuuu!</p>
-            </div>
+
         </header>
 
         <section class="earnings">
             <div class="container">
-        <div class="section-title">
-    <span class="section-highlight"></span>
-    <h2 class="title">Invoices</h2>
-</div>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Table Number</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for invoice in invoices %}
-        <tr>
-            <td class="name" rowspan="{{ invoice.order_details | length }}">{{ invoice.name }}</td>
-            <td class="tableNumber" rowspan="{{ invoice.order_details | length }}">{{ invoice.table_number }}</td>
-            <td class="phoneNumber" rowspan="{{ invoice.order_details | length }}">{{ invoice.phone_number }}</td>
-            <td rowspan="{{ invoice.order_details | length }}">{{ invoice.email_address }}</td>
-            <!-- Iterasi produk dalam order_details -->
-            {% for product in invoice.order_details %}
-                {% if not loop.first %}<tr>{% endif %}
-                <td >{{ product.product_name }}</td>
-                <td>{{ product.quantity }}</td>
-                {% if loop.first %}
-                <td rowspan="{{ invoice.order_details | length }}">Rp. {{ invoice.total_price }}</td>
-                {% endif %}
-                </tr>
-            {% endfor %}
-        {% endfor %}
-    </tbody>
-</table>
+                <div class="section-title">
+                    <span class="section-highlight"></span>
+                    <h2 class="title">Invoices</h2>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Table Number</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for invoice in invoices %}
+                        <tr>
+                            <td class="name" rowspan="{{ invoice.order_details | length }}">{{ invoice.name }}</td>
+                            <td class="tableNumber" rowspan="{{ invoice.order_details | length }}">{{
+                                invoice.table_number }}</td>
+                            <td class="phoneNumber" rowspan="{{ invoice.order_details | length }}">{{
+                                invoice.phone_number }}</td>
+                            <td rowspan="{{ invoice.order_details | length }}">{{ invoice.email_address }}</td>
+                            <!-- Iterasi produk dalam order_details -->
+                            {% for product in invoice.order_details %}
+                            {% if not loop.first %}
+                        <tr>{% endif %}
+                            <td>{{ product.product_name }}</td>
+                            <td>{{ product.quantity }}</td>
+                            {% if loop.first %}
+                            <td rowspan="{{ invoice.order_details | length }}">Rp. {{ invoice.total_price }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-    </div>
+
 </body>
+
 </html>

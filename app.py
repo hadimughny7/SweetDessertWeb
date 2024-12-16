@@ -130,6 +130,7 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
+
     if 'role' in session and session['role'] == 'admin':
         if request.method == 'POST':
             # Ambil data dari form

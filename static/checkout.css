@@ -236,3 +236,15 @@ body {
   flex: 1; /* Memberikan ruang proporsional */
   text-align: right; /* Angka berada di sisi kanan */
 }
+
+a.dropdown-item:hover .dashboard-icon {
+  content: url('/static/dashboard-red.png'); /* Gambar merah untuk Edit */
+}
+a.dropdown-item:hover .edit-icon {
+  content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
+}
+
+/* Mengganti gambar menjadi logout-red.png ketika link "Logout" di-hover */
+a.dropdown-item:hover .logout-icon {
+  content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
+}

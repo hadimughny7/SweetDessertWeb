@@ -110,30 +110,6 @@ a.dropdown-item:hover .logout-icon {
     content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
 }
 
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  
-  }
-  
-body {
-    background-color: #fff;
-    color: #333;
-    height: 150vh;
-}
-
-header {
-    background-color: #fff;
-    padding: 10px 20px;
-    border-bottom: 1px solid #eee;
-}
-
-main {
-    padding: 150px;
-}
-
 .icon-box {
     width: 10px;
     height: 40px;
@@ -236,4 +212,16 @@ h2{
 
 .row{
   padding-top: 20px;
+}
+
+a.dropdown-item:hover .dashboard-icon {
+  content: url('/static/dashboard-red.png'); /* Gambar merah untuk Edit */
+}
+a.dropdown-item:hover .edit-icon {
+  content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
+}
+
+/* Mengganti gambar menjadi logout-red.png ketika link "Logout" di-hover */
+a.dropdown-item:hover .logout-icon {
+  content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
 }

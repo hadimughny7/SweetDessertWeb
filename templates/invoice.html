@@ -20,61 +20,85 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <nav class="navbar navbar-expand-lg fixed-top">
+
+    <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                 <ul class="navbar-nav ms-auto gap-1 menu">
                     <li class="nav-item">
-                        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}" 
+                        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}"
                             href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}" 
+                        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}"
                             href="{{ url_for('product') }}">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}" 
+                        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}"
                             href="{{ url_for('about') }}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}" 
+                        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}"
                             href="{{ url_for('contact') }}">Contact</a>
+
                     </li>
                 </ul>
+
+
             </div>
+
+
+
             <div class="justify-content-space-between" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-5 me-3 d-flex align-items-center">
                     <li class="nav-item">
                         <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
                     </li>
 
-                    <li class="nav-item dropdown" 
+
+                    <li class="nav-item dropdown"
                         onmouseover="this.classList.add('show'); this.querySelector('.dropdown-menu').classList.add('show');"
                         onmouseout="this.classList.remove('show'); this.querySelector('.dropdown-menu').classList.remove('show');">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
                             <img src="/static/profile.png" alt="Profile">
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10%;">
+                            {% if session['role'] == 'admin' %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin') }}">
+                                    <img src="/static/dashboard.png" alt="" class="dashboard-icon"
+                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                                    Dashboard
+                                </a>
+                            </li>
+                            {% endif %}
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('profile') }}">
-                                    <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                                    <img src="/static/edit.png" alt="" class="edit-icon"
+                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
                                     Edit Profile
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ url_for('logout') }}">
-                                    <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                                    <img src="/static/logout.png" alt="" class="logout-icon"
+                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
                                     Logout
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                </ul>
+
+
             </div>
+
+            <div id="custom-alert" class="custom-alert" style="display:none;">
+                <span id="alert-message"></span>
+            </div>
+
+
         </div>
     </nav>
-
     <main>
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -134,7 +158,8 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -13,7 +13,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit" />
 
 </head>
 </head>
@@ -24,28 +25,30 @@
         crossorigin="anonymous"></script>
 
 
+
     <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <div class="logo-top">
                 <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
                 <ul class="navbar-nav ms-auto gap-1 menu">
-    <li class="nav-item">
-        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}" 
-           href="{{ url_for('home') }}">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}" 
-           href="{{ url_for('product') }}">Product</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}" 
-           href="{{ url_for('about') }}">About</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}" 
-           href="{{ url_for('contact') }}">Contact</a>
-    </li>
-</ul>
+                    <li class="nav-item">
+                        <a class="nav-link {% if current_page == 'home' %}current-page{% endif %}"
+                            href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if current_page == 'product' %}current-page{% endif %}"
+                            href="{{ url_for('product') }}">Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if current_page == 'about' %}current-page{% endif %}"
+                            href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if current_page == 'contact' %}current-page{% endif %}"
+                            href="{{ url_for('contact') }}">Contact</a>
+
+                    </li>
+                </ul>
 
 
             </div>
@@ -59,34 +62,37 @@
                     </li>
 
 
-                    <li class="nav-item dropdown" 
-    onmouseover="this.classList.add('show'); this.querySelector('.dropdown-menu').classList.add('show');"
-    onmouseout="this.classList.remove('show'); this.querySelector('.dropdown-menu').classList.remove('show');">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
-        <img src="/static/profile.png" alt="Profile">
-    </a>
-  <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10%;">
-    {% if session['role'] == 'admin' %}
-    <li>
-        <a class="dropdown-item" href="{{ url_for('admin') }}">
-            <img src="/static/dashboard.png" alt="" class="dashboard-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-            Dashboard
-        </a>
-    </li>
-    {% endif %}
-    <li>
-        <a class="dropdown-item" href="{{ url_for('profile') }}">
-            <img src="/static/edit.png" alt="" class="edit-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-            Edit Profile
-        </a>
-    </li>
-    <li>
-        <a class="dropdown-item" href="{{ url_for('logout') }}">
-            <img src="/static/logout.png" alt="" class="logout-icon" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
-            Logout
-        </a>
-    </li>
-</ul>
+                    <li class="nav-item dropdown"
+                        onmouseover="this.classList.add('show'); this.querySelector('.dropdown-menu').classList.add('show');"
+                        onmouseout="this.classList.remove('show'); this.querySelector('.dropdown-menu').classList.remove('show');">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
+                            <img src="/static/profile.png" alt="Profile">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10%;">
+                            {% if session['role'] == 'admin' %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin') }}">
+                                    <img src="/static/dashboard.png" alt="" class="dashboard-icon"
+                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                                    Dashboard
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('profile') }}">
+                                    <img src="/static/edit.png" alt="" class="edit-icon"
+                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                                    Edit Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('logout') }}">
+                                    <img src="/static/logout.png" alt="" class="logout-icon"
+                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
 
 
             </div>
@@ -135,37 +141,37 @@
         <div id="menu-container" class="d-flex justify-content-between flex-nowrap">
             <div class="menu-card">
                 <a href="{{ url_for('products_by_category', category='milecrepe') }}">
-                <img src="static/Group 1.png" alt="milecrepe">
+                    <img src="/static/uploads/milecrepes.jpg" alt="milecrepe">
                     <p>Millecrepe</p>
                 </a>
             </div>
             <div class="menu-card">
                 <a href="{{ url_for('products_by_category', category='pasta_menu') }}">
-                    <img src="static/Group 1.png" alt="pasta_menu">
+                    <img src="/static/uploads/potato.jpg" alt="pasta_menu">
                     <p>Pasta Menu</p>
                 </a>
             </div>
             <div class="menu-card">
                 <a href="{{ url_for('products_by_category', category='patisserie') }}">
-                    <img src="static/Group 1.png" alt="patisserie">
+                    <img src="/static/uploads/chese.jpeg" alt="patisserie">
                     <p>Patisserie</p>
                 </a>
             </div>
             <div class="menu-card">
                 <a href="{{ url_for('products_by_category', category='dessert') }}">
-                    <img src="static/Group 1.png" alt="dessert">
+                    <img src="/static/uploads/mm.jpeg" alt="dessert">
                     <p>Dessert</p>
                 </a>
             </div>
             <div class="menu-card">
                 <a href="{{ url_for('products_by_category', category='dessert_cake') }}">
-                    <img src="static/Group 1.png" alt="dessert_cake	">
-                    <p>Pasta Menu</p>
+                    <img src="/static/uploads/clasic.jpeg" alt="dessert_cake	">
+                    <p>Dessert Cake</p>
                 </a>
             </div>
             <div class="menu-card">
                 <a href="{{ url_for('products_by_category', category='drinks') }}">
-                    <img src="static/Group 1.png" alt="drinks">
+                    <img src="/static/uploads/melon.jpeg" alt="drinks">
                     <p>Drinks</p>
                 </a>
             </div>
@@ -186,18 +192,18 @@
 
     <div class="container my-1">
         <div id="product-container " class="d-flex justify-content-between flex-nowrap">
-            
-                     {% for product in products %}
-        <div class="product-card ">
-            <a href="{{ url_for('product_detail', product_id=product['_id']) }}">
-                <img src="{{ product.image }}" alt="{{ product['name'] }}">
-            </a>
-                    <p class="product-title">{{ product['name'] }}</p>
-                    <p class="product-price">Rp. {{ product['price'] }}</p>
-        </div>
-    {% endfor %}
+
+            {% for product in products %}
+            <div class="product-card ">
+                <a href="{{ url_for('product_detail', product_id=product['_id']) }}">
+                    <img src="{{ product.image }}" alt="{{ product['name'] }}">
+                </a>
+                <p class="product-title">{{ product['name'] }}</p>
+                <p class="product-price">Rp. {{ product['price'] }}</p>
             </div>
+            {% endfor %}
         </div>
+    </div>
 
     <footer>
         <div class="footer-container">

@@ -60,12 +60,7 @@ body {
     margin-right: 8px;
 }
 
-.sidebar li:hover{
-    outline: none;         /* Menghilangkan outline (garis tepi saat fokus) */
-    color: inherit;        /* Menjaga warna teks tetap sama */
-    text-decoration: none;
-    background-color: #f8f9fa; /* Menghilangkan underline jika ada */
-}
+
 
 .main-content {
     flex: 1;
