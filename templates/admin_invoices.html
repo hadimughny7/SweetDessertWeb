@@ -1,90 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'admin_base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/admin_invoices.css">
-</head>
+{% block page_title %}Transactions History{% endblock %}
 
-<body>
-
-    <div class="sidebar">
-        <div class="logo">
-            <h1>Sweet Dessert™</h1>
-        </div>
-        <ul class="nav1">
-            <li><img src="/static/home.png" alt="" class="edit-icon">
-                <a href="{{ url_for('home') }}">Home</a>
-            </li>
-            <li><img src="/static/box.png" alt="" class="edit-icon">
-                <a class="nav-link active" href="{{ url_for('admin') }}" id="nav-text">Products</a>
-            </li>
-            <li><img src="/static/struck.png" alt="" class="edit-icon">
-                <a class="nav-link active" href="{{ url_for('admin_invoices') }}" id="nav-text">Invoices</a>
-            </li>
-            <li><img src="/static/users.png" alt="" class="edit-icon">
-                <a class="nav-link active" href="{{ url_for('users') }}" id="nav-text">User</a>
-            </li>
-        </ul>
+{% block content %}
+<div class="dashboard-card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold m-0">Recent Invoices</h5>
+        <!-- We could add date filters here later -->
     </div>
-
-    <div class="main-content">
-        <header>
-            <div class="header-left">
-                <h2>Dashboard</h2>
-            </div>
-
-        </header>
-
-        <section class="earnings">
-            <div class="container">
-                <div class="section-title">
-                    <span class="section-highlight"></span>
-                    <h2 class="title">Invoices</h2>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Table Number</th>
-                            <th>Phone Number</th>
-                            <th>Email</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for invoice in invoices %}
-                        <tr>
-                            <td class="name" rowspan="{{ invoice.order_details | length }}">{{ invoice.name }}</td>
-                            <td class="tableNumber" rowspan="{{ invoice.order_details | length }}">{{
-                                invoice.table_number }}</td>
-                            <td class="phoneNumber" rowspan="{{ invoice.order_details | length }}">{{
-                                invoice.phone_number }}</td>
-                            <td rowspan="{{ invoice.order_details | length }}">{{ invoice.email_address }}</td>
-                            <!-- Iterasi produk dalam order_details -->
-                            {% for product in invoice.order_details %}
-                            {% if not loop.first %}
-                        <tr>{% endif %}
-                            <td>{{ product.product_name }}</td>
-                            <td>{{ product.quantity }}</td>
-                            {% if loop.first %}
-                            <td rowspan="{{ invoice.order_details | length }}">Rp. {{ invoice.total_price }}</td>
-                            {% endif %}
-                        </tr>
-                        {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-
-</body>
-
-</html>
+    
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Source</th>
+                    <th>Method</th>
+                    <th>Items</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices|reverse %}
+                <tr>
+                    <td class="fw-bold">{{ invoice.name }}</td>
+                    <td>
+                        {% if invoice.source == 'POS' %}
+                            <span class="badge bg-success">POS</span>
+                        {% else %}
+                            <span class="badge bg-primary">Online</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ invoice.payment_method }}</td>
+                    <td>
+                        <ul class="list-unstyled m-0 small">
+                            {% for item in invoice.order_details %}
+                                <li>{{ item.quantity }}x {{ item.product_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="text-primary-pink fw-bold">Rp. {{ "{:,}".format(invoice.total_price|int) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+/* pos.css */
+.pos-container {
+    display: flex;
+    height: calc(100vh - 140px); /* Account for navbar */
+    margin-top: 120px;
+    margin-bottom: 20px;
+    gap: 20px;
+    padding: 0 20px;
+}
+.pos-products {
+    flex: 7;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.pos-cart {
+    flex: 3;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.pos-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+.pos-product-card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    background: #fafafa;
+}
+.pos-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(251, 161, 183, 0.3);
+    border-color: #FBA1B7;
+    background: #fff;
+}
+.pos-product-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.pos-cart-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+.pos-cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #ddd;
+}
+.pos-cart-item-info {
+    flex-grow: 1;
+}
+.pos-cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.qty-btn {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+.qty-btn:hover {
+    background: #e0e0e0;
+}
+.pos-summary {
+    border-top: 2px solid #eee;
+    padding-top: 15px;
+}
+.pos-total {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #FBA1B7;
+}
+
+/* Hide the main footer when in POS mode to maximize screen space */
+body.pos-mode footer {
+    display: none;
+}

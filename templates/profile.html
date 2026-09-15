@@ -1,199 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sweet Dessert</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="/static/login.css"> -->
-    <link rel="stylesheet" href="/static/profile.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Playpen+Sans:wght@100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+{% block extra_css %}
+<link rel="stylesheet" href="/static/profile.css">
+{% endblock %}
 
-</head>
-</head>
-
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container-fluid">
-                <div class="logo-top">
-                    <img src="/static/logo.png" alt="animation-head" id="nav-avatar" />
-                    <ul class="navbar-nav ms-auto gap-1 menu">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}"
-                                id="nav-text">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('product') }}"
-                                id="nav-text">Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('about') }}"
-                                id="nav-text">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('contact') }}"
-                                id="nav-text">Contact</a>
-                        </li>
-                    </ul>
+{% block content %}
+<div class="container" style="margin-top: 100px; margin-bottom: 80px;" data-aos="fade-up">
+    <section class="profile-container d-flex flex-column flex-md-row gap-4">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white p-4 rounded shadow-sm" style="min-width: 250px;">
+            <div class="profile-wrapper text-center">
+                <div class="clip mb-3">
+                    <img src="/static/clip.png" alt="" width="50">
                 </div>
-    
-                <div class="justify-content-space-between" id="navbarNav">
-                    <ul class="navbar-nav ms-auto gap-5 me-3 d-flex align-items-center">
-                        <li class="nav-item">
-                            <a href="{{ url_for('cart') }}"><img src="/static/chart.png" alt=""></a>
-                        </li>
-    
-    
-                        <li class="nav-item dropdown">
-                            <!-- Profile dengan hover untuk dropdown -->
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="/static/profile.png" alt="Profile">
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-                            </ul>
-                        </li>
-    
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    
-    <div id="custom-alert" class="custom-alert" style="display:none;">
-        <span id="alert-message"></span>
-    </div>
-    <div class="container">
-    <section class="profile-container">
-        <aside class="sidebar">
-            <div class="profile-wrapper">
-                <div class="clip"><img src="/static/clip.png" alt=""></div>
                 <div class="profile-title">
-                    <li class=""><a href="#">Profile</a></li>
+                    <h5 class="fw-bold mb-0">My Profile</h5>
+                    <p class="text-muted small">Manage your staff account</p>
                 </div>
             </div>
         </aside>
 
-        <div class="d-flex justify-content-end w-100">
-            <div class="profile-form">
-                <div class="profile-desc">
-                    <h3>Manage My Account</h3>
-                    <p>My Profile</p>
+        <!-- Main Form -->
+        <div class="profile-form bg-white p-5 rounded shadow-sm w-100">
+            <h3 class="fw-bold mb-4">Edit Your Profile</h3>
+            
+            <form class="form" action="{{ url_for('update_profile') }}" method="POST">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Full Name</label>
+                        <input type="text" name="username" class="form-control p-3" value="{{ user['username'] }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Email Address</label>
+                        <input type="email" name="email" class="form-control p-3" value="{{ user['email'] }}" required>
+                    </div>
                 </div>
-                <form class="form" action="{{ url_for('update_profile') }}" method="POST">
-                    <h2>Edit Your Profile</h2>
-                    <div class="row g-3">
-                        <div class="col-md-8">
-                            <label class="form-label">Name</label>
-                            <input type="text" name="username" class="form-control" value="{{ user['username'] }}">
-                        </div>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-8">
-                            <label for="inputEmail4" class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" id="inputEmail" value="{{ user['email'] }}" placeholder="Email">
-                        </div>
 
-                        <h3>Password Changes</h3>
-                        <div class="col-md-8">
-                            <input type="password" name="password" class="form-control" id="inputPassword" value="{{ user['password'] }}" placeholder="Current Password">
-                        </div>
+                <hr class="my-4">
+
+                <h4 class="fw-bold mb-3">Password Changes</h4>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">New Password (Optional)</label>
+                        <input type="password" name="password" class="form-control p-3" placeholder="Leave blank to keep current">
                     </div>
-                    <div class="form-buttons">
-                        <button type="submit" class="save">Save Changes</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary px-5 py-3 fw-bold" style="background-color: #FBA1B7; border: none; border-radius: 8px;">Save Changes</button>
+                </div>
+            </form>
         </div>
     </section>
 </div>
-
-<footer>
-    <div class="footer-container">
-        <div class="footer-left">
-            <h3>Sweet Dessert</h3>
-            <p>
-                Halo! Kami dari Sweet Dessert, usaha kecil yang berfokus menghadirkan berbagai macam dessert lezat
-                untuk melengkapi hari-hari Anda.
-            </p>
-        </div>
-
-        <div class="footer-center">
-            <h3>Information</h3>
-            <ul>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contacts</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-right">
-            <h3>HAPPINESS STARTS HERE</h3>
-            <div class="social-icons">
-                <a href="#" class="icon"><img src="{{ url_for('static', filename='Icon-Facebook.png') }}" alt=""></a>
-                <a href="#" class="icon"><img src="{{ url_for('static', filename='icon-instagram.png') }}" alt=""></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-copyright">
-        &copy; Copyright Galakk 2024. All rights reserved.
-    </div>
-</footer>
-
-     <script>
-    const successMessage = {{ success_message|default('')|tojson }};
-    const errorMessage = {{ error_message|default('')|tojson }};
-
-    function showAlert(message, type) {
-        const alertBox = document.getElementById("custom-alert");
-        const alertMessage = document.getElementById("alert-message");
-
-        alertMessage.textContent = message;
-
-        if (type === "success") {
-            alertBox.style.backgroundColor = "#28a745"; 
-            alertBox.style.borderColor = "#28a745";
-        } else if (type === "error") {
-            alertBox.style.backgroundColor = "#F95454"; 
-            alertBox.style.borderColor = "#f5c6cb";
-        }
-
-        alertBox.style.display = "block";
-        alertBox.classList.remove("hide");
-
-        setTimeout(() => {
-            alertBox.classList.add("hide");
-
-            setTimeout(() => {
-                alertBox.style.display = "none";
-                if (type === "success") {
-                    window.location.href = "{{ url_for('signin') }}"; 
-                }
-            }, 570); 
-        }, 1000);
-    }
-
-    if (successMessage) {
-        showAlert(successMessage, "success");
-    } else if (errorMessage) {
-        showAlert(errorMessage, "error");
-    }
-</script>
-
-
-    
-</body>
-
-</html>
+{% endblock %}

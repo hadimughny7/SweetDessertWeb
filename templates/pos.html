@@ -1,0 +1,286 @@
+{% extends 'admin_base.html' %}
+
+{% block page_title %}Point of Sale (POS){% endblock %}
+
+{% block content %}
+<div class="pos-layout">
+    <!-- Left Menu Section -->
+    <div class="pos-menu">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0">Menu Catalog</h5>
+            <div class="btn-group shadow-sm rounded-pill overflow-hidden" role="group">
+                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio1" autocomplete="off" checked onclick="filterCategory('all')">
+                <label class="btn btn-outline-secondary border-0" for="btnradio1">All</label>
+
+                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio2" autocomplete="off" onclick="filterCategory('milecrepe')">
+                <label class="btn btn-outline-secondary border-0" for="btnradio2">Millecrepe</label>
+
+                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio3" autocomplete="off" onclick="filterCategory('pasta_menu')">
+                <label class="btn btn-outline-secondary border-0" for="btnradio3">Pasta</label>
+                
+                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio4" autocomplete="off" onclick="filterCategory('dessert')">
+                <label class="btn btn-outline-secondary border-0" for="btnradio4">Dessert</label>
+            </div>
+        </div>
+
+        <div class="pos-grid" id="product-grid">
+            {% for product in products %}
+            <div class="pos-item-card product-item" data-category="{{ product.category }}" onclick="addToCart('{{ product._id }}', '{{ product.name }}', {{ product.price }})">
+                <img src="/{{ product.image|replace('\\', '/') }}" class="pos-item-img" onerror="this.src='/static/box.png'">
+                <h6 class="fw-bold mb-1" style="font-size: 0.9rem;">{{ product.name }}</h6>
+                <p class="text-primary-pink m-0 fw-bold">Rp. {{ "{:,}".format(product.price|int) }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Right Cart Section -->
+    <div class="pos-cart-panel">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0">Current Order</h5>
+            <button class="btn btn-sm btn-outline-danger" onclick="clearCart()">Clear</button>
+        </div>
+        
+        <div class="mb-3">
+            <input type="text" id="customer_name" class="form-control rounded-pill bg-light border-0" placeholder="Customer Name (Optional)">
+        </div>
+
+        <div class="pos-cart-items-container" id="cart-items">
+            <!-- Items injected by JS -->
+            <div class="text-center text-muted mt-5 h-100 d-flex flex-column justify-content-center">
+                <i class="bi bi-cart3 fs-1 mb-2"></i>
+                <p>No items in cart</p>
+            </div>
+        </div>
+
+        <!-- Summary & Payment -->
+        <div class="mt-auto pt-3 border-top">
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Subtotal</span>
+                <span class="fw-bold" id="total-price">Rp. 0</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3 align-items-center">
+                <span class="text-muted">Cash Received</span>
+                <div class="input-group input-group-sm w-50">
+                    <span class="input-group-text bg-white border-end-0">Rp</span>
+                    <input type="number" id="cash_received" class="form-control border-start-0 text-end fw-bold" oninput="calculateChange()">
+                </div>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <span class="text-muted fw-bold">Change</span>
+                <span class="fw-bold fs-5 text-success" id="change-amount">Rp. 0</span>
+            </div>
+
+            <button class="btn btn-primary-pink w-100 py-2 rounded-pill fw-bold mb-2" id="btn-process" onclick="processPayment()" disabled>
+                Process Payment
+            </button>
+            <button class="btn btn-dark w-100 py-2 rounded-pill fw-bold" id="btn-print" onclick="printReceipt()" style="display:none;">
+                <i class="bi bi-printer me-2"></i>Print Receipt
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let posCart = {};
+    let currentTotal = 0;
+    let lastTransaction = null;
+
+    function filterCategory(category) {
+        const items = document.querySelectorAll('.product-item');
+        items.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function addToCart(id, name, price) {
+        if (posCart[id]) {
+            posCart[id].quantity += 1;
+            posCart[id].subtotal = posCart[id].quantity * price;
+        } else {
+            posCart[id] = { id: id, name: name, price: price, quantity: 1, subtotal: price };
+        }
+        renderCart();
+    }
+
+    function updateQty(id, change) {
+        if (posCart[id]) {
+            posCart[id].quantity += change;
+            if (posCart[id].quantity <= 0) {
+                delete posCart[id];
+            } else {
+                posCart[id].subtotal = posCart[id].quantity * posCart[id].price;
+            }
+            renderCart();
+        }
+    }
+
+    function clearCart() {
+        if(confirm('Clear all items from cart?')) {
+            posCart = {};
+            document.getElementById('cash_received').value = '';
+            document.getElementById('customer_name').value = '';
+            renderCart();
+        }
+    }
+
+    function renderCart() {
+        const container = document.getElementById('cart-items');
+        container.innerHTML = '';
+        currentTotal = 0;
+        let hasItems = false;
+
+        for (let id in posCart) {
+            hasItems = true;
+            let item = posCart[id];
+            currentTotal += item.subtotal;
+            
+            container.innerHTML += `
+                <div class="pos-cart-item">
+                    <div style="flex:1;">
+                        <div class="fw-bold" style="font-size:0.9rem;">${item.name}</div>
+                        <div class="text-muted small">Rp. ${item.price.toLocaleString('id-ID')}</div>
+                    </div>
+                    <div class="qty-control">
+                        <button class="qty-btn" onclick="updateQty('${id}', -1)">-</button>
+                        <span class="fw-bold mx-1">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQty('${id}', 1)">+</button>
+                    </div>
+                    <div class="ms-3 fw-bold text-end" style="min-width: 80px;">Rp. ${item.subtotal.toLocaleString('id-ID')}</div>
+                </div>
+            `;
+        }
+
+        if (!hasItems) {
+            container.innerHTML = `
+                <div class="text-center text-muted h-100 d-flex flex-column justify-content-center">
+                    <i class="bi bi-cart3 fs-1 mb-2"></i>
+                    <p>No items in cart</p>
+                </div>
+            `;
+        }
+
+        document.getElementById('total-price').innerText = `Rp. ${currentTotal.toLocaleString('id-ID')}`;
+        document.getElementById('btn-process').disabled = !hasItems;
+        calculateChange();
+    }
+
+    function calculateChange() {
+        const cash = parseInt(document.getElementById('cash_received').value) || 0;
+        const change = cash - currentTotal;
+        const changeEl = document.getElementById('change-amount');
+        
+        if (change >= 0 && currentTotal > 0 && cash > 0) {
+            changeEl.innerText = `Rp. ${change.toLocaleString('id-ID')}`;
+            changeEl.classList.remove('text-danger');
+            changeEl.classList.add('text-success');
+            document.getElementById('btn-process').disabled = false;
+        } else {
+            changeEl.innerText = `Rp. 0`;
+            changeEl.classList.remove('text-success');
+            if (currentTotal > 0 && cash > 0) {
+                 changeEl.classList.add('text-danger');
+                 changeEl.innerText = 'Insufficient';
+                 document.getElementById('btn-process').disabled = true;
+            }
+        }
+    }
+
+    function processPayment() {
+        const cash = parseInt(document.getElementById('cash_received').value) || 0;
+        if (cash < currentTotal) return alert('Cash received is not enough!');
+
+        const customerName = document.getElementById('customer_name').value || 'Guest';
+        const change = cash - currentTotal;
+        const orderDetails = Object.values(posCart).map(i => ({
+            product_name: i.name, quantity: i.quantity, price: i.price, subtotal_price: i.subtotal
+        }));
+
+        const payload = {
+            customer_name: customerName,
+            order_details: orderDetails,
+            total_price: currentTotal,
+            cash_received: cash,
+            change: change,
+            payment_method: 'Cash'
+        };
+
+        const btnProcess = document.getElementById('btn-process');
+        const btnPrint = document.getElementById('btn-print');
+        
+        btnProcess.disabled = true;
+        btnProcess.innerText = "Processing...";
+
+        fetch('/api/pos/checkout', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.message === 'POS transaction successful!') {
+                lastTransaction = { ...payload, date: new Date().toLocaleString() };
+                
+                btnPrint.style.display = 'block';
+                btnProcess.style.display = 'none';
+
+                posCart = {};
+                document.getElementById('cash_received').value = '';
+                document.getElementById('customer_name').value = '';
+                renderCart();
+                
+                setTimeout(() => {
+                    btnPrint.style.display = 'none';
+                    btnProcess.style.display = 'block';
+                    btnProcess.innerText = "Process Payment";
+                }, 15000);
+            } else {
+                alert('Error: ' + data.message);
+                btnProcess.innerText = "Process Payment";
+                btnProcess.disabled = false;
+            }
+        }).catch(err => {
+            alert('Failed to process payment');
+            btnProcess.innerText = "Process Payment";
+            btnProcess.disabled = false;
+        });
+    }
+
+    function printReceipt() {
+        if (!lastTransaction) return;
+        let html = `
+            <html><head><title>Receipt</title>
+            <style>body{font-family:monospace;width:300px;margin:auto;} .c{text-align:center;} .b{font-weight:bold;} .l{border-bottom:1px dashed #000;margin:10px 0;} table{width:100%;} .r{text-align:right;}</style>
+            </head><body>
+            <div class="c b">SWEET DESSERT CAFE</div>
+            <div class="c">Jl. Raya Cidahu, Sukabumi</div>
+            <div class="l"></div>
+            <div>Date: ${lastTransaction.date}</div>
+            <div>Customer: ${lastTransaction.customer_name}</div>
+            <div class="l"></div><table>`;
+        
+        lastTransaction.order_details.forEach(i => {
+            html += `<tr><td colspan="2">${i.product_name}</td></tr>
+                     <tr><td>${i.quantity} x Rp${i.price}</td><td class="r">Rp${i.subtotal_price}</td></tr>`;
+        });
+        
+        html += `</table><div class="l"></div><table>
+                <tr class="b"><td>TOTAL</td><td class="r">Rp${lastTransaction.total_price}</td></tr>
+                <tr><td>CASH</td><td class="r">Rp${lastTransaction.cash_received}</td></tr>
+                <tr><td>CHANGE</td><td class="r">Rp${lastTransaction.change}</td></tr>
+                </table><div class="l"></div><div class="c">Thank you!</div></body></html>`;
+        
+        const win = window.open('', '_blank', 'width=400,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        setTimeout(() => { win.print(); win.close(); }, 500);
+    }
+</script>
+{% endblock %}
