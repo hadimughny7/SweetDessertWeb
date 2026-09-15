@@ -261,5 +261,26 @@ body {
         flex: none;
         margin-top: 20px;
     }
+    
+    #sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    #sidebar-backdrop.show {
+        opacity: 1;
+    }
+    
+    /* Make action buttons larger on touch screens */
+    .btn-sm {
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+    }
 }
 

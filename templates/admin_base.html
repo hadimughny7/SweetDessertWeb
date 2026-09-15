@@ -14,6 +14,9 @@
 </head>
 <body>
     <div class="d-flex" id="wrapper">
+        <!-- Mobile Backdrop -->
+        <div id="sidebar-backdrop" class="d-none"></div>
+
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <div class="sidebar-heading text-center py-4 fs-4 fw-bold text-primary-pink">
@@ -98,9 +101,20 @@
         updateTime();
 
         // Toggle Sidebar on Mobile
+        const sidebar = document.getElementById("sidebar-wrapper");
+        const backdrop = document.getElementById("sidebar-backdrop");
+
         document.getElementById("menu-toggle")?.addEventListener("click", function(e) {
             e.preventDefault();
-            document.getElementById("sidebar-wrapper").classList.toggle("toggled");
+            sidebar.classList.add("toggled");
+            backdrop.classList.remove("d-none");
+            backdrop.classList.add("show");
+        });
+
+        backdrop?.addEventListener("click", function(e) {
+            sidebar.classList.remove("toggled");
+            backdrop.classList.remove("show");
+            setTimeout(() => backdrop.classList.add("d-none"), 300);
         });
     </script>
     {% block extra_js %}{% endblock %}

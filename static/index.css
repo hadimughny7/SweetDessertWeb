@@ -39,7 +39,7 @@ body {
 /* Typography Hierarchy */
 .text-giant {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 10vw, 9rem);
+  font-size: clamp(2.5rem, 8vw, 9rem);
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -47,7 +47,7 @@ body {
 
 .text-heading {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 5vw, 4rem);
   line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -293,16 +293,23 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .pill-nav {
-    bottom: 20px;
-    padding: 8px 15px;
-    width: 90%;
-    justify-content: space-around;
+    bottom: 15px;
+    padding: 6px 10px;
+    width: 95%;
+    justify-content: space-between;
+    gap: 2px;
   }
   .pill-nav a {
-    font-size: 0.8rem;
-    padding: 6px 10px;
+    font-size: 0.75rem;
+    padding: 6px 8px;
   }
   .image-reveal {
-    height: 400px !important;
+    height: 350px !important;
+  }
+  .marquee-content {
+    font-size: 1.5rem;
+  }
+  .marquee-wrapper {
+    padding: 10px 0;
   }
 }
