@@ -83,6 +83,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let posCart = {};
     let currentTotal = 0;
@@ -235,18 +236,27 @@
                 document.getElementById('customer_name').value = '';
                 renderCart();
                 
+                Swal.fire({
+                    title: 'Payment Successful!',
+                    text: 'Order has been recorded in the database.',
+                    icon: 'success',
+                    confirmButtonColor: '#FBA1B7',
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+                
                 setTimeout(() => {
                     btnPrint.style.display = 'none';
                     btnProcess.style.display = 'block';
                     btnProcess.innerText = "Process Payment";
                 }, 15000);
             } else {
-                alert('Error: ' + data.message);
+                Swal.fire('Error', data.message, 'error');
                 btnProcess.innerText = "Process Payment";
                 btnProcess.disabled = false;
             }
         }).catch(err => {
-            alert('Failed to process payment');
+            Swal.fire('Failed', 'Failed to process payment.', 'error');
             btnProcess.innerText = "Process Payment";
             btnProcess.disabled = false;
         });
