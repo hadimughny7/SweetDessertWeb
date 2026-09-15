@@ -24,7 +24,10 @@ body {
 
 #sidebar-wrapper {
     width: var(--sidebar-width);
-    min-height: 100vh;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     z-index: 1000;

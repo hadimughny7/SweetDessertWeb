@@ -110,30 +110,6 @@ def staff_login():
     return render_template('login.html', current_page='staff')
 
 
-@app.route('/staff/register', methods=['GET', 'POST'])
-def staff_register():
-    # Only allow signup for staff/admin if needed, or disable it
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        role = 'admin' if email == 'admin@gmail.com' else 'user'
-
-        if users_collection.find_one({'email': email}):
-            flash('Email already exists!', 'error')
-            return redirect(url_for('staff_register'))
-        else:
-            users_collection.insert_one({
-                'username': username,
-                'email': email,
-                'password': generate_password_hash(password), 
-                'role': role
-            })
-            flash('Staff account successfully created! Please login.', 'success')
-            return redirect(url_for('staff_login'))
-    
-    return render_template('signup.html', current_page='staff_register')
-
 
 @app.route('/logout')
 def logout():

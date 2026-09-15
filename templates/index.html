@@ -87,7 +87,7 @@
 
     <div class="bento-grid">
         {% for product in products %}
-        <div class="bento-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <div class="bento-card" data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
             <div class="bento-tag">{{ product.category|capitalize|replace('_', ' ') }}</div>
             <div class="bento-image-container">
                 <img src="/{{ product.image|replace('\\', '/') }}" onerror="this.src='/static/box.png'" alt="{{ product.name }}">
