@@ -232,3 +232,34 @@ body {
     background: var(--primary-pink);
     color: white;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    #sidebar-wrapper {
+        position: fixed;
+        left: -260px;
+        transition: all 0.3s ease;
+        z-index: 1050;
+    }
+    #sidebar-wrapper.toggled {
+        left: 0;
+    }
+    #page-content-wrapper {
+        width: 100%;
+    }
+    
+    .pos-layout {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .pos-menu {
+        flex: none;
+    }
+    
+    .pos-cart-panel {
+        flex: none;
+        margin-top: 20px;
+    }
+}
+

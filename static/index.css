@@ -289,3 +289,20 @@ body {
   font-family: var(--font-body);
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .pill-nav {
+    bottom: 20px;
+    padding: 8px 15px;
+    width: 90%;
+    justify-content: space-around;
+  }
+  .pill-nav a {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+  .image-reveal {
+    height: 400px !important;
+  }
+}
