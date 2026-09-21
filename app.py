@@ -335,7 +335,18 @@ def api_pos_checkout():
     if not order_details or total_price <= 0:
         return jsonify({'message': 'Order is empty or invalid'}), 400
 
+    now = get_wib_now()
+    start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    end_of_day = start_of_day + timedelta(days=1)
+    
+    today_count = invoices_collection.count_documents({
+        "created_at": {"$gte": start_of_day, "$lt": end_of_day}
+    })
+    next_seq = today_count + 1
+    order_id = f"ORD-{now.strftime('%y%m%d')}-{next_seq:03d}"
+
     invoice_data = {
+        'order_id': order_id,
         'name': customer_name,
         'table_number': 'POS',
         'phone_number': '-',
@@ -346,11 +357,11 @@ def api_pos_checkout():
         'cash_received': cash_received,
         'change': change,
         'source': 'POS',
-        'created_at': get_wib_now()
+        'created_at': now
     }
     
     invoices_collection.insert_one(invoice_data)
-    return jsonify({'message': 'POS transaction successful!'}), 200
+    return jsonify({'message': 'POS transaction successful!', 'order_id': order_id}), 200
 
 
 @app.route('/admin/invoices')

@@ -318,7 +318,7 @@
         .then(res => res.json())
         .then(data => {
             if (data.message === 'POS transaction successful!') {
-                lastTransaction = { ...payload, date: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB' };
+                lastTransaction = { ...payload, date: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB', id: data.order_id };
                 
                 btnPrint.style.display = 'block';
                 btnProcess.style.display = 'none';
@@ -364,6 +364,7 @@
             <div class="c">Jl. Raya Cidahu, Sukabumi</div>
             <div class="l"></div>
             <div>Date: ${lastTransaction.date}</div>
+            <div>Order ID: ${lastTransaction.id}</div>
             <div>Customer: ${lastTransaction.customer_name}</div>
             <div class="l"></div><table>`;
         
