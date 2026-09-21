@@ -304,7 +304,8 @@ body {
   .pill-nav {
     bottom: 15px;
     padding: 6px 10px;
-    width: 95%;
+    width: max-content;
+    max-width: 95vw;
     justify-content: center;
     gap: 5px;
     overflow-x: auto;
