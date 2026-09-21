@@ -368,7 +368,7 @@ def api_pos_checkout():
 @login_required
 def admin_invoices():
     if session.get('role') == 'admin':
-        filter_type = request.args.get('filter', 'all')
+        filter_type = request.args.get('filter', 'day')
         start_date = request.args.get('start_date')
         end_date = request.args.get('end_date')
 
