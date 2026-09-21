@@ -55,20 +55,47 @@
 
         <!-- Summary & Payment -->
         <div class="mt-auto pt-3 border-top">
-            <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex justify-content-between mb-3">
                 <span class="text-muted">Subtotal</span>
                 <span class="fw-bold" id="total-price">Rp. 0</span>
             </div>
-            <div class="d-flex justify-content-between mb-3 align-items-center">
-                <span class="text-muted">Cash Received</span>
-                <div class="input-group input-group-sm w-50">
-                    <span class="input-group-text bg-white border-end-0">Rp</span>
-                    <input type="number" id="cash_received" class="form-control border-start-0 text-end fw-bold" oninput="calculateChange()">
+
+            <!-- Payment Method -->
+            <div class="mb-3">
+                <label class="text-muted small fw-bold mb-2 d-block">Metode Pembayaran</label>
+                <div class="bg-light rounded-pill p-1 border d-flex" style="gap: 2px;">
+                    <button type="button" class="btn btn-sm rounded-pill btn-dark fw-bold shadow-sm border-0 px-3 flex-fill" id="btn-method-cash" onclick="setPaymentMethod('Cash')"><i class="bi bi-cash-stack me-1"></i> Cash</button>
+                    <button type="button" class="btn btn-sm rounded-pill btn-light text-muted border-0 px-3 flex-fill" id="btn-method-qris" onclick="setPaymentMethod('QRIS')"><i class="bi bi-qr-code me-1"></i> QRIS</button>
                 </div>
             </div>
-            <div class="d-flex justify-content-between mb-3">
-                <span class="text-muted fw-bold">Change</span>
-                <span class="fw-bold fs-5 text-success" id="change-amount">Rp. 0</span>
+
+            <!-- Cash Options (only visible when Cash selected) -->
+            <div id="cash-options">
+                <div class="mb-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="uang-pas-switch" onchange="toggleUangPas()">
+                        <label class="form-check-label small text-muted fw-bold" for="uang-pas-switch">Uang Pas</label>
+                    </div>
+                </div>
+                <div id="cash-input-group" class="d-flex justify-content-between mb-3 align-items-center">
+                    <span class="text-muted">Cash Received</span>
+                    <div class="input-group input-group-sm w-50">
+                        <span class="input-group-text bg-white border-end-0">Rp</span>
+                        <input type="number" id="cash_received" class="form-control border-start-0 text-end fw-bold" oninput="calculateChange()">
+                    </div>
+                </div>
+                <div id="change-row" class="d-flex justify-content-between mb-3">
+                    <span class="text-muted fw-bold">Change</span>
+                    <span class="fw-bold fs-5 text-success" id="change-amount">Rp. 0</span>
+                </div>
+            </div>
+
+            <!-- QRIS Info (only visible when QRIS selected) -->
+            <div id="qris-info" style="display: none;">
+                <div class="text-center py-3 mb-3 rounded-4" style="background: rgba(99, 102, 241, 0.06); border: 1px dashed rgba(99, 102, 241, 0.3);">
+                    <i class="bi bi-qr-code" style="font-size: 2rem; color: #6366f1;"></i>
+                    <p class="small text-muted mt-2 mb-0">Pembayaran via QRIS.<br>Pastikan customer sudah membayar.</p>
+                </div>
             </div>
 
             <button class="btn btn-primary-pink w-100 py-2 rounded-pill fw-bold mb-2" id="btn-process" onclick="processPayment()" disabled>
@@ -88,6 +115,44 @@
     let posCart = {};
     let currentTotal = 0;
     let lastTransaction = null;
+    let currentPaymentMethod = 'Cash';
+
+    function setPaymentMethod(method) {
+        currentPaymentMethod = method;
+        const btnCash = document.getElementById('btn-method-cash');
+        const btnQris = document.getElementById('btn-method-qris');
+        const cashOptions = document.getElementById('cash-options');
+        const qrisInfo = document.getElementById('qris-info');
+
+        if (method === 'Cash') {
+            btnCash.className = 'btn btn-sm rounded-pill btn-dark fw-bold shadow-sm border-0 px-3 flex-fill';
+            btnQris.className = 'btn btn-sm rounded-pill btn-light text-muted border-0 px-3 flex-fill';
+            cashOptions.style.display = 'block';
+            qrisInfo.style.display = 'none';
+        } else {
+            btnQris.className = 'btn btn-sm rounded-pill btn-dark fw-bold shadow-sm border-0 px-3 flex-fill';
+            btnCash.className = 'btn btn-sm rounded-pill btn-light text-muted border-0 px-3 flex-fill';
+            cashOptions.style.display = 'none';
+            qrisInfo.style.display = 'block';
+        }
+        calculateChange();
+    }
+
+    function toggleUangPas() {
+        const isUangPas = document.getElementById('uang-pas-switch').checked;
+        const cashInput = document.getElementById('cash_received');
+        
+        if (isUangPas) {
+            cashInput.value = currentTotal > 0 ? currentTotal : '';
+            cashInput.readOnly = true;
+            cashInput.classList.add('bg-light');
+        } else {
+            cashInput.value = '';
+            cashInput.readOnly = false;
+            cashInput.classList.remove('bg-light');
+        }
+        calculateChange();
+    }
 
     function filterCategory(category) {
         const items = document.querySelectorAll('.product-item');
@@ -127,6 +192,8 @@
             posCart = {};
             document.getElementById('cash_received').value = '';
             document.getElementById('customer_name').value = '';
+            document.getElementById('uang-pas-switch').checked = false;
+            toggleUangPas(); // Reset uang pas state
             renderCart();
         }
     }
@@ -168,11 +235,26 @@
         }
 
         document.getElementById('total-price').innerText = `Rp. ${currentTotal.toLocaleString('id-ID')}`;
-        document.getElementById('btn-process').disabled = !hasItems;
+        
+        if (document.getElementById('uang-pas-switch').checked) {
+            document.getElementById('cash_received').value = currentTotal > 0 ? currentTotal : '';
+        }
+        
         calculateChange();
+        
+        if (!hasItems) {
+            document.getElementById('btn-process').disabled = true;
+        }
     }
 
     function calculateChange() {
+        const btnProcess = document.getElementById('btn-process');
+        
+        if (currentPaymentMethod === 'QRIS') {
+            btnProcess.disabled = currentTotal <= 0;
+            return;
+        }
+
         const cash = parseInt(document.getElementById('cash_received').value) || 0;
         const change = cash - currentTotal;
         const changeEl = document.getElementById('change-amount');
@@ -181,24 +263,34 @@
             changeEl.innerText = `Rp. ${change.toLocaleString('id-ID')}`;
             changeEl.classList.remove('text-danger');
             changeEl.classList.add('text-success');
-            document.getElementById('btn-process').disabled = false;
+            btnProcess.disabled = false;
         } else {
             changeEl.innerText = `Rp. 0`;
             changeEl.classList.remove('text-success');
             if (currentTotal > 0 && cash > 0) {
                  changeEl.classList.add('text-danger');
                  changeEl.innerText = 'Insufficient';
-                 document.getElementById('btn-process').disabled = true;
             }
+            btnProcess.disabled = true;
         }
     }
 
     function processPayment() {
-        const cash = parseInt(document.getElementById('cash_received').value) || 0;
-        if (cash < currentTotal) return alert('Cash received is not enough!');
+        if (currentTotal <= 0) return;
+        
+        let cash = 0;
+        let change = 0;
+
+        if (currentPaymentMethod === 'Cash') {
+            cash = parseInt(document.getElementById('cash_received').value) || 0;
+            if (cash < currentTotal) return alert('Cash received is not enough!');
+            change = cash - currentTotal;
+        } else {
+            cash = currentTotal;
+            change = 0;
+        }
 
         const customerName = document.getElementById('customer_name').value || 'Guest';
-        const change = cash - currentTotal;
         const orderDetails = Object.values(posCart).map(i => ({
             product_name: i.name, quantity: i.quantity, price: i.price, subtotal_price: i.subtotal
         }));
@@ -209,7 +301,7 @@
             total_price: currentTotal,
             cash_received: cash,
             change: change,
-            payment_method: 'Cash'
+            payment_method: currentPaymentMethod
         };
 
         const btnProcess = document.getElementById('btn-process');
@@ -281,10 +373,16 @@
         });
         
         html += `</table><div class="l"></div><table>
-                <tr class="b"><td>TOTAL</td><td class="r">Rp${lastTransaction.total_price}</td></tr>
-                <tr><td>CASH</td><td class="r">Rp${lastTransaction.cash_received}</td></tr>
-                <tr><td>CHANGE</td><td class="r">Rp${lastTransaction.change}</td></tr>
-                </table><div class="l"></div><div class="c">Thank you!</div></body></html>`;
+                <tr class="b"><td>TOTAL</td><td class="r">Rp${lastTransaction.total_price}</td></tr>`;
+        
+        if (lastTransaction.payment_method === 'Cash') {
+            html += `<tr><td>CASH</td><td class="r">Rp${lastTransaction.cash_received}</td></tr>
+                     <tr><td>CHANGE</td><td class="r">Rp${lastTransaction.change}</td></tr>`;
+        } else {
+            html += `<tr><td>PAYMENT</td><td class="r">${lastTransaction.payment_method}</td></tr>`;
+        }
+        
+        html += `</table><div class="l"></div><div class="c">Thank you!</div></body></html>`;
         
         const win = window.open('', '_blank', 'width=400,height=600');
         win.document.write(html);
