@@ -28,6 +28,7 @@ html, body {
     height: 100vh;
     position: sticky;
     top: 0;
+    align-self: flex-start;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
