@@ -39,9 +39,39 @@
                             <td class="fw-bold">{{ category.name }}</td>
                             <td class="text-muted"><span class="badge bg-light text-dark border">{{ category.slug }}</span></td>
                             <td>
-                                <form method="POST" action="/admin/categories/delete/{{ category._id }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini? Menghapus kategori tidak akan menghapus produk di dalamnya, namun produk tersebut mungkin tidak dapat disaring dengan benar.');">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash"></i></button>
-                                </form>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ category._id }}" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <form method="POST" action="/admin/categories/delete/{{ category._id }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini? Menghapus kategori tidak akan menghapus produk di dalamnya, namun produk tersebut mungkin tidak dapat disaring dengan benar.');" class="m-0">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </div>
+
+                                <!-- Edit Modal -->
+                                <div class="modal fade" id="editModal{{ category._id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title fw-bold">Edit Kategori</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form method="POST" action="/admin/categories/edit/{{ category._id }}">
+                                                <div class="modal-body">
+                                                    <p class="small text-muted mb-3">Mengedit nama kategori juga akan memperbarui semua produk yang terkait dengan kategori ini secara otomatis.</p>
+                                                    <div class="mb-3">
+                                                        <label class="form-label text-muted small fw-bold">Nama Kategori</label>
+                                                        <input type="text" class="form-control" name="name" value="{{ category.name }}" required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary-pink fw-bold">Simpan Perubahan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         {% else %}

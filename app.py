@@ -265,6 +265,37 @@ def delete_category(category_id):
     flash('Kategori berhasil dihapus!', 'success')
     return redirect(url_for('admin_categories'))
 
+@app.route('/admin/categories/edit/<string:category_id>', methods=['POST'])
+@login_required
+def edit_category(category_id):
+    if session.get('role') != 'admin':
+        return redirect(url_for('home'))
+
+    new_name = request.form.get('name')
+    if new_name:
+        new_slug = new_name.lower().replace(' ', '_')
+        old_category = categories_collection.find_one({"_id": ObjectId(category_id)})
+        
+        if old_category:
+            old_slug = old_category.get("slug")
+            
+            # Update Category
+            categories_collection.update_one(
+                {"_id": ObjectId(category_id)}, 
+                {"$set": {"name": new_name, "slug": new_slug}}
+            )
+            
+            # Update products that use the old slug
+            if old_slug and old_slug != new_slug:
+                products_collection.update_many(
+                    {"category": old_slug}, 
+                    {"$set": {"category": new_slug}}
+                )
+                
+            flash('Kategori berhasil diperbarui!', 'success')
+            
+    return redirect(url_for('admin_categories'))
+
 
 @app.route('/admin/update/<string:product_id>', methods=['GET', 'POST'])
 @login_required
