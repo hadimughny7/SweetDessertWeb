@@ -3,6 +3,10 @@
 {% block page_title %}Dashboard Laporan{% endblock %}
 
 {% block content %}
+<style>
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .filter-scroll { -ms-overflow-style: none; scrollbar-width: none; overflow-x: auto; max-width: 100%; white-space: nowrap; }
+</style>
 <!-- Filter Buttons -->
 <form method="GET" action="/admin/dashboard">
     <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center mb-4 gap-3">
@@ -11,12 +15,12 @@
             <small class="text-muted">Periode: {{ period_label }}</small>
         </div>
         
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-            <div class="bg-light rounded-pill p-1 border d-flex" style="gap: 2px;">
-                <button type="submit" name="filter" value="day" class="btn btn-sm rounded-pill {% if filter_type == 'day' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Hari Ini</button>
-                <button type="submit" name="filter" value="week" class="btn btn-sm rounded-pill {% if filter_type == 'week' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Minggu Ini</button>
-                <button type="submit" name="filter" value="month" class="btn btn-sm rounded-pill {% if filter_type == 'month' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Bulan Ini</button>
-                <button type="button" class="btn btn-sm rounded-pill {% if filter_type == 'custom' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0" data-bs-toggle="collapse" data-bs-target="#customDateCollapse">Custom <i class="bi bi-chevron-down ms-1"></i></button>
+        <div class="d-flex w-100 w-xl-auto align-items-center" style="max-width: 100%;">
+            <div class="bg-light rounded-pill p-1 border d-flex filter-scroll w-100" style="gap: 2px;">
+                <button type="submit" name="filter" value="day" class="btn btn-sm rounded-pill {% if filter_type == 'day' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0 flex-shrink-0">Hari Ini</button>
+                <button type="submit" name="filter" value="week" class="btn btn-sm rounded-pill {% if filter_type == 'week' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0 flex-shrink-0">Minggu Ini</button>
+                <button type="submit" name="filter" value="month" class="btn btn-sm rounded-pill {% if filter_type == 'month' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0 flex-shrink-0">Bulan Ini</button>
+                <button type="button" class="btn btn-sm rounded-pill {% if filter_type == 'custom' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0 flex-shrink-0" data-bs-toggle="collapse" data-bs-target="#customDateCollapse">Custom <i class="bi bi-chevron-down ms-1"></i></button>
             </div>
         </div>
     </div>
