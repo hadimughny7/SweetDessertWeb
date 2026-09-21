@@ -8,18 +8,14 @@
     <div class="pos-menu">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold m-0">Menu Catalog</h5>
-            <div class="btn-group shadow-sm rounded-pill overflow-hidden" role="group">
-                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio1" autocomplete="off" checked onclick="filterCategory('all')">
-                <label class="btn btn-outline-secondary border-0" for="btnradio1">All</label>
+            <div class="btn-group shadow-sm rounded-pill overflow-hidden flex-wrap" role="group">
+                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio-all" autocomplete="off" checked onclick="filterCategory('all')">
+                <label class="btn btn-outline-secondary border-0" for="btnradio-all">All</label>
 
-                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio2" autocomplete="off" onclick="filterCategory('milecrepe')">
-                <label class="btn btn-outline-secondary border-0" for="btnradio2">Millecrepe</label>
-
-                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio3" autocomplete="off" onclick="filterCategory('pasta_menu')">
-                <label class="btn btn-outline-secondary border-0" for="btnradio3">Pasta</label>
-                
-                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio4" autocomplete="off" onclick="filterCategory('dessert')">
-                <label class="btn btn-outline-secondary border-0" for="btnradio4">Dessert</label>
+                {% for cat in categories %}
+                <input type="radio" class="btn-check filter-btn" name="btnradio" id="btnradio-{{ cat.slug }}" autocomplete="off" onclick="filterCategory('{{ cat.slug }}')">
+                <label class="btn btn-outline-secondary border-0" for="btnradio-{{ cat.slug }}">{{ cat.name }}</label>
+                {% endfor %}
             </div>
         </div>
 

@@ -32,12 +32,9 @@
                     <div class="col-md-6 mb-4">
                         <label class="form-label text-muted fw-bold small">Category</label>
                         <select class="form-select" name="category" required>
-                            <option value="milecrepe" {% if product.category == 'milecrepe' %}selected{% endif %}>Millecrepe</option>
-                            <option value="dessert" {% if product.category == 'dessert' %}selected{% endif %}>Dessert</option>
-                            <option value="drinks" {% if product.category == 'drinks' %}selected{% endif %}>Drinks</option>
-                            <option value="patisserie" {% if product.category == 'patisserie' %}selected{% endif %}>Patisserie</option>
-                            <option value="pasta_menu" {% if product.category == 'pasta_menu' %}selected{% endif %}>Pasta Menu</option>
-                            <option value="dessert_cake" {% if product.category == 'dessert_cake' %}selected{% endif %}>Dessert Cake</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat.slug }}" {% if product.category == cat.slug %}selected{% endif %}>{{ cat.name }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     

@@ -29,6 +29,9 @@
                 <a href="{{ url_for('admin') }}" class="list-group-item list-group-item-action bg-transparent {% if current_page == 'admin' %}active-nav{% endif %}">
                     <i class="bi bi-box-seam me-2"></i>Products
                 </a>
+                <a href="{{ url_for('admin_categories') }}" class="list-group-item list-group-item-action bg-transparent {% if current_page == 'categories' %}active-nav{% endif %}">
+                    <i class="bi bi-tags me-2"></i>Categories
+                </a>
                 <a href="{{ url_for('pos') }}" class="list-group-item list-group-item-action bg-transparent {% if current_page == 'pos' %}active-nav{% endif %}">
                     <i class="bi bi-calculator me-2"></i>POS Kasir
                 </a>

@@ -32,6 +32,18 @@ db = client[DB_NAME]
 products_collection = db['products']
 users_collection = db['users']
 invoices_collection = db['invoices']
+categories_collection = db['categories']
+
+# Initialize default categories if empty
+if categories_collection.count_documents({}) == 0:
+    categories_collection.insert_many([
+        {"slug": "milecrepe", "name": "Millecrepe"},
+        {"slug": "dessert", "name": "Dessert"},
+        {"slug": "drinks", "name": "Drinks"},
+        {"slug": "patisserie", "name": "Patisserie"},
+        {"slug": "pasta_menu", "name": "Pasta Menu"},
+        {"slug": "dessert_cake", "name": "Dessert Cake"}
+    ])
 
 # Konfigurasi session
 app.secret_key = os.environ.get("SECRET_KEY", "super_secret_key_123")
@@ -75,13 +87,15 @@ def login_required(f):
 
 @app.route('/')
 def home():
+    categories = list(categories_collection.find())
     products = list(products_collection.find({'is_recommended': True, 'is_available': {'$ne': False}}))
-    return render_template('index.html', current_page='home', products=products)
+    return render_template('index.html', current_page='home', products=products, categories=categories)
 
 @app.route('/menus')
 def all_menus():
+    categories = list(categories_collection.find())
     products = list(products_collection.find({'is_available': {'$ne': False}}))
-    return render_template('all_menus.html', current_page='menus', products=products)
+    return render_template('all_menus.html', current_page='menus', products=products, categories=categories)
 
 
 # ==========================================
@@ -164,7 +178,8 @@ def admin():
             return redirect(url_for('admin'))
 
         products = list(products_collection.find())
-        return render_template('admin.html', products=products, current_page='admin')
+        categories = list(categories_collection.find())
+        return render_template('admin.html', products=products, categories=categories, current_page='admin')
 
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
@@ -223,6 +238,33 @@ def set_all_available():
     products_collection.update_many({}, {"$set": {"is_available": True}})
     return jsonify({'success': True})
 
+@app.route('/admin/categories', methods=['GET', 'POST'])
+@login_required
+def admin_categories():
+    if session.get('role') != 'admin':
+        return redirect(url_for('home'))
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        if name:
+            slug = name.lower().replace(' ', '_')
+            categories_collection.insert_one({'name': name, 'slug': slug})
+            flash('Kategori berhasil ditambahkan!', 'success')
+        return redirect(url_for('admin_categories'))
+
+    categories = list(categories_collection.find())
+    return render_template('admin_categories.html', categories=categories, current_page='categories')
+
+@app.route('/admin/categories/delete/<string:category_id>', methods=['POST'])
+@login_required
+def delete_category(category_id):
+    if session.get('role') != 'admin':
+        return redirect(url_for('home'))
+
+    categories_collection.delete_one({"_id": ObjectId(category_id)})
+    flash('Kategori berhasil dihapus!', 'success')
+    return redirect(url_for('admin_categories'))
+
 
 @app.route('/admin/update/<string:product_id>', methods=['GET', 'POST'])
 @login_required
@@ -265,7 +307,8 @@ def update_product(product_id):
         flash('Product updated successfully!', 'success')
         return redirect(url_for('admin'))
 
-    return render_template('edit_product.html', product=product, current_page='admin')
+    categories = list(categories_collection.find())
+    return render_template('edit_product.html', product=product, categories=categories, current_page='admin')
 
 
 @app.route("/profile")
@@ -312,8 +355,9 @@ def update_profile():
 @login_required
 def pos():
     if session.get('role') == 'admin':
+        categories = list(categories_collection.find())
         products = list(products_collection.find({'is_available': {'$ne': False}}))
-        return render_template('pos.html', products=products, current_page='pos')
+        return render_template('pos.html', products=products, categories=categories, current_page='pos')
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
 
