@@ -300,8 +300,7 @@ html, body {
         position: sticky;
         top: 100px;
         z-index: 10;
-        max-height: calc(100vh - 120px);
-        overflow-y: auto;
+        height: fit-content;
     }
     
     .scrollable-catalog {
@@ -309,10 +308,10 @@ html, body {
         overflow-y: auto;
     }
     
-    .scrollable-catalog::-webkit-scrollbar, .sticky-form::-webkit-scrollbar {
+    .scrollable-catalog::-webkit-scrollbar {
         display: none;
     }
-    .scrollable-catalog, .sticky-form {
+    .scrollable-catalog {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
