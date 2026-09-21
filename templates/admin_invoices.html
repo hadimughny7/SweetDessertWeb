@@ -42,24 +42,24 @@
         <table class="table table-hover align-middle">
             <thead>
                 <tr>
+                    <th>Order ID</th>
+                    <th>Date & Time</th>
                     <th>Customer Name</th>
-                    <th>Source</th>
                     <th>Method</th>
                     <th>Items</th>
                     <th>Total Price</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for invoice in invoices %}
                 <tr>
-                    <td class="fw-bold">{{ invoice.name }}</td>
+                    <td><span class="text-muted fw-bold">#{{ invoice._id | string | truncate(8, True, '') | upper }}</span></td>
                     <td>
-                        {% if invoice.source == 'POS' %}
-                            <span class="badge bg-success">POS</span>
-                        {% else %}
-                            <span class="badge bg-primary">Online</span>
-                        {% endif %}
+                        <div class="small fw-bold">{{ invoice.created_at.strftime('%Y-%m-%d') if invoice.created_at else '-' }}</div>
+                        <div class="text-muted" style="font-size: 0.8rem;">{{ invoice.created_at.strftime('%H:%M') if invoice.created_at else '-' }} WIB</div>
                     </td>
+                    <td class="fw-bold">{{ invoice.name | default('Guest') }}</td>
                     <td>{{ invoice.payment_method }}</td>
                     <td>
                         <ul class="list-unstyled m-0 small">
@@ -69,10 +69,80 @@
                         </ul>
                     </td>
                     <td class="text-primary-pink fw-bold">Rp. {{ "{:,}".format(invoice.total_price|int) }}</td>
+                    <td>
+                        <script type="application/json" id="invoice-data-{{ invoice._id }}">
+                            {
+                                "id": "{{ invoice._id | string | truncate(8, True, '') | upper }}",
+                                "date": "{{ invoice.created_at.strftime('%Y-%m-%d %H:%M') if invoice.created_at else '-' }} WIB",
+                                "customer_name": "{{ invoice.name | default('Guest') }}",
+                                "payment_method": "{{ invoice.payment_method }}",
+                                "total_price": {{ invoice.total_price }},
+                                "cash_received": {{ invoice.cash_received | default(0) }},
+                                "change": {{ invoice.change | default(0) }},
+                                "order_details": [
+                                    {% for item in invoice.order_details %}
+                                    {
+                                        "product_name": "{{ item.product_name }}",
+                                        "quantity": {{ item.quantity }},
+                                        "price": {{ item.price }},
+                                        "subtotal_price": {{ item.subtotal_price }}
+                                    }{% if not loop.last %},{% endif %}
+                                    {% endfor %}
+                                ]
+                            }
+                        </script>
+                        <button class="btn btn-sm btn-outline-dark" onclick="printReceipt('{{ invoice._id }}')" title="Cetak Struk">
+                            <i class="bi bi-printer"></i>
+                        </button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function printReceipt(invoiceId) {
+        const scriptData = document.getElementById(`invoice-data-${invoiceId}`).textContent;
+        const invoice = JSON.parse(scriptData);
+        
+        let html = `
+            <html><head><title>Receipt</title>
+            <style>body{font-family:monospace;width:300px;margin:auto;} .c{text-align:center;} .b{font-weight:bold;} .l{border-bottom:1px dashed #000;margin:10px 0;} table{width:100%;} .r{text-align:right;}</style>
+            </head><body>
+            <div class="c b">SWEET DESSERT CAFE</div>
+            <div class="c">Jl. Raya Cidahu, Sukabumi</div>
+            <div class="l"></div>
+            <div>Date: ${invoice.date}</div>
+            <div>Order ID: #${invoice.id}</div>
+            <div>Customer: ${invoice.customer_name}</div>
+            <div class="l"></div><table>`;
+        
+        invoice.order_details.forEach(i => {
+            html += `<tr><td colspan="2">${i.product_name}</td></tr>
+                     <tr><td>${i.quantity} x Rp${i.price}</td><td class="r">Rp${i.subtotal_price}</td></tr>`;
+        });
+        
+        html += `</table><div class="l"></div><table>
+                <tr class="b"><td>TOTAL</td><td class="r">Rp${invoice.total_price}</td></tr>`;
+        
+        if (invoice.payment_method === 'Cash') {
+            html += `<tr><td>CASH</td><td class="r">Rp${invoice.cash_received}</td></tr>
+                     <tr><td>CHANGE</td><td class="r">Rp${invoice.change}</td></tr>`;
+        } else {
+            html += `<tr><td>PAYMENT</td><td class="r">${invoice.payment_method}</td></tr>`;
+        }
+        
+        html += `</table><div class="l"></div><div class="c">Thank you!</div></body></html>`;
+        
+        const win = window.open('', '_blank', 'width=400,height=600');
+        win.document.write(html);
+        win.document.close();
+        win.focus();
+        setTimeout(() => { win.print(); win.close(); }, 500);
+    }
+</script>
 {% endblock %}
