@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'customer/base.html' %}
 
 {% block content %}
 
@@ -23,7 +23,7 @@
         <!-- Image Reveal Right -->
         <div class="col-lg-5" data-aos="zoom-out" data-aos-delay="200">
             <div class="image-reveal" style="height: 70vh; max-height: 700px; position: relative;">
-                <img src="/static/Group 1.png" alt="Sweet Dessert Hero">
+                <img src="/static/images/Group 1.png" alt="Sweet Dessert Hero">
                 <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 15px 25px; border-radius: 100px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                     <span style="font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 1px; color: var(--color-text);">PREMIUM QUALITY</span>
                 </div>
@@ -54,7 +54,7 @@
         <div class="col-lg-4" data-aos="fade-right">
             <div class="section-label mb-4">/ 02 Our Story</div>
             <div class="image-reveal" style="height: 500px;">
-                <img src="/static/Group 1.png" alt="Our Story" style="transform: scaleX(-1);">
+                <img src="/static/images/Group 1.png" alt="Our Story" style="transform: scaleX(-1);">
             </div>
         </div>
         <div class="col-lg-8 d-flex flex-column justify-content-center" data-aos="fade-left" data-aos-delay="100">
@@ -93,7 +93,7 @@
         <div class="bento-card" data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
             <div class="bento-tag">{{ product.category|capitalize|replace('_', ' ') }}</div>
             <div class="bento-image-container">
-                <img src="/{{ product.image|replace('\\', '/') }}" onerror="this.src='/static/box.png'" alt="{{ product.name }}">
+                <img src="/{{ product.image|replace('\\', '/') }}" onerror="this.src='/static/images/box.png'" alt="{{ product.name }}">
             </div>
             <div class="bento-body">
                 <h3 class="bento-title">{{ product.name }}</h3>

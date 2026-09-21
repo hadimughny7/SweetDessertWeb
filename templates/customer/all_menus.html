@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'customer/base.html' %}
 
 {% block content %}
 <div class="container-fluid px-4 px-md-5" style="padding-top: 120px; min-height: 80vh;">
@@ -12,7 +12,7 @@
         <div class="bento-card" data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
             <div class="bento-tag">{{ product.category|capitalize|replace('_', ' ') }}</div>
             <div class="bento-image-container">
-                <img src="/{{ product.image|replace('\\', '/') }}" onerror="this.src='/static/box.png'" alt="{{ product.name }}">
+                <img src="/{{ product.image|replace('\\', '/') }}" onerror="this.src='/static/images/box.png'" alt="{{ product.name }}">
             </div>
             <div class="bento-body">
                 <h3 class="bento-title">{{ product.name }}</h3>

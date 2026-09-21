@@ -89,13 +89,13 @@ def login_required(f):
 def home():
     categories = list(categories_collection.find())
     products = list(products_collection.find({'is_recommended': True, 'is_available': {'$ne': False}}))
-    return render_template('index.html', current_page='home', products=products, categories=categories)
+    return render_template('customer/index.html', current_page='home', products=products, categories=categories)
 
 @app.route('/menus')
 def all_menus():
     categories = list(categories_collection.find())
     products = list(products_collection.find({'is_available': {'$ne': False}}))
-    return render_template('all_menus.html', current_page='menus', products=products, categories=categories)
+    return render_template('customer/all_menus.html', current_page='menus', products=products, categories=categories)
 
 
 # ==========================================
@@ -130,7 +130,7 @@ def staff_login():
             flash('Invalid email or password.', 'error')
             return redirect(url_for('staff_login'))
 
-    return render_template('login.html', current_page='staff')
+    return render_template('auth/login.html', current_page='staff')
 
 
 
@@ -179,7 +179,7 @@ def admin():
 
         products = list(products_collection.find())
         categories = list(categories_collection.find())
-        return render_template('admin.html', products=products, categories=categories, current_page='admin')
+        return render_template('admin/admin.html', products=products, categories=categories, current_page='admin')
 
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
@@ -253,7 +253,7 @@ def admin_categories():
         return redirect(url_for('admin_categories'))
 
     categories = list(categories_collection.find())
-    return render_template('admin_categories.html', categories=categories, current_page='categories')
+    return render_template('admin/admin_categories.html', categories=categories, current_page='categories')
 
 @app.route('/admin/categories/delete/<string:category_id>', methods=['POST'])
 @login_required
@@ -339,7 +339,7 @@ def update_product(product_id):
         return redirect(url_for('admin'))
 
     categories = list(categories_collection.find())
-    return render_template('edit_product.html', product=product, categories=categories, current_page='admin')
+    return render_template('admin/edit_product.html', product=product, categories=categories, current_page='admin')
 
 
 @app.route("/profile")
@@ -347,7 +347,7 @@ def update_product(product_id):
 def profile():
     user = users_collection.find_one({"email": session.get('user_email')})
     if user:
-        return render_template("profile.html", user=user, current_page='profile')
+        return render_template('auth/profile.html', user=user, current_page='profile')
     return "User not found", 404
     
 
@@ -388,7 +388,7 @@ def pos():
     if session.get('role') == 'admin':
         categories = list(categories_collection.find())
         products = list(products_collection.find({'is_available': {'$ne': False}}))
-        return render_template('pos.html', products=products, categories=categories, current_page='pos')
+        return render_template('admin/pos.html', products=products, categories=categories, current_page='pos')
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
 
@@ -461,7 +461,7 @@ def print_receipt(identifier):
     if 'order_id' not in invoice:
         invoice['order_id'] = str(invoice['_id'])[:8].upper()
         
-    return render_template('receipt.html', invoice=invoice)
+    return render_template('admin/receipt.html', invoice=invoice)
 
 
 @app.route('/admin/invoices')
@@ -508,7 +508,7 @@ def admin_invoices():
                     pass
 
         invoices = list(invoices_collection.find(query).sort("created_at", -1))
-        return render_template('admin_invoices.html', invoices=invoices, current_page='admin_invoices', filter_type=filter_type, start_date=start_date, end_date=end_date)
+        return render_template('admin/admin_invoices.html', invoices=invoices, current_page='admin_invoices', filter_type=filter_type, start_date=start_date, end_date=end_date)
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
 
@@ -518,7 +518,7 @@ def admin_invoices():
 def users():
     if session.get('role') == 'admin':
         users_list = list(users_collection.find())
-        return render_template('users.html', users=users_list, current_page='users')
+        return render_template('admin/users.html', users=users_list, current_page='users')
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
 
@@ -636,7 +636,7 @@ def admin_dashboard():
         if dt:
             hourly_dist[dt.hour] += 1
 
-    return render_template('admin_dashboard.html',
+    return render_template('admin/admin_dashboard.html',
         current_page='dashboard',
         filter_type=filter_type,
         start_date=start_date,

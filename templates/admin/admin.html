@@ -1,4 +1,4 @@
-{% extends 'admin_base.html' %}
+{% extends 'admin/admin_base.html' %}
 
 {% block page_title %}Product Management{% endblock %}
 
@@ -62,7 +62,7 @@
                         {% for product in products %}
                         <tr>
                             <td>
-                                <img src="/{{ product.image|replace('\\', '/') }}" class="product-img-thumbnail" onerror="this.src='/static/box.png'">
+                                <img src="/{{ product.image|replace('\\', '/') }}" class="product-img-thumbnail" onerror="this.src='/static/images/box.png'">
                             </td>
                             <td class="fw-bold">
                                 {{ product.name }}

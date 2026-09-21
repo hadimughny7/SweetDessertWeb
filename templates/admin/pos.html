@@ -1,4 +1,4 @@
-{% extends 'admin_base.html' %}
+{% extends 'admin/admin_base.html' %}
 
 {% block page_title %}Point of Sale (POS){% endblock %}
 
@@ -22,7 +22,7 @@
         <div class="pos-grid" id="product-grid">
             {% for product in products %}
             <div class="pos-item-card product-item" data-category="{{ product.category }}" onclick="addToCart('{{ product._id }}', '{{ product.name }}', {{ product.price }})">
-                <img src="/{{ product.image|replace('\\', '/') }}" class="pos-item-img" onerror="this.src='/static/box.png'">
+                <img src="/{{ product.image|replace('\\', '/') }}" class="pos-item-img" onerror="this.src='/static/images/box.png'">
                 <h6 class="fw-bold mb-1" style="font-size: 0.9rem;">{{ product.name }}</h6>
                 <p class="text-primary-pink m-0 fw-bold">Rp. {{ "{:,}".format(product.price|int) }}</p>
             </div>
