@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt #{{ invoice.order_id }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Mono', monospace; /* Monospace is best for receipts */
+            color: #000;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+            font-size: 14px;
+            width: 100%;
+            max-width: 320px; /* roughly 80mm */
+            margin: 0 auto;
+        }
+        
+        .c { text-align: center; }
+        .b { font-weight: bold; }
+        .r { text-align: right; }
+        
+        .logo-img {
+            width: 80px;
+            margin-bottom: 5px;
+        }
+        
+        .shop-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .address {
+            font-size: 12px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .divider {
+            border-bottom: 1px dashed #000;
+            margin: 10px 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        
+        td {
+            padding: 3px 0;
+            vertical-align: top;
+        }
+        
+        .item-name {
+            padding-bottom: 0;
+        }
+        
+        .item-details {
+            font-size: 12px;
+            padding-top: 0;
+        }
+        
+        .total-row {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        
+        /* Print Specific Styling */
+        @media print {
+            body {
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            @page {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="c">
+        <img src="/static/images/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+        <div class="shop-name">SWEET DESSERT CAFE</div>
+        <div class="address">Jl. Raya Cidahu, Sukabumi<br>Jawa Barat</div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <div class="info-row">
+        <span>Tanggal:</span>
+        <span>{{ invoice.created_at.strftime('%d/%m/%Y %H:%M') }}</span>
+    </div>
+    <div class="info-row">
+        <span>Order ID:</span>
+        <span>{{ invoice.order_id }}</span>
+    </div>
+    <div class="info-row">
+        <span>Customer:</span>
+        <span>{{ invoice.name }}</span>
+    </div>
+    <div class="info-row">
+        <span>Kasir:</span>
+        <span>Admin</span>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <table>
+        {% for item in invoice.order_details %}
+        <tr>
+            <td colspan="2" class="item-name b">{{ item.product_name }}</td>
+        </tr>
+        <tr>
+            <td class="item-details">{{ item.quantity }} x Rp {{ "{:,.0f}".format(item.price).replace(',', '.') }}</td>
+            <td class="r item-details">Rp {{ "{:,.0f}".format(item.subtotal_price).replace(',', '.') }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <div class="divider"></div>
+    
+    <table>
+        <tr class="total-row">
+            <td>TOTAL</td>
+            <td class="r">Rp {{ "{:,.0f}".format(invoice.total_price).replace(',', '.') }}</td>
+        </tr>
+        
+        {% if invoice.payment_method == 'Cash' %}
+        <tr>
+            <td>TUNAI</td>
+            <td class="r">Rp {{ "{:,.0f}".format(invoice.cash_received).replace(',', '.') }}</td>
+        </tr>
+        <tr>
+            <td>KEMBALI</td>
+            <td class="r">Rp {{ "{:,.0f}".format(invoice.change).replace(',', '.') }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>METODE</td>
+            <td class="r">{{ invoice.payment_method }}</td>
+        </tr>
+        {% endif %}
+    </table>
+    
+    <div class="divider"></div>
+    
+    <div class="c footer">
+        <p class="b">TERIMA KASIH</p>
+        <p>Silakan datang kembali!<br>IG: @sweetdessert.id</p>
+    </div>
+
+    <script>
+        // Otomatis buka dialog print saat halaman dimuat
+        window.onload = function() {
+            window.print();
+        };
+        // Tutup window otomatis setelah dialog print ditutup
+        window.onafterprint = function() {
+            window.close();
+        };
+    </script>
+</body>
+</html>

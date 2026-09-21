@@ -106,43 +106,7 @@
 {% block extra_js %}
 <script>
     function printReceipt(invoiceId) {
-        const scriptData = document.getElementById(`invoice-data-${invoiceId}`).textContent;
-        const invoice = JSON.parse(scriptData);
-        
-        let html = `
-            <html><head><title>Receipt</title>
-            <style>body{font-family:monospace;width:300px;margin:auto;} .c{text-align:center;} .b{font-weight:bold;} .l{border-bottom:1px dashed #000;margin:10px 0;} table{width:100%;} .r{text-align:right;}</style>
-            </head><body>
-            <div class="c b">SWEET DESSERT CAFE</div>
-            <div class="c">Jl. Raya Cidahu, Sukabumi</div>
-            <div class="l"></div>
-            <div>Date: ${invoice.date}</div>
-            <div>Order ID: #${invoice.id}</div>
-            <div>Customer: ${invoice.customer_name}</div>
-            <div class="l"></div><table>`;
-        
-        invoice.order_details.forEach(i => {
-            html += `<tr><td colspan="2">${i.product_name}</td></tr>
-                     <tr><td>${i.quantity} x Rp${i.price}</td><td class="r">Rp${i.subtotal_price}</td></tr>`;
-        });
-        
-        html += `</table><div class="l"></div><table>
-                <tr class="b"><td>TOTAL</td><td class="r">Rp${invoice.total_price}</td></tr>`;
-        
-        if (invoice.payment_method === 'Cash') {
-            html += `<tr><td>CASH</td><td class="r">Rp${invoice.cash_received}</td></tr>
-                     <tr><td>CHANGE</td><td class="r">Rp${invoice.change}</td></tr>`;
-        } else {
-            html += `<tr><td>PAYMENT</td><td class="r">${invoice.payment_method}</td></tr>`;
-        }
-        
-        html += `</table><div class="l"></div><div class="c">Thank you!</div></body></html>`;
-        
-        const win = window.open('', '_blank', 'width=400,height=600');
-        win.document.write(html);
-        win.document.close();
-        win.focus();
-        setTimeout(() => { win.print(); win.close(); }, 500);
+        window.open(`/admin/receipt/${invoiceId}`, '_blank', 'width=400,height=600');
     }
 </script>
 {% endblock %}

@@ -351,41 +351,8 @@
     }
 
     function printReceipt() {
-        if (!lastTransaction) return;
-        let html = `
-            <html><head><title>Receipt</title>
-            <style>body{font-family:monospace;width:300px;margin:auto;} .c{text-align:center;} .b{font-weight:bold;} .l{border-bottom:1px dashed #000;margin:10px 0;} table{width:100%;} .r{text-align:right;}</style>
-            </head><body>
-            <div class="c b">SWEET DESSERT CAFE</div>
-            <div class="c">Jl. Raya Cidahu, Sukabumi</div>
-            <div class="l"></div>
-            <div>Date: ${lastTransaction.date}</div>
-            <div>Order ID: ${lastTransaction.id}</div>
-            <div>Customer: ${lastTransaction.customer_name}</div>
-            <div class="l"></div><table>`;
-        
-        lastTransaction.order_details.forEach(i => {
-            html += `<tr><td colspan="2">${i.product_name}</td></tr>
-                     <tr><td>${i.quantity} x Rp${i.price}</td><td class="r">Rp${i.subtotal_price}</td></tr>`;
-        });
-        
-        html += `</table><div class="l"></div><table>
-                <tr class="b"><td>TOTAL</td><td class="r">Rp${lastTransaction.total_price}</td></tr>`;
-        
-        if (lastTransaction.payment_method === 'Cash') {
-            html += `<tr><td>CASH</td><td class="r">Rp${lastTransaction.cash_received}</td></tr>
-                     <tr><td>CHANGE</td><td class="r">Rp${lastTransaction.change}</td></tr>`;
-        } else {
-            html += `<tr><td>PAYMENT</td><td class="r">${lastTransaction.payment_method}</td></tr>`;
-        }
-        
-        html += `</table><div class="l"></div><div class="c">Thank you!</div></body></html>`;
-        
-        const win = window.open('', '_blank', 'width=400,height=600');
-        win.document.write(html);
-        win.document.close();
-        win.focus();
-        setTimeout(() => { win.print(); win.close(); }, 500);
+        if (!lastTransaction || !lastTransaction.id) return;
+        window.open(`/admin/receipt/${lastTransaction.id}`, '_blank', 'width=400,height=600');
     }
 </script>
 {% endblock %}

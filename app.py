@@ -439,6 +439,31 @@ def api_pos_checkout():
     return jsonify({'message': 'POS transaction successful!', 'order_id': order_id}), 200
 
 
+@app.route('/admin/receipt/<identifier>')
+@login_required
+def print_receipt(identifier):
+    if session.get('role') != 'admin':
+        flash('Access denied. Admins only.', 'error')
+        return redirect(url_for('home'))
+        
+    invoice = invoices_collection.find_one({'order_id': identifier})
+    if not invoice:
+        try:
+            from bson.objectid import ObjectId
+            invoice = invoices_collection.find_one({'_id': ObjectId(identifier)})
+        except:
+            pass
+            
+    if not invoice:
+        flash('Invoice not found.', 'error')
+        return redirect(url_for('admin_invoices'))
+        
+    if 'order_id' not in invoice:
+        invoice['order_id'] = str(invoice['_id'])[:8].upper()
+        
+    return render_template('receipt.html', invoice=invoice)
+
+
 @app.route('/admin/invoices')
 @login_required
 def admin_invoices():
