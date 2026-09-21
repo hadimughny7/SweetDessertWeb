@@ -11,7 +11,7 @@
 <body data-bs-spy="scroll" data-bs-target="#pill-nav">
     
     <!-- Top Minimal Header (Logo only) -->
-    <div class="container-fluid pt-4 pb-2 px-5 d-flex justify-content-between align-items-center position-absolute top-0 w-100" style="z-index: 10;">
+    <div class="container-fluid pt-4 pb-2 px-4 px-md-5 d-flex justify-content-between align-items-center position-absolute top-0 w-100" style="z-index: 10;">
         <div class="fw-bold" style="font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 2px;">
             SWEET<span class="text-accent">DESSERT.</span>
         </div>
@@ -27,7 +27,7 @@
     </nav>
 
     <!-- Flash Messages (Toast system) -->
-    <div id="toast-container" style="position: fixed; top: 80px; right: 40px; z-index: 9999;">
+    <div id="toast-container" class="position-fixed" style="top: 80px; right: 5%; z-index: 9999; max-width: 90vw; width: max-content;">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
