@@ -226,7 +226,7 @@
         .then(res => res.json())
         .then(data => {
             if (data.message === 'POS transaction successful!') {
-                lastTransaction = { ...payload, date: new Date().toLocaleString() };
+                lastTransaction = { ...payload, date: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB' };
                 
                 btnPrint.style.display = 'block';
                 btnProcess.style.display = 'none';

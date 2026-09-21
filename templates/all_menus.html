@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid px-4 px-md-5" style="padding-top: 120px; min-height: 80vh;">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="text-heading">All <span class="text-accent">Menus.</span></h2>
+        <p style="color: var(--color-text-muted);">Jelajahi seluruh koleksi mahakarya manis kami.</p>
+    </div>
+
+    <div class="bento-grid">
+        {% for product in products %}
+        <div class="bento-card" data-aos="fade-up" data-aos-delay="{{ (loop.index0 % 3) * 100 }}">
+            <div class="bento-tag">{{ product.category|capitalize|replace('_', ' ') }}</div>
+            <div class="bento-image-container">
+                <img src="/{{ product.image|replace('\\', '/') }}" onerror="this.src='/static/box.png'" alt="{{ product.name }}">
+            </div>
+            <div class="bento-body">
+                <h3 class="bento-title">{{ product.name }}</h3>
+                <p class="bento-desc">{{ product.description }}</p>
+                <div class="d-flex justify-content-between align-items-end mt-auto">
+                    <div class="bento-price">Rp {{ "{:,}".format(product.price|int) }}</div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center text-muted py-5" style="grid-column: 1 / -1;">
+            <p>Belum ada menu tersedia.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- MASSIVE FOOTER -->
+<div class="container-fluid px-0 mt-3 mt-md-5 pt-3 pt-md-5 pb-5" style="overflow: hidden; position: relative;">
+    <div class="footer-watermark">
+        SWEET DESSERT
+    </div>
+    <div class="text-center mt-4" style="color: var(--color-text-muted); font-size: 0.9rem;">
+        &copy; 2024 Sweet Dessert. Crafted with precision.
+    </div>
+</div>
+{% endblock %}

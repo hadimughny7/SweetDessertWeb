@@ -4,10 +4,39 @@
 
 {% block content %}
 <div class="dashboard-card p-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="fw-bold m-0">Recent Invoices</h5>
-        <!-- We could add date filters here later -->
-    </div>
+    <form method="GET" action="/admin/invoices">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center mb-4 gap-3">
+            <h5 class="fw-bold m-0">Transactions History</h5>
+            
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <div class="bg-light rounded-pill p-1 border d-flex" style="gap: 2px;">
+                    <button type="submit" name="filter" value="all" class="btn btn-sm rounded-pill {% if filter_type == 'all' or not filter_type %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">All Time</button>
+                    <button type="submit" name="filter" value="day" class="btn btn-sm rounded-pill {% if filter_type == 'day' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Today</button>
+                    <button type="submit" name="filter" value="week" class="btn btn-sm rounded-pill {% if filter_type == 'week' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">This Week</button>
+                    <button type="submit" name="filter" value="month" class="btn btn-sm rounded-pill {% if filter_type == 'month' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">This Month</button>
+                    <button type="button" class="btn btn-sm rounded-pill {% if filter_type == 'custom' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0" data-bs-toggle="collapse" data-bs-target="#customDateCollapse">Custom Date <i class="bi bi-chevron-down ms-1"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="collapse {% if filter_type == 'custom' %}show{% endif %} mb-4" id="customDateCollapse">
+            <div class="card card-body bg-light border border-light-subtle rounded-4 p-3 shadow-sm">
+                <div class="row align-items-end g-3">
+                    <div class="col-md-5">
+                        <label class="form-label small text-muted fw-bold mb-1"><i class="bi bi-calendar3 me-1"></i> Start Date</label>
+                        <input type="date" name="start_date" class="form-control rounded-pill px-3 shadow-none border-light-subtle" value="{{ start_date or '' }}">
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label small text-muted fw-bold mb-1"><i class="bi bi-calendar3 me-1"></i> End Date <span class="fw-normal text-muted" style="font-size: 0.8em;">(Opsional)</span></label>
+                        <input type="date" name="end_date" class="form-control rounded-pill px-3 shadow-none border-light-subtle" value="{{ end_date or '' }}">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" name="filter" value="custom" class="btn btn-dark rounded-pill w-100 fw-bold">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     
     <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -21,7 +50,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for invoice in invoices|reverse %}
+                {% for invoice in invoices %}
                 <tr>
                     <td class="fw-bold">{{ invoice.name }}</td>
                     <td>

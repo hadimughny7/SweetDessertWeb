@@ -1,0 +1,394 @@
+{% extends 'admin_base.html' %}
+
+{% block page_title %}Dashboard Laporan{% endblock %}
+
+{% block content %}
+<!-- Filter Buttons -->
+<form method="GET" action="/admin/dashboard">
+    <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center mb-4 gap-3">
+        <div>
+            <h5 class="fw-bold m-0">Laporan Penjualan</h5>
+            <small class="text-muted">Periode: {{ period_label }}</small>
+        </div>
+        
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+            <div class="bg-light rounded-pill p-1 border d-flex" style="gap: 2px;">
+                <button type="submit" name="filter" value="day" class="btn btn-sm rounded-pill {% if filter_type == 'day' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Hari Ini</button>
+                <button type="submit" name="filter" value="week" class="btn btn-sm rounded-pill {% if filter_type == 'week' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Minggu Ini</button>
+                <button type="submit" name="filter" value="month" class="btn btn-sm rounded-pill {% if filter_type == 'month' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0">Bulan Ini</button>
+                <button type="button" class="btn btn-sm rounded-pill {% if filter_type == 'custom' %}btn-dark fw-bold shadow-sm{% else %}btn-light text-muted{% endif %} px-3 border-0" data-bs-toggle="collapse" data-bs-target="#customDateCollapse">Custom <i class="bi bi-chevron-down ms-1"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="collapse {% if filter_type == 'custom' %}show{% endif %} mb-4" id="customDateCollapse">
+        <div class="card card-body bg-light border border-light-subtle rounded-4 p-3 shadow-sm">
+            <div class="row align-items-end g-3">
+                <div class="col-md-5">
+                    <label class="form-label small text-muted fw-bold mb-1"><i class="bi bi-calendar3 me-1"></i> Start Date</label>
+                    <input type="date" name="start_date" class="form-control rounded-pill px-3 shadow-none border-light-subtle" value="{{ start_date or '' }}">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label small text-muted fw-bold mb-1"><i class="bi bi-calendar3 me-1"></i> End Date <span class="fw-normal text-muted" style="font-size: 0.8em;">(Opsional)</span></label>
+                    <input type="date" name="end_date" class="form-control rounded-pill px-3 shadow-none border-light-subtle" value="{{ end_date or '' }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" name="filter" value="custom" class="btn btn-dark rounded-pill w-100 fw-bold">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Summary Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="dashboard-card p-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-muted small fw-bold mb-1 text-uppercase" style="letter-spacing: 0.05em;">Total Pendapatan</p>
+                    <h3 class="fw-bold mb-0">Rp {{ "{:,.0f}".format(total_revenue) }}</h3>
+                </div>
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; background: linear-gradient(135deg, #FBA1B7, #f98ca7); color: white; font-size: 1.3rem;">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card p-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-muted small fw-bold mb-1 text-uppercase" style="letter-spacing: 0.05em;">Total Transaksi</p>
+                    <h3 class="fw-bold mb-0">{{ total_transactions }}</h3>
+                </div>
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; background: linear-gradient(135deg, #6366f1, #818cf8); color: white; font-size: 1.3rem;">
+                    <i class="bi bi-receipt"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dashboard-card p-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <p class="text-muted small fw-bold mb-1 text-uppercase" style="letter-spacing: 0.05em;">Rata-rata Transaksi</p>
+                    <h3 class="fw-bold mb-0">Rp {{ "{:,.0f}".format(avg_transaction) }}</h3>
+                </div>
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; background: linear-gradient(135deg, #10b981, #34d399); color: white; font-size: 1.3rem;">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Revenue Chart -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="dashboard-card p-4 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-bar-chart-line me-2 text-primary-pink"></i>Tren Penjualan Harian</h6>
+            <div style="position: relative; height: 300px;">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="dashboard-card p-4 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-primary-pink"></i>Jam Sibuk</h6>
+            <div style="position: relative; height: 300px;">
+                <canvas id="hourlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Best Sellers + Payment + Source -->
+<div class="row g-4 mb-4">
+    <!-- Best Sellers -->
+    <div class="col-lg-6">
+        <div class="dashboard-card p-4 h-100">
+            <h6 class="fw-bold mb-3"><i class="bi bi-trophy me-2 text-warning"></i>Menu Paling Laris</h6>
+            {% if best_sellers %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Menu</th>
+                            <th class="text-center">Qty Terjual</th>
+                            <th class="text-end">Pendapatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for name, data in best_sellers %}
+                        <tr>
+                            <td>
+                                {% if loop.index == 1 %}
+                                    <span class="badge rounded-pill" style="background: linear-gradient(135deg, #f59e0b, #fbbf24); font-size: 0.8rem;">🥇</span>
+                                {% elif loop.index == 2 %}
+                                    <span class="badge rounded-pill bg-secondary" style="font-size: 0.8rem;">🥈</span>
+                                {% elif loop.index == 3 %}
+                                    <span class="badge rounded-pill" style="background: #cd7f32; font-size: 0.8rem;">🥉</span>
+                                {% else %}
+                                    <span class="text-muted small">{{ loop.index }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="fw-bold">{{ name }}</td>
+                            <td class="text-center">
+                                <span class="badge bg-light text-dark border px-3 py-2">{{ data.qty }}</span>
+                            </td>
+                            <td class="text-end text-primary-pink fw-bold">Rp {{ "{:,.0f}".format(data.revenue) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center text-muted py-5">
+                <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                <p class="mt-2">Belum ada data transaksi untuk periode ini.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Payment Methods + Source -->
+    <div class="col-lg-6">
+        <!-- Payment Methods -->
+        <div class="dashboard-card p-4 mb-4">
+            <h6 class="fw-bold mb-3"><i class="bi bi-credit-card me-2 text-primary-pink"></i>Metode Pembayaran</h6>
+            {% if payment_methods %}
+            {% for method, data in payment_methods.items() %}
+            <div class="d-flex align-items-center justify-content-between py-3 {% if not loop.last %}border-bottom{% endif %}">
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; background: rgba(251, 161, 183, 0.1);">
+                        {% if method == 'Cash' %}
+                            <i class="bi bi-cash-stack text-success"></i>
+                        {% elif method == 'QRIS' %}
+                            <i class="bi bi-qr-code" style="color: var(--primary-pink);"></i>
+                        {% else %}
+                            <i class="bi bi-credit-card-2-front text-info"></i>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <span class="fw-bold">{{ method }}</span>
+                        <br><small class="text-muted">{{ data.count }} transaksi</small>
+                    </div>
+                </div>
+                <span class="fw-bold">Rp {{ "{:,.0f}".format(data.total) }}</span>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-muted text-center py-3">Belum ada data.</p>
+            {% endif %}
+        </div>
+
+        <!-- Source Breakdown -->
+        <div class="dashboard-card p-4">
+            <h6 class="fw-bold mb-3"><i class="bi bi-diagram-3 me-2 text-primary-pink"></i>Sumber Transaksi</h6>
+            {% if source_breakdown %}
+            <div class="row g-3">
+                {% for source, data in source_breakdown.items() %}
+                <div class="col-6">
+                    <div class="p-3 rounded-4 text-center" style="background: {% if source == 'POS' %}rgba(16, 185, 129, 0.08){% else %}rgba(99, 102, 241, 0.08){% endif %};">
+                        <div class="mb-2">
+                            {% if source == 'POS' %}
+                                <i class="bi bi-calculator" style="font-size: 1.5rem; color: #10b981;"></i>
+                            {% else %}
+                                <i class="bi bi-globe" style="font-size: 1.5rem; color: #6366f1;"></i>
+                            {% endif %}
+                        </div>
+                        <h6 class="fw-bold mb-0">{{ source }}</h6>
+                        <small class="text-muted">{{ data.count }} transaksi</small>
+                        <div class="fw-bold mt-1" style="font-size: 0.9rem;">Rp {{ "{:,.0f}".format(data.total) }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted text-center py-3">Belum ada data.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+    const chartLabels = {{ chart_labels | tojson }};
+    const chartRevenue = {{ chart_revenue | tojson }};
+    const chartCount = {{ chart_count | tojson }};
+    const hourlyDist = {{ hourly_dist | tojson }};
+
+    // --- Revenue Chart ---
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    
+    const gradientFill = revenueCtx.createLinearGradient(0, 0, 0, 280);
+    gradientFill.addColorStop(0, 'rgba(251, 161, 183, 0.3)');
+    gradientFill.addColorStop(1, 'rgba(251, 161, 183, 0.01)');
+
+    new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+            labels: chartLabels.map(l => {
+                const d = new Date(l);
+                return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+            }),
+            datasets: [
+                {
+                    label: 'Pendapatan (Rp)',
+                    data: chartRevenue,
+                    borderColor: '#FBA1B7',
+                    backgroundColor: gradientFill,
+                    borderWidth: 2.5,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#FBA1B7',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Jumlah Transaksi',
+                    data: chartCount,
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4,
+                    pointBackgroundColor: '#6366f1',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 3,
+                    pointHoverRadius: 5,
+                    yAxisID: 'y1'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: { usePointStyle: true, padding: 20, font: { family: 'Poppins', size: 12 } }
+                },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    padding: 12,
+                    cornerRadius: 12,
+                    titleFont: { family: 'Poppins', weight: 'bold' },
+                    bodyFont: { family: 'Poppins' },
+                    callbacks: {
+                        label: function(ctx) {
+                            if (ctx.datasetIndex === 0) {
+                                return 'Pendapatan: Rp ' + ctx.raw.toLocaleString('id-ID');
+                            }
+                            return 'Transaksi: ' + ctx.raw;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { family: 'Poppins', size: 11 }, color: '#9ca3af' }
+                },
+                y: {
+                    position: 'left',
+                    grid: { color: 'rgba(0,0,0,0.04)' },
+                    ticks: {
+                        font: { family: 'Poppins', size: 11 },
+                        color: '#9ca3af',
+                        callback: v => 'Rp ' + (v >= 1000000 ? (v/1000000).toFixed(1) + 'jt' : v >= 1000 ? (v/1000).toFixed(0) + 'rb' : v)
+                    }
+                },
+                y1: {
+                    position: 'right',
+                    grid: { drawOnChartArea: false },
+                    ticks: {
+                        font: { family: 'Poppins', size: 11 },
+                        color: '#6366f1',
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // --- Hourly Chart ---
+    const hourlyCtx = document.getElementById('hourlyChart').getContext('2d');
+
+    const hourlyGradient = hourlyCtx.createLinearGradient(0, 0, 0, 280);
+    hourlyGradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)');
+    hourlyGradient.addColorStop(1, 'rgba(99, 102, 241, 0.05)');
+
+    const hourlyLabels = [];
+    const hourlyData = [];
+    for (let i = 0; i < 24; i++) {
+        hourlyLabels.push(i.toString().padStart(2, '0') + ':00');
+        hourlyData.push(hourlyDist[i]);
+    }
+
+    new Chart(hourlyCtx, {
+        type: 'bar',
+        data: {
+            labels: hourlyLabels,
+            datasets: [{
+                label: 'Transaksi',
+                data: hourlyData,
+                backgroundColor: hourlyGradient,
+                borderColor: '#6366f1',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1f2937',
+                    padding: 10,
+                    cornerRadius: 10,
+                    titleFont: { family: 'Poppins', weight: 'bold' },
+                    bodyFont: { family: 'Poppins' },
+                    callbacks: {
+                        label: ctx => ctx.raw + ' transaksi'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        font: { family: 'Poppins', size: 9 },
+                        color: '#9ca3af',
+                        maxRotation: 90,
+                        callback: function(val, idx) {
+                            return idx % 3 === 0 ? this.getLabelForValue(val) : '';
+                        }
+                    }
+                },
+                y: {
+                    grid: { color: 'rgba(0,0,0,0.04)' },
+                    ticks: {
+                        font: { family: 'Poppins', size: 11 },
+                        color: '#9ca3af',
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

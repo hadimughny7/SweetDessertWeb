@@ -62,7 +62,13 @@
                             <td>
                                 <img src="/{{ product.image|replace('\\', '/') }}" class="product-img-thumbnail" onerror="this.src='/static/box.png'">
                             </td>
-                            <td class="fw-bold">{{ product.name }}</td>
+                            <td class="fw-bold">
+                                {{ product.name }}
+                                <div class="form-check form-switch mt-1">
+                                    <input class="form-check-input" type="checkbox" role="switch" onchange="toggleRecommended('{{ product._id }}', this.checked)" {% if product.is_recommended %}checked{% endif %}>
+                                    <label class="form-check-label small text-muted" style="font-weight: normal;">Recommended</label>
+                                </div>
+                            </td>
                             <td><span class="badge bg-light text-dark border">{{ product.category }}</span></td>
                             <td class="text-primary-pink fw-bold">Rp. {{ "{:,}".format(product.price|int) }}</td>
                             <td>
@@ -81,4 +87,25 @@
         </div>
     </div>
 </div>
+
+<script>
+function toggleRecommended(productId, isChecked) {
+    fetch(`/admin/toggle_recommended/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ is_recommended: isChecked })
+    }).then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert('Failed to update recommendation status: ' + data.message);
+            // Optionally reload or revert state here
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred');
+    });
+}
+</script>
 {% endblock %}
