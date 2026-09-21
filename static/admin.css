@@ -294,3 +294,27 @@ html, body {
     }
 }
 
+/* Desktop Only Adjustments */
+@media (min-width: 992px) {
+    .sticky-form {
+        position: sticky;
+        top: 100px;
+        z-index: 10;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+    }
+    
+    .scrollable-catalog {
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+    }
+    
+    .scrollable-catalog::-webkit-scrollbar, .sticky-form::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollable-catalog, .sticky-form {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
