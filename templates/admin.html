@@ -44,7 +44,12 @@
     <!-- Product List -->
     <div class="col-lg-8 mb-4">
         <div class="dashboard-card p-4 h-100">
-            <h5 class="fw-bold mb-4">Product Catalog</h5>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0">Product Catalog</h5>
+                <button class="btn btn-sm btn-outline-success rounded-pill fw-bold" onclick="setAllAvailable()">
+                    <i class="bi bi-check2-all me-1"></i>Tersediakan Semua
+                </button>
+            </div>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead>
@@ -127,6 +132,27 @@ function toggleAvailability(productId, isChecked) {
         console.error('Error:', error);
         alert('An error occurred');
     });
+}
+
+function setAllAvailable() {
+    if(confirm('Tandai semua menu menjadi Tersedia?')) {
+        fetch('/admin/set_all_available', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Failed to update: ' + data.message);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
+    }
 }
 </script>
 {% endblock %}

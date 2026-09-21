@@ -214,6 +214,16 @@ def toggle_availability(product_id):
     return jsonify({'success': True})
 
 
+@app.route('/admin/set_all_available', methods=['POST'])
+@login_required
+def set_all_available():
+    if session.get('role') != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    products_collection.update_many({}, {"$set": {"is_available": True}})
+    return jsonify({'success': True})
+
+
 @app.route('/admin/update/<string:product_id>', methods=['GET', 'POST'])
 @login_required
 def update_product(product_id):
