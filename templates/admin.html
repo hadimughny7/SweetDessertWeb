@@ -68,6 +68,10 @@
                                     <input class="form-check-input" type="checkbox" role="switch" onchange="toggleRecommended('{{ product._id }}', this.checked)" {% if product.is_recommended %}checked{% endif %}>
                                     <label class="form-check-label small text-muted" style="font-weight: normal;">Recommended</label>
                                 </div>
+                                <div class="form-check form-switch mt-1">
+                                    <input class="form-check-input" type="checkbox" role="switch" onchange="toggleAvailability('{{ product._id }}', this.checked)" {% if product.is_available != False %}checked{% endif %}>
+                                    <label class="form-check-label small text-muted" style="font-weight: normal;">Tersedia</label>
+                                </div>
                             </td>
                             <td><span class="badge bg-light text-dark border">{{ product.category }}</span></td>
                             <td class="text-primary-pink fw-bold">Rp. {{ "{:,}".format(product.price|int) }}</td>
@@ -100,7 +104,24 @@ function toggleRecommended(productId, isChecked) {
     .then(data => {
         if (!data.success) {
             alert('Failed to update recommendation status: ' + data.message);
-            // Optionally reload or revert state here
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred');
+    });
+}
+
+function toggleAvailability(productId, isChecked) {
+    fetch(`/admin/toggle_availability/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ is_available: isChecked })
+    }).then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert('Failed to update availability status: ' + data.message);
         }
     }).catch(error => {
         console.error('Error:', error);

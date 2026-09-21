@@ -75,12 +75,12 @@ def login_required(f):
 
 @app.route('/')
 def home():
-    products = list(products_collection.find({'is_recommended': True}))
+    products = list(products_collection.find({'is_recommended': True, 'is_available': {'$ne': False}}))
     return render_template('index.html', current_page='home', products=products)
 
 @app.route('/menus')
 def all_menus():
-    products = list(products_collection.find())
+    products = list(products_collection.find({'is_available': {'$ne': False}}))
     return render_template('all_menus.html', current_page='menus', products=products)
 
 
@@ -153,7 +153,8 @@ def admin():
                     'description': description,
                     'category': category,
                     'image': image_path,
-                    'is_recommended': False
+                    'is_recommended': False,
+                    'is_available': True
                 }
                 products_collection.insert_one(new_product)
                 flash('Product added successfully!', 'success')
@@ -197,6 +198,19 @@ def toggle_recommended(product_id):
     is_recommended = data.get('is_recommended', False)
     
     products_collection.update_one({"_id": ObjectId(product_id)}, {"$set": {"is_recommended": is_recommended}})
+    return jsonify({'success': True})
+
+
+@app.route('/admin/toggle_availability/<string:product_id>', methods=['POST'])
+@login_required
+def toggle_availability(product_id):
+    if session.get('role') != 'admin':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+
+    data = request.get_json()
+    is_available = data.get('is_available', True)
+    
+    products_collection.update_one({"_id": ObjectId(product_id)}, {"$set": {"is_available": is_available}})
     return jsonify({'success': True})
 
 
@@ -288,7 +302,7 @@ def update_profile():
 @login_required
 def pos():
     if session.get('role') == 'admin':
-        products = list(products_collection.find())
+        products = list(products_collection.find({'is_available': {'$ne': False}}))
         return render_template('pos.html', products=products, current_page='pos')
     flash('Access denied. Admins only.', 'error')
     return redirect(url_for('home'))
