@@ -26,10 +26,11 @@ html, body {
 #sidebar-wrapper {
     width: var(--sidebar-width);
     height: 100vh;
-    position: sticky;
+    position: fixed;
     top: 0;
-    align-self: flex-start;
+    left: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     z-index: 1000;
@@ -81,6 +82,7 @@ html, body {
 /* Page Content */
 #page-content-wrapper {
     width: calc(100% - var(--sidebar-width));
+    margin-left: var(--sidebar-width);
 }
 
 .navbar {
@@ -256,6 +258,7 @@ html, body {
     }
     #page-content-wrapper {
         width: 100%;
+        margin-left: 0;
         overflow-x: hidden;
     }
     
