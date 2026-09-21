@@ -96,12 +96,12 @@
 }
 
 a.dropdown-item:hover .edit-icon {
-    content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
+    content: url('/static/images/edit-red.png'); /* Gambar merah untuk Edit */
 }
 
 /* Mengganti gambar menjadi logout-red.png ketika link "Logout" di-hover */
 a.dropdown-item:hover .logout-icon {
-    content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
+    content: url('/static/images/logout-red.png'); /* Gambar merah untuk Logout */
 }
 
 
@@ -244,13 +244,13 @@ h5{
 
 
 a.dropdown-item:hover .dashboard-icon {
-  content: url('/static/dashboard-red.png'); /* Gambar merah untuk Edit */
+  content: url('/static/images/dashboard-red.png'); /* Gambar merah untuk Edit */
 }
 a.dropdown-item:hover .edit-icon {
-  content: url('/static/edit-red.png'); /* Gambar merah untuk Edit */
+  content: url('/static/images/edit-red.png'); /* Gambar merah untuk Edit */
 }
 
 /* Mengganti gambar menjadi logout-red.png ketika link "Logout" di-hover */
 a.dropdown-item:hover .logout-icon {
-  content: url('/static/logout-red.png'); /* Gambar merah untuk Logout */
+  content: url('/static/images/logout-red.png'); /* Gambar merah untuk Logout */
 }

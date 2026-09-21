@@ -19,8 +19,8 @@
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 fs-4 fw-bold text-primary-pink">
-                <i class="bi bi-shop me-2"></i>Sweet Dessert
+            <div class="sidebar-heading text-center py-4">
+                <img src="{{ url_for('static', filename='images/Logo baru.jpeg') }}" alt="Sweet Dessert Logo" style="height: 60px; border-radius: 8px;">
             </div>
             <div class="list-group list-group-flush my-3">
                 <a href="{{ url_for('admin_dashboard') }}" class="list-group-item list-group-item-action bg-transparent {% if current_page == 'dashboard' %}active-nav{% endif %}">
